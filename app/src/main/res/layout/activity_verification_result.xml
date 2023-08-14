@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/colorBackgroundBlue"
+
+    tools:context="com.pcs.tim.myapplication.VerificationResultActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/verification_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        app:titleTextColor="@color/black"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="center"
+                android:fontFamily="@font/sofia_pro"
+                android:textAlignment="center"
+                android:text="Search Refugee"/>
+
+
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textViewNotFound"
+        android:visibility="gone"
+        android:textColor="@color/grey"
+        android:layout_marginBottom="80dp"
+        android:drawableStart="@mipmap/ic_warning"
+        android:textSize="20sp"
+        android:text="@string/myrc_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        android:id="@+id/offlineLayout"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="8dp"
+            android:background="@mipmap/ic_tris_logo"
+            android:contentDescription="@string/tris" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/darkGrey"
+            android:padding="5dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/lightGrey">
+                <LinearLayout
+                    android:paddingTop="15dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:text="MyRC: "
+                        android:paddingStart="10dp"
+                        android:textAlignment="viewEnd"
+                        android:paddingEnd="5dp"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:paddingStart="0dp"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/textViewShowMyrc"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:paddingTop="0dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:text="UNHCR ID: "
+                        android:textAlignment="viewEnd"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:paddingStart="0dp"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/textViewShowUn"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:paddingTop="0dp"
+                    android:paddingBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:text="D.O.B: "
+                        android:textAlignment="viewEnd"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="5dp"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:paddingStart="0dp"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/textViewShowDOB"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:paddingTop="0dp"
+                    android:paddingBottom="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:text="Expiry Date: "
+                        android:paddingStart="10dp"
+                        android:paddingEnd="5dp"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/darkGrey"
+                        android:textSize="16sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="wrap_content"
+                        />
+
+                    <TextView
+                        android:paddingStart="0dp"
+                        android:paddingEnd="10dp"
+                        android:id="@+id/textViewShowExpiry"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:layout_width="0dp"
+                        android:layout_weight="4"
+                        android:layout_height="wrap_content"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textViewMatchMyrc"
+            android:layout_marginTop="50dp"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@color/colorWhite"
+            android:layout_marginBottom="50dp"
+            android:gravity="center_horizontal"
+            android:textSize="25sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            />
+    </LinearLayout>
+    <fragment android:id="@+id/verification_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:name="layout.VerificationResultFragment"
+        tools:layout="@layout/new_fragment_verification_result"
+        />
+
+</LinearLayout>

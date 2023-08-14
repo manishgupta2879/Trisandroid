@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.pcs.tim.myapplication.Face1v1ResultActivity">
+
+    <TextView
+        android:padding="10dp"
+        android:gravity="center_horizontal"
+        android:text="@string/result"
+        android:textSize="20sp"
+        android:id="@+id/photoCompareResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:paddingTop="10dp"
+            android:id="@+id/imageViewOriPhoto"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:src="@android:drawable/ic_menu_gallery"            />
+        <ImageView
+            android:paddingTop="10dp"
+            android:id="@+id/imageViewComparedPhoto"
+            android:layout_width="200dp"
+            android:paddingEnd="5dp"
+            android:layout_height="200dp"
+            android:src="@android:drawable/ic_menu_gallery"            />
+    </LinearLayout>
+    <Button
+        android:layout_margin="10dp"
+        android:id="@+id/buttonViewProfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/view_profile"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:padding="16dp"
+        android:textSize="18sp"
+        />
+</LinearLayout>

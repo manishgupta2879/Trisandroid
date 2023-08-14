@@ -1,0 +1,62 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/colorBackgroundBlue"
+    tools:context="com.pcs.tim.myapplication.AddRemarksFragment">
+
+    <TextView
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/remarks"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:lines="5"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:textSize="13sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextRemark"
+        android:layout_marginBottom="5dp"
+        android:inputType="textMultiLine"
+        android:background="@android:drawable/editbox_background"
+        />
+
+    <TextView
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:text="@string/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <EditText
+        android:textSize="13sp"
+        android:inputType="textMultiLine"
+        android:lines="4"
+        android:paddingStart="5dp"
+        android:paddingEnd="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextCurrentLocation"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginBottom="5dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:id="@+id/btnSubmitRemark"
+        android:background="@xml/round_corner_button"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="@string/submit"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center_horizontal"/>
+</LinearLayout>

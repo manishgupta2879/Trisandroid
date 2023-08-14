@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- START xml_defaults -->
+<defaultsMap>
+    <entry>
+        <key>common_config</key>
+        <value>{
+            "Url": "211.24.73.117",
+            "ApiUrl": "211.24.73.117:9000",
+            "AndroidVersion": "1.07",
+            "IosVersion": "2.0",
+            "AndroidPackageName": "https://play.google.com/store/apps/details?id=com.pcs.tim.myapplication",
+            "IosPackageName": "http://itunes.apple.com/my/lookup?bundleId=com.myrc.MyRegistered"
+            }</value>
+    </entry>
+</defaultsMap>
+    <!-- END xml_defaults -->

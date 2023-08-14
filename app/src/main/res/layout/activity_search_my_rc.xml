@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@drawable/bluegradient"
+    tools:context="com.pcs.tim.myapplication.SearchMyRCActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/searchMyRc_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        app:titleTextColor="@color/black"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintBottom_toTopOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Search by MyRC"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        >
+
+        <EditText
+            android:background="@android:drawable/editbox_background"
+            android:id="@+id/editTextMyRC"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:inputType="textCapCharacters"
+            android:layout_height="wrap_content"
+            android:hint="M00"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="8dp"
+            android:maxLength="3"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myrc_separator"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:background="@android:drawable/editbox_background"
+            android:id="@+id/editTextMyRC2"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+            android:layout_height="wrap_content"
+            android:hint="000000"
+            android:inputType="textCapCharacters"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="8dp"
+            android:maxLength="6"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myrc_separator"
+            android:textSize="20sp"/>
+
+        <EditText
+            android:background="@android:drawable/editbox_background"
+            android:id="@+id/editTextMyRC3"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:inputType="textCapCharacters"
+            android:layout_height="wrap_content"
+            android:hint="0000000"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="8dp"
+            android:layout_gravity="center_vertical"
+            android:maxLength="7"/>
+
+       <!-- <ImageButton
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:src="@drawable/ic_search_gray"
+            android:id="@+id/buttonSearchMyRC"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        android:background="@drawable/search_border_grey"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/buttonSearchMyRC"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_new_search_logo" />
+
+        <EditText
+            android:id="@+id/editTextMyRC1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="0dp"
+            android:layout_weight="8"
+            android:background="@color/colorWhite"
+            android:hint="@string/enter_query_my_rc"
+            android:textColorHint="@color/darkGrey" />
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/svMyRc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
+        android:autofillHints="@string/enter_query"
+        android:background="@drawable/search_border_grey"
+        app:iconifiedByDefault="false"
+        app:defaultQueryHint="@string/enter_query"
+
+        app:queryHint="@string/enter_query" />
+    <TextView
+        android:id="@+id/textViewNotFound"
+        android:visibility="gone"
+        android:drawableStart="@mipmap/ic_warning"
+        android:textSize="20sp"
+        android:textColor="@color/grey"
+        android:layout_marginBottom="80dp"
+        android:text="@string/myrc_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+    <FrameLayout
+        android:id="@+id/verification_result"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+        <fragment
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:name="layout.VerificationResultFragment"
+            tools:layout="@layout/fragment_verification_result"
+            />
+    </FrameLayout>
+</LinearLayout>

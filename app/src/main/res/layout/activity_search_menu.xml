@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bluegradient"
+    android:layout_gravity="center"
+    tools:context="com.pcs.tim.myapplication.SearchMenuActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/searchMenu_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        app:titleTextColor="@color/black"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintBottom_toTopOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Search by MyRC"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp">
+
+            
+            
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/buttonSearchByMyRC"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="151dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/new_serach_myrc_pic"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/refugee_myrc"
+                        android:textColor="#006996"
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+         <!--   <Button
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:layout_marginBottom="30dp"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_myrc"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@xml/round_corner_button"
+                tools:layout_editor_absoluteX="148dp"
+                tools:layout_editor_absoluteY="157dp" />-->
+
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/buttonSearchByUNHCR"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="151dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/search_unhcr_pic"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/refugee_UNHCR"
+                        android:textColor="#006996"
+
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+           <!-- <Button
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:layout_marginBottom="30dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:id="@+id/buttonSearchByUNHCR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@xml/round_corner_button"
+                android:text="@string/search_unhcr"
+                tools:layout_editor_absoluteX="148dp"
+                tools:layout_editor_absoluteY="252dp" />-->
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="30dp"
+                android:id="@+id/buttonSearchByName"
+                app:cardCornerRadius="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="300dp"
+                        android:layout_height="151dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/new_search_name_pic"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/named"
+                        android:textColor="#006996"
+
+                        android:textAlignment="center"/>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+         <!--   <Button
+                android:padding="20dp"
+                android:textSize="20sp"
+                android:layout_marginBottom="30dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:background="@xml/round_corner_button"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_name"
+                tools:layout_editor_absoluteX="148dp"
+                tools:layout_editor_absoluteY="75dp" />-->
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

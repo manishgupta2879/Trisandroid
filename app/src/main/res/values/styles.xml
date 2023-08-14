@@ -1,0 +1,59 @@
+<resources>
+
+    <!-- Base application theme. -->LoginEditTextTheme
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionMenuTextColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/open_sans</item>
+    </style>
+
+    <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+    </style>
+
+
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize the ActionBar background -->
+        <item name="android:background">@android:color/white</item>
+        <item name="background">@android:color/white</item> <!-- For compatibility with older versions -->
+
+        <!-- Customize the ActionBar title text appearance -->
+        <item name="android:titleTextAppearance">@style/AppTheme.ActionBar.TitleText</item>
+
+        <!-- Customize the ActionBar back button -->
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
+        <item name="homeAsUpIndicator">@drawable/ic_back</item> <!-- For compatibility with older versions -->
+    </style>
+
+    <style name="AppTheme.ActionBar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <!-- Customize the title text appearance -->
+        <item name="android:textColor">@android:color/black</item>
+        <!-- Add more text appearance attributes if desired -->
+    </style>
+
+
+    down vote
+    You can add theme for EditText
+
+    <style name="LoginEditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">@color/grey</item>
+        <item name="colorControlHighlight">@color/grey</item>
+    </style>
+
+
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

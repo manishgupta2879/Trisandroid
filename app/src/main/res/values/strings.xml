@@ -1,0 +1,211 @@
+<resources>
+    <string name="app_name">VeriMyRC</string>
+    <string name="app_name1">Veri</string>
+    <string name="app_name2">MyRC</string>
+    <string name="version"><font size="8">v1.08</font></string>
+    <string name="app_name_desc">MyRC Verification App</string>
+    <string name="disclaimer">DISCLAIMER</string>
+    <string name="disclaimer_desc">THIS APP IS STRICTLY FOR MALAYSIA LAW ENFORCEMENT ONLY.\nANY ILLEGAL USE OF THIS APP IS STRICTLY PROHIBITED.</string>
+    <string name="title">VeriMyRC<font size="8">v1.08</font></string>
+    <string name="login_id">Username</string>
+    <string name="login">Login</string>
+    <string name="register_account">Create new  account</string>
+    <string name="vaccination_status">Vaccination Status</string>
+    <string name="vaccination_schedule">Vaccination Schedule</string>
+    <string name="vaccine_type">Vaccine Type</string>
+    <string name="apply_vaccine_location">Apply Vaccine Location</string>
+    <string name="first_dose_schedule">1st Dose Schedule Time</string>
+    <string name="first_dose_apply">1st Dose Apply Time</string>
+    <string name="second_dose_schedule">2nd Dose Schedule Time</string>
+    <string name="second_dose_apply">2nd Dose Apply Time</string>
+    <string name="view_vaccine">COVID-19 Vaccination</string>
+    <string name="scan_qr_code">QR Scan</string>
+    <string name="scan_nfc">NFC</string>
+    <string name="scan_face">Face Recognition</string>
+    <string name="search">Search</string>
+    <string name="name">Name</string>
+    <string name="remember_me">Keep me log in</string>
+    <string name="logout">Logout</string>
+    <string name="loadingtype">Please wait&#8230;</string>
+    <string name="search_myrc">Search by MyRC No.</string>
+    <string name="search_unhcr">Search by UNHCR ID</string>
+    <string name="search_name">Search by Name</string>
+    <string name="myrc">MyRC No.</string>
+    <string name="my_profile">My Profile</string>
+    <string name="submit">Submit</string>
+    <string name="location">Current location :</string>
+    <string name="remarks">Remark</string>
+    <string name="add_remark">Add Remarks</string>
+    <string name="view_remarks">Check History</string>
+    <string name="no_remark">No remark added</string>
+    <string name="checked_location">Location</string>
+    <string name="result">Result</string>
+    <string name="view_profile">View Profile</string>
+    <string name="country_gender">Country and Gender</string>
+    <string name="global_search">Global Search</string>
+    <string name="country">Country</string>
+    <string name="year_of_birth">Age Group</string>
+    <string name="optional">optional</string>
+    <string name="verify_photo">Verify Photo</string>
+    <string name="enter_unid">Enter UNHCR ID Here</string>
+    <string name="enter_myrc">Enter MyRC Here</string>
+    <string name="enter_query">Search MyRC/Name/UN case/UNID </string>
+    <string name="enter_query_my_rc">Search MyRC/UN case/UNID </string>
+    <string name="offline_mode">Offline Mode</string>
+    <string name="tris">TRIS</string>
+    <string name="tap_myrc_card">Tap MyRC card</string>
+    <string name="card_expired">Expired</string>
+    <string name="card_valid">Active</string>
+    <string name="card_pending">Pending Approval</string>
+    <string name="myrc_separator">-</string>
+    <string name="myrc_standard_matched">MyRC Standard Matched!</string>
+
+    <!-- Strings for error -->
+    <string name="no_result_found">No results are found</string>
+    <string name="err_msg_confirm_password">Confirm password not match</string>
+    <string name="err_field_required">This field is required</string>
+    <string name="service_not_available">Service not available</string>
+    <string name="invalid_lat_long_used">Invalid Lat Long</string>
+    <string name="no_address_found">Address not found</string>
+    <string name="address_found">Address found</string>
+    <string name="no_geocoder_available">No Geocoder Available</string>
+    <string name="plks_not_found">No PLKS Application</string>
+    <string name="myrc_not_found">MyRC ID not found</string>
+    <string name="name_not_found">No refugee found</string>
+    <string name="unid_not_found">UNHCR ID not found</string>
+    <string name="err_invalid_ic">Invalid IC</string>
+    <string name="err_invalid_hp">Invalid Mobile No.</string>
+    <string name="nfc_not_found">NFC ID not found</string>
+    <string name="search_name_err">Please insert at least 5 characters to search for refugee(s).</string>
+    <string name="err_incorrect_password_or_id">Incorrect password or ID</string>
+
+    <!-- Strings for refugee details-->
+    <string name="refugee_name">Refugee Name</string>
+    <string name="refugee_myrc">MyRC</string>
+    <string name="refugee_category">Category</string>
+    <string name="refugee_DOB">Date of Birth</string>
+    <string name="refugee_gender">Gender</string>
+    <string name="refugee_religion">Religion</string>
+    <string name="refugee_ethnic">Ethnic Group</string>
+    <string name="refugee_age">Age</string>
+    <string name="refugee_country">Country of Origin</string>
+    <string name="refugee_UNHCR">UNHCR ID</string>
+    <string name="refugee_UNRC">UNRC ID</string>
+    <string name="date_issue">Date of Issue</string>
+    <string name="date_expiry">Date of Expiry</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="date_registered">Date Registered</string>
+    <string name="address">Address</string>
+    <string name="refugee_details">Refugee Details</string>
+    <string name="un_case_no">UNHCR Case No</string>
+    <string name="refugee_group">Refugee Group</string>
+    <string name="marital_status">Marital Status</string>
+    <string name="length_of_stay">Length of Stay (Year)</string>
+    <string name="place_of_birth">Place of Birth</string>
+    <string name="family_size">Family Size</string>
+    <string name="contact_no">Contact No.</string>
+    <string name="passport_no">Passport No.</string>
+    <string name="emergency_person">Emergency Contact Person</string>
+    <string name="emergency_contact_no">Emergency Contact No</string>
+    <string name="employer_details">Employer Details</string>
+    <string name="company_name">Company Name</string>
+    <string name="company_reg_no">Company Reg No</string>
+    <string name="employer_name">Employer Name</string>
+    <string name="employer_contact_no">Employer Contact No.</string>
+    <string name="job_sector">Job Sectors</string>
+    <string name="work_location">Work Location</string>
+    <string name="work_desc">Work Description</string>
+    <string name="length_of_work">Length of Work (Year)</string>
+    <string name="current_pay">Current Pay (RM)</string>
+    <string name="myrc_card_status">MyRC Card Status</string>
+    <string name="register_date">Register Date</string>
+    <string name="approval_status">Status</string>
+    <string name="approval_date">Approval Date</string>
+
+    <!-- Strings for enforcement registration-->
+    <string name="police_id">Police ID / Immigration ID</string>
+    <string name="full_name">Full Name</string>
+    <string name="police_rank">Rank / Title</string>
+    <string name="mobile_no">Mobile No.</string>
+    <string name="dept">Department</string>
+    <string name="agency">Agency</string>
+    <string name="state">State</string>
+    <string name="station">Station</string>
+    <string name="password">Password</string>
+    <string name="confirm_pwd">Confirm Password</string>
+    <string name="ic_no">NRIC</string>
+    <string name="named">Name</string>
+
+    <!-- Strings for PLKS details -->
+    <string name="view_plks">PLKS</string>
+    <string name="plks_status">PLKS Status</string>
+    <string name="plks_details">PLKS Details</string>
+    <string name="with_passport">With Passport</string>
+    <string name="passport_expiry">Passport Expiry Date</string>
+    <string name="passport_place_of_issue">Passport Place Of Issue</string>
+    <string name="position">Job Position</string>
+    <string name="salary">Monthly Salary</string>
+    <string name="duration_of_pass_applied">Duration of Pass Applied (Months)</string>
+    <string name="medical_report_date">FOMEMA Medical Check Date</string>
+    <string name="fwig_provider">FWIG Provider</string>
+    <string name="fwig_policy_no">FWIG Policy No</string>
+    <string name="fwhs_policy_no">FWHS Policy No</string>
+    <string name="employer_company_name">Company Name</string>
+    <string name="employer_company_reg_no">Company Registration No</string>
+    <string name="employer_company_director_name">Company Director Name</string>
+    <string name="employer_company_address">Company Address</string>
+    <string name="employer_state">State</string>
+    <string name="employer_phone_no">Phone No</string>
+    <string name="employer_fax_no">Fax No</string>
+    <string name="employer_email">E-mail</string>
+    <string name="employer_contact_person">Contact Person</string>
+    <string name="employer_contact_person_phone_no">Contact Person Phone No</string>
+    <string name="employer_contact_person_position">Contact Person Position</string>
+    <string name="FormSubmitDateLabel">Form Submit Date:</string>
+    <string name="FormSubmitDateValue"></string>
+    <string name="CurrentProgressLabel">Current Progress:</string>
+    <string name="CurrentProgressValue">Document Review</string>
+
+
+    <string-array name="country_arrays">
+        <item>MYANMAR</item>
+        <item>PAKISTAN</item>
+        <item>IRAN</item>
+        <item>IRAQ</item>
+    </string-array>
+
+    <string-array name="gender_arrays">
+        <item>ANY</item>
+        <item>MALE</item>
+        <item>FEMALE</item>
+    </string-array>
+
+    <string-array name="dept_arrays">
+        <item>Please Choose an Agency</item>
+        <item>PDRM</item>
+        <item>Immigration</item>
+    </string-array>
+
+    <string-array name="ageGroupItems">
+        <item>ANY</item>
+        <item>0&#160;&#8211;&#160;12</item>
+        <item>0&#160;&#8211;&#160;12</item>
+        <item>13&#160;&#8211;&#160;20</item>
+        <item>21&#160;&#8211;&#160;25</item>
+        <item>26&#160;&#8211;&#160;30</item>
+        <item>31&#160;&#8211;&#160;35</item>
+        <item>35&#160;&#8211;&#160;40</item>
+        <item>41&#160;&#8211;&#160;50</item>
+        <item>51&#160;&#8211;&#160;60</item>
+        <item>60 and above</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_view_refugee_plks">ViewRefugeePLKS</string>
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_profile">Profile</string>
+    <string name="bottom_nav_search">Search</string>
+    <string name="bottom_nav_more">More</string>
+    <string name="personal_identity">Personal Identity</string>
+</resources>

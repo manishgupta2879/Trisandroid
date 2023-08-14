@@ -1,0 +1,79 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+
+android {
+    signingConfigs {
+        config {
+            keyAlias 'tris'
+            keyPassword '123456'
+            storeFile file('D:/tris/MyApplication/tris.jks')
+            storePassword '123456'
+        }
+    }
+    compileSdkVersion 30
+    buildToolsVersion "30.0.0"
+    defaultConfig {
+//        jackOptions {
+//            enabled true
+//        }
+        applicationId "com.pcs.tim.myapplication"
+        minSdkVersion 19
+        targetSdkVersion 30
+        versionCode 8
+        versionName "1.08"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        signingConfig signingConfigs.config
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+        incremental true
+    }
+    productFlavors {
+    }
+    sourceSets { main { java.srcDirs = ['src/main/java', 'src/main/java/Model'] } }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.google.firebase:firebase-config:11.0.1'
+
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation files('libs/commons-net-3.6.jar')
+    implementation files('libs/mysql-connector-java-5.1.42-bin.jar')
+    implementation 'androidx.multidex:multidex:2.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'me.dm7.barcodescanner:zxing:1.9.8'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.gms:play-services:11.0.4'
+    implementation 'com.squareup.picasso:picasso:2.3.3'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    testImplementation 'junit:junit:4.12'
+    implementation 'androidx.vectordrawable:vectordrawable-animated:1.0.0'
+    implementation 'androidx.mediarouter:mediarouter:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.fragment:fragment:1.1.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+
+    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    googleServices { disableVersionCheck = true }
+
+
+}

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pcs.tim.myapplication">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name="androidx.multidex.MultiDexApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".new_activities.HomeActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity android:name=".ViewVaccination" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".FetchAddressIntentService"
+            android:exported="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MyRCVerification"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".VerificationResultActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="com.google.android.gms.vision.DEPENDENCIES"
+                android:value="barcode" />
+        </activity>
+        <activity
+            android:name=".SearchMenuActivity"
+            android:label="Search Refugee"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchMyRCActivity"
+            android:label="@string/search_myrc"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchUNHCRActivity"
+            android:label="@string/search_unhcr"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".SearchNameActivity"
+            android:label="@string/search_name"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".AccountRegistrationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".NFCActivity"
+            android:label="NFC Reader"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.nfc.action.TAG_DISCOVERED" /> -->
+            <!-- </intent-filter> -->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.nfc.action.TECH_DISCOVERED" /> -->
+            <!-- </intent-filter> -->
+
+            <meta-data
+                android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/nfc_tech_filter" />
+        </activity>
+        <activity
+            android:name=".FaceRecognitionActivity"
+            android:label="Face Recognition"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewRemarksActivity"
+            android:label="View Remark"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewPLKSActivity"
+            android:label="View PLKS"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ViewRefugeePLKS"
+            android:label="View PLKS"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Face1v1ResultActivity"
+            android:label="Result"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Face1vManyResultActivity"
+            android:label="Result"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
+
+
+        <service android:enabled="false" android:name="com.pcs.tim.myapplication.new_added_classes.FirebaseMessaging">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDL35cTuuscf551IT36gqZtEQpPQJVTmkQ" />
+    </application>
+
+</manifest>

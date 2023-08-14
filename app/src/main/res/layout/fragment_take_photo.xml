@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.pcs.tim.myapplication.TakePhotoFragment">
+
+    <ImageView
+        android:paddingTop="10dp"
+        android:id="@+id/imageViewPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:gravity="center"
+        app:srcCompat="@mipmap/ic_add_image"
+        />
+
+</LinearLayout>

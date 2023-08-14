@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/bluegradient"
+    android:gravity="center_horizontal"
+    tools:context="com.pcs.tim.myapplication.SearchNameActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/searchMyName_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        app:titleTextColor="@color/black"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:layout_constraintBottom_toTopOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Search by Name"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:visibility="gone"
+        android:background="@drawable/search_border_grey"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:src="@drawable/ic_new_search_logo"
+            android:id="@+id/buttonSearchName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+    <EditText
+        android:background="@color/colorWhite"
+        android:id="@+id/editTextName"
+        android:layout_width="0dp"
+        android:layout_weight="8"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/name"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="0dp"
+        tools:layout_editor_absoluteY="8dp"
+        android:maxLength="20"/>
+
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/svName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="13dp"
+        android:autofillHints="@string/enter_query"
+        android:background="@drawable/search_border_grey"
+        app:iconifiedByDefault="false"
+
+        app:defaultQueryHint="@string/enter_query"
+
+        app:queryHint="@string/enter_query" />
+    <TextView
+        android:id="@+id/textViewNotFound"
+        android:visibility="gone"
+        android:textColor="@color/grey"
+        android:layout_marginBottom="80dp"
+        android:drawableStart="@mipmap/ic_warning"
+        android:textSize="20sp"
+        android:text="@string/name_not_found"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:id="@+id/listViewRefugeeNames">
+
+    </ListView>
+</LinearLayout>

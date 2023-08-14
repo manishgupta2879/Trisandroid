@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#13acf9</color>
+    <color name="colorBackgroundBlue">#f7f9f9</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="grey">#424242</color>
+    <color name="darkBlue">#006996</color>
+    <color name="themeColor">#2CA8DD</color>
+    <color name="list_view_item_background">#d9e3e9</color>
+    <color name="colorBlue">#73ccf9</color>
+    <color name="lightOrange">#F8C76F</color>
+    <color name="darkGrey">#5e5e5e</color>
+    <color name="lightGrey">#d1d1d1</color>
+    <color name="textGrey">#767676</color>
+    <color name="cardGrey">#E9E9E9</color>
+    <color name="black">#292727</color>
+    <color name="red">#ff0000</color>
+</resources>

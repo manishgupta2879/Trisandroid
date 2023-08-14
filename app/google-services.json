@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "563482721397",
+    "project_id": "tris-2f9b5",
+    "storage_bucket": "tris-2f9b5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563482721397:android:1c222f9a1df1a4e46f4c3c",
+        "android_client_info": {
+          "package_name": "com.pcs.tim.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563482721397-se8k28dr6gt6fc3f1kc8jokccv661g5a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLDqf8e8nvdGP2Mq-inx2j7Tj9tBhM9LA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563482721397-se8k28dr6gt6fc3f1kc8jokccv661g5a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

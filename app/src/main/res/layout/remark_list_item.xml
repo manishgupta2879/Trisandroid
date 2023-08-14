@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageViewRefugee"
+        android:layout_width="130dp"
+        android:layout_height="match_parent"
+        android:src="@android:drawable/ic_menu_gallery"
+        android:scaleType="fitCenter"
+        android:padding="15dp"
+        android:layout_marginLeft="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:text="Name:"/>
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewRefugeeName"
+                android:textSize="12sp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+               />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                android:text="MyRC:"
+            />
+
+            <TextView
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            android:layout_gravity="start"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewMyrc"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:textSize="11sp"
+                android:layout_height="wrap_content"
+                android:text="Country Of Origin:"
+                />
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:textSize="12sp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCountryOfOrigin"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:text="Location:"
+                android:textSize="11sp"
+                />
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCheckedLocation"
+                android:textSize="12sp"
+                android:includeFontPadding="true"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:textSize="11sp"
+                android:layout_height="wrap_content"
+                android:text="Status:"
+                />
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCardStatus"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
+                android:textSize="12sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_gravity="start"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:textSize="11sp"
+                android:layout_height="wrap_content"
+                android:text="Expiry Date:"
+                />
+
+            <TextView
+                android:layout_gravity="start"
+                android:layout_width="0dp"
+                android:layout_weight="7"
+                android:layout_height="wrap_content"
+                android:id="@+id/textViewCardExpired"
+                android:paddingStart="5dp"
+                android:textSize="12sp"
+                android:paddingEnd="5dp"
+                />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+            android:layout_gravity="start"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="4"
+                android:textSize="11sp"
+            android:layout_height="wrap_content"
+            android:text="Remark:"
+            />
+
+            <TextView
+            android:layout_gravity="start"
+            android:layout_width="0dp"
+            android:layout_weight="7"
+            android:layout_height="wrap_content"
+            android:id="@+id/textViewRemark"
+            android:lines="3"
+            android:paddingStart="5dp"
+                android:textSize="12sp"
+            android:paddingEnd="5dp"
+            />
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <!--<TextView-->
+        <!--android:layout_gravity="end"-->
+        <!--android:paddingEnd="10dp"-->
+        <!--android:paddingStart="10dp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/textViewDate"-->
+        <!--/>-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal"-->
+        <!--&gt;-->
+        <!--<TextView-->
+            <!--android:layout_gravity="start"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:paddingEnd="10dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableStart="@mipmap/ic_gps"-->
+            <!--android:text="@string/checked_location"-->
+            <!--/>-->
+        <!--<TextView-->
+            <!--android:paddingStart="5dp"-->
+            <!--android:paddingEnd="5dp"-->
+            <!--android:lines="3"-->
+            <!--android:id="@+id/textViewCheckedLocation"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="8"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginBottom="0dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+        <!--<TextView-->
+            <!--android:layout_gravity="start"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@mipmap/ic_user_gray"-->
+            <!--android:text="@string/refugee_name"/>-->
+
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="8"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/textViewRefugeeName"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:paddingStart="5dp"-->
+            <!--android:paddingEnd="5dp"-->
+        <!--/>-->
+<!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+        <!--<TextView-->
+            <!--android:layout_gravity="start"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:paddingEnd="10dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@mipmap/ic_logo"-->
+            <!--android:text="@string/myrc"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorAccent"-->
+            <!--android:layout_gravity="start"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="8"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/textViewMyrc"-->
+            <!--android:paddingStart="5dp"-->
+            <!--android:paddingEnd="5dp"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:orientation="horizontal">-->
+        <!--<TextView-->
+            <!--android:layout_gravity="start"-->
+            <!--android:paddingStart="10dp"-->
+            <!--android:paddingEnd="10dp"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="4"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:drawableLeft="@mipmap/ic_remark"-->
+            <!--android:text="@string/remarks"-->
+            <!--/>-->
+
+        <!--<TextView-->
+            <!--android:layout_gravity="start"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="8"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/textViewRemark"-->
+            <!--android:lines="3"-->
+            <!--android:paddingStart="5dp"-->
+            <!--android:paddingEnd="5dp"-->
+            <!--/>-->
+        <!--</LinearLayout>-->
+
+</LinearLayout>

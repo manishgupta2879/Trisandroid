@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundBlue"
+    tools:context="com.pcs.tim.myapplication.FaceRecog1vManyActivity">
+
+    <ImageView
+        android:paddingTop="10dp"
+        android:id="@+id/imageViewPhoto"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center"
+        app:srcCompat="@mipmap/ic_add_image"
+        />
+
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="Country"
+            android:labelFor="@+id/selectedCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Spinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_weight="2"
+            android:entries="@array/country_arrays"
+            android:id="@id/selectedCountry"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:text="Gender"
+            android:labelFor="@+id/selectedGender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:entries="@array/gender_arrays"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_weight="2"
+            android:id="@id/selectedGender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/buttonVerify"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:text="Verify Photo"
+        android:padding="16dp"
+        android:textSize="18sp"/>
+</LinearLayout>

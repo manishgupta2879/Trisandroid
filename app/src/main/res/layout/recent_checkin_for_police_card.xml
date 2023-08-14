@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textViewCheckDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date 24-08-2023"
+                android:textColor="@color/textGrey"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/txtCheckTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Time 05:00 PM"
+                android:textColor="@color/textGrey"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewCheckedLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address No. 12 Jalan Pantai Hillpark Phase 2, Pantai Dalam, 59200 KL"
+            android:textColor="@color/textGrey"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewRemark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remark Lorem Ipsum"
+            android:textColor="@color/textGrey"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

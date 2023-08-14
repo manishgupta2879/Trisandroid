@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp">
+
+        <ImageView
+            android:paddingTop="10dp"
+            android:id="@+id/imageViewPhoto"
+            android:layout_width="480dp"
+            android:layout_height="320dp"
+            android:layout_gravity="center"
+            app:srcCompat="@mipmap/ic_add_image"
+            android:layout_marginBottom="10dp"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_id"
+                android:inputType="text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/police_id" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_name"
+                android:inputType="textCapWords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/full_name" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:inputType="textPhonetic"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_ic"
+                android:maxLength="14"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/ic_no" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:inputType="phone"
+                android:maxLength="12"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_hp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/mobile_no" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_rank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/police_rank" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/agency"
+            style="@style/InputLabel" />
+        <Spinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/input_agency"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/state"
+        style="@style/InputLabel" />
+        <Spinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/input_state"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/station"
+            style="@style/InputLabel" />
+        <Spinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/input_station"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="wrap_content">
+        </Spinner>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/dept"
+            style="@style/InputLabel" />
+        <Spinner
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:layout_marginBottom="5dp"
+            android:id="@+id/input_department"
+            android:layout_width="match_parent"
+            android:textColor="#000000"
+            android:layout_height="wrap_content">
+        </Spinner>
+        <!--<com.google.android.material.textfield.TextInputLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content">-->
+
+            <!--<EditText-->
+                <!--android:layout_marginBottom="5dp"-->
+                <!--android:id="@+id/input_department"-->
+                <!--android:inputType="textCapWords"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@android:drawable/editbox_background"-->
+                <!--android:hint="@string/dept" />-->
+        <!--</com.google.android.material.textfield.TextInputLayout>-->
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_marginBottom="5dp"
+                android:id="@+id/input_confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:drawable/editbox_background"
+                android:hint="@string/confirm_pwd"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/buttonSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:background="@xml/round_corner_button"
+            android:padding="16dp"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</LinearLayout>

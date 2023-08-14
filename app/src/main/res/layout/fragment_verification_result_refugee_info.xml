@@ -1,0 +1,596 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".VerificationResultRefugeeInfo">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+    android:id="@+id/textViewCardExpired"
+    android:visibility="gone"
+    android:background="@android:color/holo_red_light"
+    android:textColor="@color/colorWhite"
+    android:textSize="20sp"
+    android:text="@string/card_expired"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    />
+
+    <TextView
+    android:id="@+id/textViewCardValid"
+    android:visibility="gone"
+    android:background="@android:color/holo_green_light"
+    android:textColor="@color/colorWhite"
+    android:textSize="20sp"
+    android:text="@string/card_valid"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    />
+
+    <TextView
+    android:id="@+id/textViewCardPending"
+    android:visibility="gone"
+    android:background="@android:color/holo_orange_light"
+    android:textColor="@color/colorWhite"
+    android:textSize="20sp"
+    android:text="@string/card_pending"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:layout_height="wrap_content"
+    />
+
+    <ImageView
+    android:id="@+id/imageViewPhoto"
+    android:layout_width="320dp"
+    android:layout_height="360dp"
+    android:layout_gravity="center"
+    app:srcCompat="@mipmap/ic_add_image"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    />
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+    <Button
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/btnAddRemark"
+    style="@style/Widget.AppCompat.Button.Colored"
+    android:text="@string/add_remark"
+    android:background="@xml/round_corner_button"
+    android:layout_margin="10dp"
+    android:layout_gravity="center_horizontal"/>
+
+    <Button
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:id="@+id/btnViewRemark"
+    style="@style/Widget.AppCompat.Button.Colored"
+    android:background="@xml/round_corner_button"
+    android:text="@string/view_remarks"
+    android:layout_margin="10dp"
+    android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+    <TextView
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:text="@string/refugee_details"
+    android:textColor="@android:color/white"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/material_grey_800"
+    android:layout_height="wrap_content" />
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/name"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_category"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewCategory"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_myrc"
+    />
+
+    <TextView
+    android:id="@+id/textViewMyrc"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_UNHCR"
+    />
+
+    <TextView
+    android:id="@+id/textViewUNHCR"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/un_case_no"
+    />
+
+    <TextView
+    android:id="@+id/textViewUNHCRCaseNo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="Refugee Group"
+    />
+
+    <TextView
+    android:id="@+id/textViewRefugeeGroup"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_country"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewCountry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_ethnic"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewEthnic"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_gender"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewGender"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/marital_status"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewMarital"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_DOB"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewDOB"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/address"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewAddress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background"
+    />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/state"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewState"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background"
+    />
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/length_of_stay"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewLengthOfStay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/place_of_birth"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewBirthPlace"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/family_size"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewFamilySize"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/contact_no"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewMobileNo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background"
+    />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/passport_no"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewPassportNo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background"
+    />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/refugee_religion"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewReligion"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/emergency_person"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewEmergencyPerson"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/emergency_contact_no"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewEmergencyContact"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:text="@string/employer_details"
+    android:textColor="@android:color/white"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/material_grey_800"
+    android:layout_height="wrap_content" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/company_name"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewCompanyName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/company_reg_no"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewCompanyRegNo"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/employer_name"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewEmployerName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/employer_contact_no"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewEmployerContact"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/job_sector"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewJobSector"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/work_location"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewWorkLocation"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/work_desc"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewWorkDescription"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/length_of_work"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewLengthOfWork"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/current_pay"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewCurrentPay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:text="@string/myrc_card_status"
+    android:textColor="@android:color/white"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/material_grey_800"
+    android:layout_height="wrap_content" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/register_date"
+    />
+
+    <TextView
+    android:id="@+id/textViewDateIssue"
+    android:layout_marginBottom="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/approval_status"
+
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewApprovalStatus"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_marginStart="5dp"
+    android:text="@string/approval_date"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewDateApprove"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+
+    <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:text="@string/date_expiry"
+    />
+
+    <TextView
+    android:layout_marginBottom="5dp"
+    android:id="@+id/textViewDateExpiry"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:drawable/editbox_background" />
+    </LinearLayout>
+
+</ScrollView>

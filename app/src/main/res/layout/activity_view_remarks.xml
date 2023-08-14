@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.pcs.tim.myapplication.ViewRemarksActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/checkHistory_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@android:color/transparent"
+        android:focusable="true"
+        app:titleTextColor="@color/black"
+        android:textAlignment="center"
+        android:focusableInTouchMode="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark"
+
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:layout_marginRight="50dp"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:text="Check History"/>
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/textViewNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:drawableStart="@mipmap/ic_warning"
+        android:gravity="center"
+        android:text="@string/no_remark"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:visibility="gone" />
+    <!-- <TextView
+         android:id="@+id/textViewHeader"
+         android:background="@color/colorPrimaryDark"
+         android:textColor="@color/colorWhite"
+         android:textSize="20sp"
+         android:text="Check History"
+         android:layout_width="match_parent"
+         android:textAlignment="center"
+         android:layout_height="wrap_content"
+         />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        style="@style/Widget.AppCompat.Light.ListPopupWindow"
+        android:id="@+id/listViewRemarks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+
+        />
+
+</LinearLayout>
