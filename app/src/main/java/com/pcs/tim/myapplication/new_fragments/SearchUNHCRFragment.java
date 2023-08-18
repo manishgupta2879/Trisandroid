@@ -13,6 +13,7 @@ import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import androidx.annotation.LongDef;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import android.os.Process;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -177,6 +179,8 @@ public class SearchUNHCRFragment extends Fragment {
         textViewApproveDate = view.findViewById(R.id.textViewDateApprove);
 
          searchView=view.findViewById(R.id.svUNHCR);
+
+
 
 
         searchView.setOnClickListener(new View.OnClickListener() {

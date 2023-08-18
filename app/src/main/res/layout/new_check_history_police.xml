@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/bluegradient"
-    android:layout_height="match_parent">
+
+    android:orientation="vertical">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -13,12 +14,13 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/transparent"
         android:focusable="true"
-        app:titleTextColor="@color/black"
-        android:textAlignment="center"
         android:focusableInTouchMode="true"
+        android:textAlignment="center"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
 
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
+        app:titleTextColor="@color/black">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,114 +30,125 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:layout_weight="1"
-                android:layout_marginRight="50dp"
                 android:layout_gravity="center"
+                android:layout_marginRight="50dp"
+                android:layout_weight="1"
+                android:text="Check History"
                 android:textAlignment="center"
-                android:text="Check History"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
         </LinearLayout>
 
     </androidx.appcompat.widget.Toolbar>
+
+
+
+        <TextView
+            android:id="@+id/textViewNotFound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@mipmap/ic_warning"
+            android:text="@string/no_remark"
+            android:textAlignment="center"
+            android:drawablePadding="5dp"
+            android:layout_gravity="center"
+            android:paddingTop="250dp"
+            android:textColor="@color/grey"
+            android:textSize="20sp"
+            android:visibility="gone" />
+
 
 
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:visibility="gone">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-    <TextView
-        android:id="@+id/textViewNotFound"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        android:drawableStart="@mipmap/ic_warning"
-        android:layout_gravity="center"
-        android:text="@string/no_remark"
-        android:textColor="@color/grey"
-        android:textSize="20sp"
-        android:visibility="gone" />
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:id="@+id/policeLay"
-        android:visibility="gone"
-        app:cardCornerRadius="10dp">
-        
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-            
+
             <androidx.cardview.widget.CardView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="50dp"
-                >
-                <ImageView
-                    android:id="@+id/imgpolice"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/tris_logo"/>
-            </androidx.cardview.widget.CardView>
+                android:id="@+id/policeLay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="gone"
+                app:cardCornerRadius="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center_vertical"
-                    >
-                    <TextView
-                        android:id="@+id/fullNamePoliceTxt"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="John Smith"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold"
-                        />
+                    android:orientation="horizontal">
 
-                   <LinearLayout
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:orientation="horizontal">
-                       <TextView
-                           android:layout_width="wrap_content"
-                           android:layout_height="wrap_content"
-                           android:textColor="@color/themeColor"
-                           android:text="Enforcement ID"/>
-                           <TextView
-                               android:id="@+id/enforcementIdTxt"
-                               android:layout_width="wrap_content"
-                               android:layout_height="wrap_content"
-                               android:textColor="@color/black"
-                               android:text="159562985262"/>
-                   </LinearLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_margin="5dp"
+                        app:cardCornerRadius="50dp">
+
+                        <ImageView
+                            android:id="@+id/imgpolice"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/tris_logo" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/fullNamePoliceTxt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="John Smith"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Enforcement ID"
+                                android:textColor="@color/themeColor" />
+
+                            <TextView
+                                android:id="@+id/enforcementIdTxt"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="159562985262"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
 
-        </LinearLayout>
-        
-
-    </androidx.cardview.widget.CardView>
+            </androidx.cardview.widget.CardView>
 
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/refugeeLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/refugeeLay"
-                android:visibility="gone"
                 android:layout_margin="10dp"
-                app:cardCornerRadius="10dp"
-                >
+                android:visibility="gone"
+                app:cardCornerRadius="10dp">
+
                 <LinearLayout
 
                     android:layout_width="match_parent"
@@ -167,12 +180,14 @@
 
 
                     </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                 android:padding="5dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:padding="5dp">
+
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
@@ -183,74 +198,78 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@mipmap/ic_tris_logo"/>
+                                android:src="@mipmap/ic_tris_logo" />
 
 
                         </androidx.cardview.widget.CardView>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:layout_marginLeft="6dp"
-                            android:layout_weight="1">
+                            android:layout_weight="1"
+                            android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/refugeeNametxt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginVertical="3dp"
                                 android:text="John Smith"
                                 android:textColor="@color/black"
                                 android:textSize="24sp"
-                                android:layout_marginVertical="3dp"
-                                android:textStyle="bold"
-                                />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:id="@+id/refugeeMyRcIdtxt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="M01-821212-021654A"
                                 android:layout_marginVertical="6dp"
+                                android:text="M01-821212-021654A"
 
 
                                 android:textColor="@color/textGrey"
-                                android:textSize="16sp"/>
+                                android:textSize="16sp" />
 
                             <androidx.cardview.widget.CardView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                app:cardElevation="0dp"
-                                app:cardCornerRadius="10dp">
+                                app:cardCornerRadius="10dp"
+                                app:cardElevation="0dp">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-android:background="@drawable/search_border_grey"
+                                    android:background="@drawable/search_border_grey"
                                     android:orientation="horizontal">
 
                                     <LinearLayout
-                                        android:background="@color/lightGrey"
-
                                         android:layout_width="wrap_content"
+
                                         android:layout_height="match_parent"
+                                        android:background="@color/lightGrey"
                                         android:gravity="center"
 
                                         android:orientation="vertical">
+
                                         <TextView
-                                            android:layout_margin="5dp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_margin="5dp"
                                             android:text="Outside Range \n This  Month"
                                             android:textAlignment="center"
                                             android:textColor="@color/black"
-                                            android:textSize="12sp"/>
+                                            android:textSize="12sp" />
+
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginBottom="5dp"
                                             android:text="10"
-                                            android:textColor="@color/themeColor"
-                                            android:textStyle="bold"
                                             android:textAlignment="center"
-                                            android:textSize="20sp"/>
+                                            android:textColor="@color/themeColor"
+                                            android:textSize="20sp"
+                                            android:textStyle="bold" />
 
 
                                     </LinearLayout>
@@ -258,22 +277,22 @@ android:background="@drawable/search_border_grey"
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
-                                       android:paddingLeft="7dp"
                                         android:gravity="center_vertical"
-                                        android:orientation="vertical">
+                                        android:orientation="vertical"
+                                        android:paddingLeft="7dp">
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textSize="13sp"
                                             android:layout_marginBottom="3dp"
-                                            android:text="Latitude: 40.7128° N"/>
+                                            android:text="Latitude: 40.7128° N"
+                                            android:textSize="13sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:textSize="13sp"
-                                            android:text="Longitude: 74.0060° W"/>
+                                            android:text="Longitude: 74.0060° W"
+                                            android:textSize="13sp" />
 
                                     </LinearLayout>
 
@@ -288,44 +307,40 @@ android:background="@drawable/search_border_grey"
                     </LinearLayout>
 
 
-
-
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Current Location"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/currentRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Current Location"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginLeft="10dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Recent Check-Ins"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/currentRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recent Check-Ins"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginLeft="10dp"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recentRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recentRecycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp" />
         </LinearLayout>
 
 

@@ -101,15 +101,15 @@ public class ViewRefugeeListAdapter extends ArrayAdapter {
         }
 
 //        TextView txtName = (TextView) convertView.findViewById(R.id.textViewRefugeeName);
-        holder.txtName.setText("Name : " + refugee.getName());
+        holder.txtName.setText(refugee.getName());
 
 //        TextView txtMyRC = (TextView) convertView.findViewById(R.id.textViewRefugeeMyRC);
-        holder.txtMyRC.setText("MyRC : " + refugee.getMyRC());
+        holder.txtMyRC.setText(refugee.getMyRC());
 
 
 //        TextView txtUnhcr = (TextView) convertView.findViewById(R.id.textViewRefugeeUNHCR);
-        holder.txtCategory.setText("Category : " + refugee.getCategory());
-        holder.txtCountry.setText("Country of Origin : " + refugee.getCountry());
+        holder.txtCategory.setText(refugee.getCategory());
+        holder.txtCountry.setText(refugee.getCountry());
 
         return row;
     }

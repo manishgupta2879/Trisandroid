@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -16,20 +17,29 @@ import android.os.Process;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
+import android.provider.Settings;
 import android.service.autofill.Dataset;
 import android.text.SpannableString;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.gson.Gson;
@@ -65,7 +75,17 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private ZXingScannerView scannerView;
     private FirebaseRemoteConfig firebaseRemoteConfig;
     public RemoteConfigResponse rcResponse;
+    String token;
+   /* String[] permissions=new String[]{
+            Manifest.permission.POST_NOTIFICATIONS
+    };*/
+
+    boolean permission_post_notification=false;
+    ImageView icPass;
+
+    private boolean showPass=false;
     long cacheExpiration = 3600;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,81 +94,116 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         sharePref = getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
 
         boolean rememberMe = sharePref.getBoolean(MY_RC_RMB_ME, false);
+        FirebaseApp.initializeApp(this);
 
+        // Get the FCM token
+        token = FirebaseInstanceId.getInstance().getToken();
+        if(token!=null){
+            Log.d("fcmtoken__", "onCreate: "+token);
+        }else {
+            Log.d("fcmtoken__", "onCreate: cant get token");
+        }
+        editTextID = (EditText) findViewById(R.id.editTextID);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+
+        // You can now use the 'token' as needed, such as sending it to your server.
+        //   Log.d("FCM Token", token);
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-
+        icPass = findViewById(R.id.ic_pass);
 
         firebaseRemoteConfig.setDefaults(R.xml.remote_config);
 
 
         firebaseRemoteConfig.fetch(0)
-        .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
 
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
 
-                    // After config data is successfully fetched, it must be activated before newly fetched
-                    // values are returned.
-                    firebaseRemoteConfig.activateFetched();
-                    rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
-                    Log.d("RemoteConfig",firebaseRemoteConfig.getString("common_config"));
+                            // After config data is successfully fetched, it must be activated before newly fetched
+                            // values are returned.
+                            firebaseRemoteConfig.activateFetched();
+                            rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
+                            Log.d("RemoteConfig", firebaseRemoteConfig.getString("common_config"));
 
-                    DataService.instance().storeValueString(DataService.VERIMYRC_URL, rcResponse.getUrl());
-                    DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, rcResponse.getApiUrl());
-                    DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_VERSION, rcResponse.getAndroidVersion());
-                    DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_PACKAGE_NAME, rcResponse.getAndroidPackageName());
-                    new RequestToken().execute();
+                            DataService.instance().storeValueString(DataService.VERIMYRC_URL, rcResponse.getUrl());
+                            //edit by deepak
+                            DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, rcResponse.getApiUrl());
+                            // DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "www.dhillonfarm.com");
+                            DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_VERSION, rcResponse.getAndroidVersion());
+                            DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_PACKAGE_NAME, rcResponse.getAndroidPackageName());
+                            new RequestToken().execute();
 
-                    try {
+                            try {
 
-                        PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
-                        String version = pInfo.versionName;
+                                PackageInfo pInfo = getApplicationContext().getPackageManager().getPackageInfo(getPackageName(), 0);
+                                String version = pInfo.versionName;
 
-                        if (!version.equals(rcResponse.getAndroidVersion())) {
-                            Log.d("check_version",version);
-                            Log.d("check_version",rcResponse.getAndroidVersion());
-                            setTitle("v"+rcResponse.getAndroidVersion());
-                            AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
-                            adb.setTitle("Latest version available");
-                            adb.setMessage("Please update to latest version");
-                            adb.setIcon(R.mipmap.ic_tris_logo);
-                            adb.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    try {
+                                Log.d("RemoteConfig__", "onComplete: version " + version + " firebase version " + rcResponse.getAndroidVersion());
+
+                                if (!version.equals(rcResponse.getAndroidVersion())) {
+                                    Log.d("check_version", version);
+                                    Log.d("check_version", rcResponse.getAndroidVersion());
+                                    setTitle("v" + rcResponse.getAndroidVersion());
+                                    AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+                                    adb.setTitle("Latest version available");
+                                    adb.setMessage("Please update to latest version");
+                                    adb.setIcon(R.mipmap.ic_tris_logo);
+                                    adb.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            try {
 //                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Utilities.PACKAGE_NAME)));
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
-                                    } catch (android.content.ActivityNotFoundException anfe) {
-                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
-                                    }
-                                } });
-                            adb.setCancelable(false);
-                            AlertDialog alert = adb.create();
-                            alert.show();
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
+                                            } catch (
+                                                    android.content.ActivityNotFoundException anfe) {
+                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
+                                            }
+                                        }
+                                    });
+                                    adb.setCancelable(false);
+                                    AlertDialog alert = adb.create();
+                                    alert.show();
+                                }
+
+                            } catch (PackageManager.NameNotFoundException e) {
+                                Log.d("RemoteConfig", e.getMessage());
+                                e.printStackTrace();
+                            }
+
+
+                        } else {
+
                         }
-
-                    } catch (PackageManager.NameNotFoundException e) {
-                        Log.d("RemoteConfig",e.getMessage());
-                        e.printStackTrace();
                     }
+                });
 
 
-                } else {
+        if (rememberMe) {
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
-                }
-            }
-        });
+
+     /*   if (!permission_post_notification) {
+
+            requestPermissionNotification();
+        }*/
+
+
+
 
         //new GetAppVersion().execute();
 
         Utilities utilities = new Utilities();
         Log.i("Internet", Boolean.toString(utilities.isOnline(this)));
         if (rememberMe) {
-            editTextID= (EditText) findViewById(R.id.editTextID);
-            editTextPassword= (EditText) findViewById(R.id.editTextPassword);
+            editTextID = (EditText) findViewById(R.id.editTextID);
+            editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
-            editTextPassword.setTransformationMethod(new AsteriskPasswordTransformationMethod());
+            // editTextPassword.setTransformationMethod(new AsteriskPasswordTransformationMethod());
             checkBoxRmb = (CheckBox) findViewById(R.id.checkBoxRememberMe);
             editTextID.setText(DataService.instance().fetchValueString(Utilities.LOGIN_POLICE_ID));
             editTextPassword.setText(DataService.instance().fetchValueString(Utilities.LOGIN_POLICE_PWD));
@@ -158,12 +213,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 //            finish();
         }
 
-        Button textView =  findViewById(R.id.textViewRegister);
+        Button textView = findViewById(R.id.textViewRegister);
         SpannableString content = new SpannableString(getResources().getString(R.string.register_account));
         textView.setText(content);
         scannerView = new ZXingScannerView(this);
 
-        TextView buttonOffline =  findViewById(R.id.buttonOffline);
+
+        TextView buttonOffline = findViewById(R.id.buttonOffline);
         Button buttonLogin = (Button) findViewById(R.id.buttonLogin);
         buttonOffline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,7 +247,25 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 login();
             }
         });
+        icPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                    if (showPass) {
+                        editTextPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                        Drawable drawable = getResources().getDrawable(R.drawable.ic_open_eye); // Replace with your drawable resource
+                        icPass.setImageDrawable(drawable);
+                        showPass=false;
+                    } else {
+                        editTextPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                        Drawable drawable = getResources().getDrawable(R.drawable.ic_close_eye); // Replace with your drawable resource
+                        icPass.setImageDrawable(drawable);
+                        showPass=true;
+
+                    }
+
+            }
+        });
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -202,13 +276,30 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
 
-
-
     @Override
-    protected  void onResume(){
+    protected void onResume() {
         super.onResume();
         //new GetAppVersion().execute();
     }
+
+   /* public void requestPermissionNotification(){
+        if(ContextCompat.checkSelfPermission(MainActivity.this,permissions[0])== PackageManager.PERMISSION_GRANTED){
+            permission_post_notification=true;
+        }
+        else{
+        *//*    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if(shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)){
+                    Log.d("message___", "requestPermissionNotification: "+"1st dont Allow");
+                }
+                else{
+                    Log.d("message___", "requestPermissionNotification: "+"2nd dont Allow");
+                }
+
+            }*//*
+            requestPermissionLauncherNotification.launch(permissions[0]);
+        }
+    }*/
+
     @Override
     public void handleResult(Result result) {
         final String myResult = result.getText();
@@ -287,6 +378,46 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 //        }
 //
 //    }
+
+  /*  private ActivityResultLauncher<String> requestPermissionLauncherNotification=
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted->{
+                if(isGranted){
+                    permission_post_notification=true;
+
+                }
+                else{
+                    permission_post_notification=false;
+                //    showPermissionDialog("notification Permission");
+                }
+            });*/
+
+
+    public  void showPermissionDialog(String permission_desc){
+        new androidx.appcompat.app.AlertDialog.Builder(
+                MainActivity.this
+        ).setTitle("allert For Permission")
+                .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        Intent intent=new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri=Uri.fromParts("package",getPackageName(),null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        dialogInterface.dismiss();
+
+                    }
+                })
+                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+
+                .show();
+    }
 
     //@TargetApi(23)
     private void login() {
@@ -376,6 +507,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
+
     private class GetAppVersion extends AsyncTask<String, Void, String> {
 
         @Override
@@ -390,12 +522,12 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
                 if (versionResult != null && versionResult != "ERROR") {
                     JSONObject jsonObject = new JSONObject(versionResult);
-                    if(jsonObject.getString("success").equalsIgnoreCase("true")){
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
                         return jsonObject.getString("data");
-                    }else{
+                    } else {
                         return "ERROR";
                     }
-                }else{
+                } else {
                     return "ERROR";
                 }
 //                    JSONObject jsonObject = new JSONObject(versionResult);
@@ -432,7 +564,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                                     } catch (android.content.ActivityNotFoundException anfe) {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Utilities.APP_URL)));
                                     }
-                                } });
+                                }
+                            });
                             adb.setCancelable(false);
                             AlertDialog alert = adb.create();
                             alert.show();
@@ -451,9 +584,64 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         }
     }
 
+
+    private class sendFcmToken extends AsyncTask<String, Void, String> {
+        ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
+        boolean successFlag = false;
+
+
+
+     /*   @Override
+        protected void onPreExecute() {
+            asyncDialog.setMessage(getString(R.string.loadingtype));
+            //show dialog
+            asyncDialog.show();
+            super.onPreExecute();
+        }*/
+
+        @Override
+        protected String doInBackground(String... strings) {
+
+            try {
+                //    Log.d("fcmToken___doinBack", "doInBackground: "+id);
+                String id = sharePref.getString(Utilities.LOGIN_ID, "");
+                Log.d("fcmToken___doinBack", "doInBackground: " + id);
+                String result = DataService.sendFcmToken(Integer.parseInt(id), token);
+                Log.d("fcmToken___doinBack", "doInBackground: token  " + token);
+
+                return "Success";
+          /*      if (result != null && result != "ERROR") {
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        successFlag = true;
+                        return jsonObject.getString("data");
+                    } else {
+                        return jsonObject.getString("message");
+                    }
+                } else {
+                    return "ERROR";
+                }*/
+            } catch (Exception e) {
+                Log.d("fcmToken___error", "error: " + e.getMessage());
+                e.printStackTrace();
+                return null;
+            }
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            //show dialog
+
+            super.onPostExecute(s);
+        }
+
+    }
+
     private class UserLoginTask extends AsyncTask<String, Void, String> {
         ProgressDialog asyncDialog = new ProgressDialog(MainActivity.this);
         boolean successFlag = false;
+
         @Override
         protected void onPreExecute() {
             //set message of the dialog
@@ -462,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             asyncDialog.show();
             super.onPreExecute();
         }
+
 
         @Override
         protected String doInBackground(String... params) {
@@ -476,20 +665,20 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 //                data.put(Utilities.PASSWORD, Utilities.getMD5Hash(password));
 //                return Utilities.sendPostRequest(Utilities.LOGIN, data, token, tokenType);
 
-                Log.d("resultssdbc",Utilities.getMD5Hash(password));
-                Log.d("resultssdbc",String.valueOf(id));
-                String result = DataService.EnforcementLogin(id,Utilities.getMD5Hash(password));
-                Log.d("resultssdbc",result);
+                Log.d("resultssdbc", Utilities.getMD5Hash(password));
+                Log.d("resultssdbc", String.valueOf(id));
+                String result = DataService.EnforcementLogin(id, Utilities.getMD5Hash(password));
+                Log.d("resultssdbc", result);
                 if (result != null && result != "ERROR") {
-                        JSONObject jsonObject = new JSONObject(result);
-                        if(jsonObject.getString("success").equalsIgnoreCase("true")){
-                            successFlag=true;
-                            return jsonObject.getString("data");
-                        }else{
-                            return jsonObject.getString("message");
-                        }
-                    }else{
-                        return "ERROR";
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        successFlag = true;
+                        return jsonObject.getString("data");
+                    } else {
+                        return jsonObject.getString("message");
+                    }
+                } else {
+                    return "ERROR";
                 }
 
             } catch (Exception e) {
@@ -505,13 +694,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
             asyncDialog.dismiss();
             try {
-            Log.i("resultss", result);
+                Log.i("resultss", result);
 
                 SharedPreferences.Editor editor = sharePref.edit();
 
-                if(successFlag){
+                if (successFlag) {
                     if (result != null && result != "ERROR") {
-                        Log.d("resultss","1");
+                        Log.d("resultss", "1");
                         EnforcementLoginResponse respEnforcementLogin = new Gson().fromJson(result, EnforcementLoginResponse.class);
 
                         String id = respEnforcementLogin.getId().toString();
@@ -530,13 +719,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
                         String remark = respEnforcementLogin.getRemark();
 
-                        if(status.equalsIgnoreCase("Y")){
+                        if (status.equalsIgnoreCase("Y")) {
                             if (checkBoxRmb.isChecked()) {
 
                                 editor.putBoolean(MY_RC_RMB_ME, true);
 
                             }
-                            if(police_photo != null && !police_photo.isEmpty())
+                            if (police_photo != null && !police_photo.isEmpty())
                                 editor.putString(Utilities.LOGIN_POLICE_PHOTO, police_photo);
                             editor.putString(Utilities.LOGIN_POLICE_AGENCY, police_agency);
                             editor.putString(Utilities.LOGIN_POLICE_DEPT, police_dept);
@@ -549,22 +738,32 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                             editor.putString(Utilities.LOGIN_POLICE_ID, police_id);
                             editor.putString(Utilities.LOGIN_ID, id);
                             editor.putString(Utilities.LOGIN_POLICE_PWD, password);
-                            editor.putString(Utilities.LOGIN_POLICE_STATUS,status);
+                            editor.putString(Utilities.LOGIN_POLICE_STATUS, status);
                             editor.putBoolean(Utilities.LOGGED_IN, true);
                             editor.apply();
 
+
+                            if (checkPermission()) {
+                                Log.d("fcmToken___cp", "onPostExecute: checkPermission");
+                                new sendFcmToken().execute(Utilities.LOGIN);
+                            } else {
+                                Log.d("fcmToken___else", "onPostExecute: else");
+                                ActivityCompat.requestPermissions(MainActivity.this,
+                                        new String[]{Manifest.permission.INTERNET},
+                                        1);
+                            }
                             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
                             finish();
-                        }else if(status.equalsIgnoreCase(("W"))){
-                            Toast.makeText(getApplicationContext(), "Your account is rejected. Remark :"+remark, Toast.LENGTH_LONG).show();
-                        }else {
+                        } else if (status.equalsIgnoreCase(("W"))) {
+                            Toast.makeText(getApplicationContext(), "Your account is rejected. Remark :" + remark, Toast.LENGTH_LONG).show();
+                        } else {
                             Toast.makeText(getApplicationContext(), "Account is yet to be approved or username and password not match.", Toast.LENGTH_LONG).show();
                         }
 
                     }
-                }else{
-                    Toast.makeText(getApplicationContext(),result , Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
                 }
 
 //                else {
@@ -595,12 +794,11 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 }*/
             } catch (Exception ex) {
                 Log.e("MyRCLoginddd", ex.toString());
-                if(result == null){
+                if (result == null) {
                     Toast.makeText(getApplicationContext(), "Account is yet to be approved or username and password not match.", Toast.LENGTH_LONG).show();
-                }
-                else if(result.isEmpty())
+                } else if (result.isEmpty())
                     Toast.makeText(getApplicationContext(), "Server unavailable currently, please try again later", Toast.LENGTH_LONG).show();
-                else{
+                else {
                     Toast.makeText(getApplicationContext(), "Account is yet to be approved or username and password not match.", Toast.LENGTH_LONG).show();
                 }
             }
@@ -609,8 +807,6 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         }
     }
-
-
 
 
     private String getPostDataString(HashMap<String, String> params) throws UnsupportedEncodingException {

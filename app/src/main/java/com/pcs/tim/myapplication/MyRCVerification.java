@@ -188,7 +188,8 @@ public class MyRCVerification extends AppCompatActivity implements GoogleApiClie
                             Log.d("RemoteConfig",firebaseRemoteConfig.getString("common_config"));
 
                             DataService.instance().storeValueString(DataService.VERIMYRC_URL, rcResponse.getUrl());
-                            DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, rcResponse.getApiUrl());
+                           DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, rcResponse.getApiUrl());
+                         //   DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "www.dhillonfarm.com");
                             DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_VERSION, rcResponse.getAndroidVersion());
                             DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_PACKAGE_NAME, rcResponse.getAndroidPackageName());
                             new RequestToken().execute();

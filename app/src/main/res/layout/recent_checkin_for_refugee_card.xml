@@ -51,6 +51,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/latRef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Latitude 3.113170"
@@ -58,6 +59,7 @@
                     android:textSize="13sp" />
 
                 <TextView
+                    android:id="@+id/lngRef"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"

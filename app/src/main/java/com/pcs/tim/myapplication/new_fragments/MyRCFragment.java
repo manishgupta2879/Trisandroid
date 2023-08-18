@@ -2,6 +2,7 @@ package com.pcs.tim.myapplication.new_fragments;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
+import static android.content.Context.INPUT_METHOD_SERVICE;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.Manifest;
@@ -37,11 +38,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -98,17 +102,17 @@ import java.util.concurrent.TimeUnit;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 
-public class MyRCFragment extends Fragment  implements GoogleApiClient.ConnectionCallbacks,
+public class MyRCFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, ZXingScannerView.ResultHandler{
+        LocationListener, ZXingScannerView.ResultHandler {
 
     private boolean isScannerView = false;
     private ZXingScannerView scannerView;
     protected static final String TAG = "MyRC Verification";
 
-    private float lat =0;
+    private float lat = 0;
     private float lng = 0;
-    private String apikey="";
+    private String apikey = "";
     SharedPreferences sharedPreferences;
 
     //private TextView userLoginTxt;
@@ -168,17 +172,19 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
     private FusedLocationProviderClient mFusedLocationClient;
     private FirebaseRemoteConfig firebaseRemoteConfig;
     public RemoteConfigResponse rcResponse;
+    LinearLayout iconsLay, logoLay;
+
+
     public MyRCFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_my_r_c, container, false);
+        View view = inflater.inflate(R.layout.fragment_my_r_c, container, false);
 
 
         AppCompatActivity activity = (AppCompatActivity) getActivity();
@@ -186,7 +192,25 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
             activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             activity.getSupportActionBar().setTitle("Fragment Title");
         }
+        iconsLay = view.findViewById(R.id.iconsLay);
+        logoLay = view.findViewById(R.id.logoLay);
 
+
+
+        iconsLay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
+        logoLay.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                hideKeyboard();
+                return false;
+            }
+        });
         Toolbar toolbar = view.findViewById(R.id.home_toolbar); // Assuming you have a Toolbar in your layout
         if (toolbar != null) {
             toolbar.setNavigationIcon(R.drawable.ic_back); // Set your back button icon
@@ -208,26 +232,27 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
         sharedPreferences = getActivity().getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
 
         //userLoginTxt = (TextView)findViewById(R.id.loginUser);
-        if(sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null) == null){
+        if (sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null) == null) {
             logout();
         }
-         new MyRCVerification.GetApiKey().execute();
+        new MyRCVerification.GetApiKey().execute();
         //welcomeTxt = "Logged in ID: " + sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null);
         //userLoginTxt.setText(welcomeTxt);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         scannerView = new ZXingScannerView(getActivity());
         mResultReceiver = new MyRCFragment.AddressResultReceiver(new Handler());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        EditText editQuery = (EditText)view.findViewById(R.id.edit_query);
+        EditText editQuery = (EditText) view.findViewById(R.id.edit_query);
         Button btnLogout = (Button) view.findViewById(R.id.buttonLogout);
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         firebaseRemoteConfig.setDefaults(R.xml.remote_config);
         final FragmentManager fm = getFragmentManager();
         Fragment profileFragment = new ProfileFragment();
-        Fragment searchUNHCRFragment=new SearchUNHCRFragment();
-        Fragment searchNameFragment=new SearchNameFragment();
+        Fragment searchMenuFragment=new SearchMenuFragment();
+        Fragment searchUNHCRFragment = new SearchUNHCRFragment();
+        Fragment searchNameFragment = new SearchNameFragment();
 
-        FragmentTransaction transaction =fm.beginTransaction();
+        FragmentTransaction transaction = fm.beginTransaction();
 
         firebaseRemoteConfig.fetch(0)
                 .addOnCompleteListener(getActivity(), new OnCompleteListener<Void>() {
@@ -240,10 +265,11 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                             // values are returned.
                             firebaseRemoteConfig.activateFetched();
                             rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
-                            Log.d("RemoteConfig",firebaseRemoteConfig.getString("common_config"));
+                            Log.d("RemoteConfig", firebaseRemoteConfig.getString("common_config"));
 
                             DataService.instance().storeValueString(DataService.VERIMYRC_URL, rcResponse.getUrl());
                             DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, rcResponse.getApiUrl());
+                            //DataService.instance().storeValueString(DataService.VERIMYRC_API_URL,"www.dhillonfarm.com");
                             DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_VERSION, rcResponse.getAndroidVersion());
                             DataService.instance().storeValueString(DataService.VERIMYRC_ANDROID_PACKAGE_NAME, rcResponse.getAndroidPackageName());
                             new MyRCFragment.RequestToken().execute();
@@ -254,9 +280,9 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                                 String version = pInfo.versionName;
 
                                 if (!version.equals(rcResponse.getAndroidVersion())) {
-                                    Log.d("check_version",version);
-                                    Log.d("check_version",rcResponse.getAndroidVersion());
-                                    getActivity().setTitle("v"+rcResponse.getAndroidVersion());
+                                    Log.d("check_version", version);
+                                    Log.d("check_version", rcResponse.getAndroidVersion());
+                                    getActivity().setTitle("v" + rcResponse.getAndroidVersion());
                                     AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
                                     adb.setTitle("Latest version available");
                                     adb.setMessage("Please update to latest version");
@@ -266,17 +292,19 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                                             try {
 //                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Utilities.PACKAGE_NAME)));
                                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
-                                            } catch (android.content.ActivityNotFoundException anfe) {
+                                            } catch (
+                                                    android.content.ActivityNotFoundException anfe) {
                                                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
                                             }
-                                        } });
+                                        }
+                                    });
                                     adb.setCancelable(false);
                                     AlertDialog alert = adb.create();
                                     alert.show();
                                 }
 
                             } catch (PackageManager.NameNotFoundException e) {
-                                Log.d("RemoteConfig",e.getMessage());
+                                Log.d("RemoteConfig", e.getMessage());
                                 e.printStackTrace();
                             }
 
@@ -295,20 +323,21 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logout();
-                    } });
+                    }
+                });
 
 
                 adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                    } });
+                    }
+                });
                 adb.show();
             }
         });
 
-        ImageView btnSearch = (ImageView)view.findViewById(R.id.searchBtn);
-        SearchView searchView=view.findViewById(R.id.sv);
-
+        ImageView btnSearch = (ImageView) view.findViewById(R.id.searchBtn);
+        SearchView searchView = view.findViewById(R.id.sv);
 
 
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -321,14 +350,14 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
             @Override
             public boolean onQueryTextSubmit(String s) {
                 searchQuery = s;
-                if(searchQuery.isEmpty() || searchQuery.length() < 5){
+                if (searchQuery.isEmpty() || searchQuery.length() < 5) {
                     //Toast.makeText(getApplicationContext(), "Please insert at least 3 characters to search for refugee.", Toast.LENGTH_LONG).show();
                     editQuery.setError(getString(R.string.search_name_err));
-                }
-                else{
+                } else {
                     Intent intent = new Intent(getActivity(), SearchNameActivity.class);
                     intent.putExtra("query", searchQuery);
-                    startActivity(intent);               }
+                    startActivity(intent);
+                }
                 return true;
             }
 
@@ -341,14 +370,14 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
             @Override
             public void onClick(View v) {
                 searchQuery = editQuery.getText().toString();
-                if(searchQuery.isEmpty() || searchQuery.length() < 5){
+                if (searchQuery.isEmpty() || searchQuery.length() < 5) {
                     //Toast.makeText(getApplicationContext(), "Please insert at least 3 characters to search for refugee.", Toast.LENGTH_LONG).show();
                     editQuery.setError(getString(R.string.search_name_err));
-                }
-                else{
+                } else {
                     Intent intent = new Intent(getActivity(), SearchNameActivity.class);
                     intent.putExtra("query", searchQuery);
-                    startActivity(intent);               }
+                    startActivity(intent);
+                }
             }
         });
 
@@ -373,7 +402,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
 //            }
 //        });
 
-        Button btnMyProfile = (Button)view.findViewById(R.id.buttonProfile);
+        Button btnMyProfile = (Button) view.findViewById(R.id.buttonProfile);
         btnMyProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -385,25 +414,23 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 transaction.commit();
             }
         });
-        if(getActivity().checkPermission(Manifest.permission.INTERNET, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
-            Button buttonScanQR = (Button)view.findViewById(R.id.button_scan_qr);
+        if (getActivity().checkPermission(Manifest.permission.INTERNET, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
+            Button buttonScanQR = (Button) view.findViewById(R.id.button_scan_qr);
 
             buttonScanQR.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
-                    if(getActivity().checkPermission(Manifest.permission.CAMERA, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
-                    {
+                    if (getActivity().checkPermission(Manifest.permission.CAMERA, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
                         //qrScan.initiateScan();
                         getActivity().setContentView(scannerView);
                         scannerView.setResultHandler(MyRCFragment.this);
-                        if(Build.MANUFACTURER.toLowerCase().contains("huawei"))
+                        if (Build.MANUFACTURER.toLowerCase().contains("huawei"))
                             scannerView.setAspectTolerance(0.5f);
                         scannerView.startCamera();
                         isScannerView = true;
 
-                    }
-                    else {
+                    } else {
                         Toast.makeText(getActivity(), "Permission Denied!", Toast.LENGTH_SHORT).show();
                         ActivityCompat.requestPermissions(getActivity(),
                                 new String[]{Manifest.permission.CAMERA},
@@ -412,20 +439,32 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 }
             });
 
-            Button buttonSearch = (Button)view.findViewById(R.id.buttonSearch);
+            Button buttonSearch = (Button) view.findViewById(R.id.buttonSearch);
+            Button buttonFaceRec = (Button) view.findViewById(R.id.button_face_rec);
+
+
+            buttonFaceRec.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   // Toast.makeText(activity, "In Progress", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActivity(), FaceRecognitionActivity.class);
+                    startActivity(intent);
+                }
+            });
 
             buttonSearch.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                  /*   Intent intent = new Intent(getActivity(), SearchMenuActivity.class);
                     startActivity(intent);*/
+                    transaction.replace(R.id.main_container, searchMenuFragment);
+                    transaction.addToBackStack(null); // Optional: Add to back stack
+                    transaction.commit();
 
-                    Intent intent = new Intent(getActivity(), FaceRecognitionActivity.class);
-                    startActivity(intent);
                 }
             });
 
-            Button buttonFaceRecognition = (Button)view.findViewById(R.id.button_scan_face);
+            Button buttonFaceRecognition = (Button) view.findViewById(R.id.button_scan_face);
 
             buttonFaceRecognition.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -440,17 +479,17 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 }
             });
 
-            Button buttonNFC = (Button)view.findViewById(R.id.button_NFC);
+           // Button buttonNFC = (Button) view.findViewById(R.id.button_NFC);
 
-            buttonNFC.setOnClickListener(new View.OnClickListener() {
+           /* buttonNFC.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), NFCActivity.class);
 
                     startActivityForResult(intent, 000);
                 }
-            });
-        }else{
+            });*/
+        } else {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.INTERNET},
                     1);
@@ -472,10 +511,12 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 for (Location location : locationResult.getLocations()) {
                     Log.e("Locations", location.toString());
                 }
-            };
+            }
+
+            ;
         };
 
-        while(!(getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(),Process.myUid()) == PackageManager.PERMISSION_GRANTED)) {
+        while (!(getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
@@ -546,8 +587,17 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
         }*/
-    return view;}
+        return view;
+    }
 
+
+    private void hideKeyboard() {
+        View currentFocus = getActivity().getCurrentFocus();
+        if (currentFocus != null) {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(currentFocus.getWindowToken(), 0);
+        }
+    }
     private class GetAppVersion extends AsyncTask<String, Void, String> {
 
         @Override
@@ -562,12 +612,12 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
 
                 if (versionResult != null && versionResult != "ERROR") {
                     JSONObject jsonObject = new JSONObject(versionResult);
-                    if(jsonObject.getString("success").equalsIgnoreCase("true")){
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
                         return jsonObject.getString("data");
-                    }else{
+                    } else {
                         return "ERROR";
                     }
-                }else{
+                } else {
                     return "ERROR";
                 }
 //                    JSONObject jsonObject = new JSONObject(versionResult);
@@ -603,7 +653,8 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                                     } catch (android.content.ActivityNotFoundException anfe) {
                                         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Utilities.APP_URL)));
                                     }
-                                } });
+                                }
+                            });
                             adb.setCancelable(false);
                             AlertDialog alert = adb.create();
                             alert.show();
@@ -854,11 +905,10 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
             if (resultCode == RESULT_OK) {
                 String result = data.getStringExtra("toastMsg");
                 // do something with the result
-                Toast.makeText(getActivity(),result,Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), result, Toast.LENGTH_LONG).show();
 
             }
-        }
-        else {
+        } else {
 //            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 //            if (result != null) {
 //                //if qrcode has nothing in it
@@ -924,7 +974,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.myProfile:
                 Intent intent = new Intent(getActivity(), ProfileActivity.class);
                 startActivity(intent);
@@ -936,11 +986,13 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 adb.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         logout();
-                    } });
+                    }
+                });
                 adb.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                    } });
+                    }
+                });
                 adb.show();
                 return true;
             default:
@@ -968,16 +1020,17 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
 
     }
 
-    private void logout(){
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Utilities.MY_RC_SHARE_PREF,MODE_PRIVATE);
+    private void logout() {
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(MainActivity.MY_RC_RMB_ME,false);
+        editor.putBoolean(MainActivity.MY_RC_RMB_ME, false);
         editor.putBoolean(Utilities.LOGGED_IN, false);
         editor.apply();
         Intent intent = new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
-       getActivity().finish();
+        getActivity().finish();
     }
+
     /**
      * Callback that fires when the location changes.
      */
@@ -1064,7 +1117,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
     }*/
 
     private void startLocationUpdates() {
-        if(getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
+        if (getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED)
             mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                     mLocationCallback,
                     null /* Looper */);
@@ -1094,52 +1147,52 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 else
                     locationAddress = Float.toString(lat) + ", " + Float.toString(lng);
             }*/
-            if(resultData != null) {
+            if (resultData != null) {
 
                 mAddressOutput = resultData.getString(Utilities.RESULT_DATA_KEY);
 
-                if(!mAddressOutput.equals(getString(R.string.service_not_available)) && !mAddressOutput.equals(""))
+                if (!mAddressOutput.equals(getString(R.string.service_not_available)) && !mAddressOutput.equals(""))
                     locationAddress = mAddressOutput;
-                else{
+                else {
                     try {
 
 
                         MyRCFragment.GetAddress getAddrTask = new MyRCFragment.GetAddress();
-                        Log.d("Addr",Float.toString(lat));
-                        Log.d("Addr",Float.toString(lng));
-                        Log.d("Addr",apikey);
-                        getAddrTask.execute("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Float.toString(lat) + "," + Float.toString(lng) +"&key="+apikey);
+                        Log.d("Addr", Float.toString(lat));
+                        Log.d("Addr", Float.toString(lng));
+                        Log.d("Addr", apikey);
+                        getAddrTask.execute("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + Float.toString(lat) + "," + Float.toString(lng) + "&key=" + apikey);
 
                         getAddrTask.get(15000, TimeUnit.MILLISECONDS);
-                    }
-                    catch (Exception ex){
+                    } catch (Exception ex) {
                         locationAddress = Float.toString(lat) + ", " + Float.toString(lng);
                         ex.printStackTrace();
                     }
                 }
-            }else{
-                Utilities.startIntentService(getActivity(),mResultReceiver,mLastLocation);
+            } else {
+                Utilities.startIntentService(getActivity(), mResultReceiver, mLastLocation);
             }
         }
     }
 
-    private class GetApiKey extends AsyncTask<String, Void, String>{
+    private class GetApiKey extends AsyncTask<String, Void, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected String doInBackground(String... urls) {
             try {
                 String result = DataService.GetApiKey();
                 if (result != null && result != "ERROR") {
                     JSONObject jsonObject = new JSONObject(result);
-                    if(jsonObject.getString("success").equalsIgnoreCase("true")){
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
                         return jsonObject.getString("data");
-                    }else{
+                    } else {
                         return "ERROR";
                     }
-                }else{
+                } else {
                     return "ERROR";
                 }
             } catch (JSONException e) {
@@ -1157,9 +1210,9 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
             try {
                 ApiKeyResponse respApiKey = new Gson().fromJson(result, ApiKeyResponse.class);
                 String get_api_key = respApiKey.getApiKey();
-                if(!get_api_key.isEmpty()){
+                if (!get_api_key.isEmpty()) {
                     apikey = get_api_key;
-                }else {
+                } else {
                     apikey = "AIzaSyDATvuiJEVbGGE7Cz8hA1MHzosIdKB3Rbw";
                 }
 
@@ -1178,8 +1231,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
 //                    }
 //                }
 
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -1191,6 +1243,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
         protected void onPreExecute() {
             super.onPreExecute();
         }
+
         @Override
         protected String doInBackground(String... urls) {
             HttpURLConnection connection = null;
@@ -1210,7 +1263,7 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 String line = "";
 
                 while ((line = reader.readLine()) != null) {
-                    buffer.append(line+"\n");
+                    buffer.append(line + "\n");
                 }
 
                 return buffer.toString();
@@ -1240,13 +1293,13 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
         protected void onPostExecute(String result) {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             try {
-                Log.d("resultGPS",result);
+                Log.d("resultGPS", result);
                 JSONObject jsonObject = new JSONObject(result);
                 JSONArray jsonResult = jsonObject.getJSONArray("results");
                 JSONObject formatted_address = jsonResult.getJSONObject(0);
                 String address = formatted_address.getString("formatted_address");
 
-                if(!address.isEmpty())
+                if (!address.isEmpty())
                     locationAddress = address;
                 else {
                     if (lat > 0 || lng > 0)
@@ -1257,17 +1310,16 @@ public class MyRCFragment extends Fragment  implements GoogleApiClient.Connectio
                 editor.putFloat("lat", lat);
                 editor.putFloat("lng", lng);
                 editor.apply();
-            }
-            catch(Exception ex) {
+            } catch (Exception ex) {
                 // Toast.makeText(getApplicationContext(), "Error retrieving location", Toast.LENGTH_LONG).show();
 
                 ex.printStackTrace();
-                Utilities.startIntentService(getActivity(),mResultReceiver,mLastLocation);
+                Utilities.startIntentService(getActivity(), mResultReceiver, mLastLocation);
             }
         }
     }
 
-    private String scanQrCode(){
+    private String scanQrCode() {
         return null;
     }
 }

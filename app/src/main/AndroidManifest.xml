@@ -5,7 +5,10 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
-
+    <permission
+        android:name="com.example.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature"/>
+    <uses-permission android:name="com.example.permission.MAPS_RECEIVE"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -26,6 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
         <activity
             android:name=".new_activities.HomeActivity"
             android:screenOrientation="portrait"
@@ -135,11 +140,23 @@
         <activity android:name=".EditProfileActivity" />
 
 
-        <service android:enabled="false" android:name="com.pcs.tim.myapplication.new_added_classes.FirebaseMessaging">
+        <service
+            android:exported="false"
+            android:enabled="false" android:name="com.pcs.tim.myapplication.new_added_classes.FirebaseMessaging">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@mipmap/ic_launcher" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/design_default_color_primary" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/notification_channel_id" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

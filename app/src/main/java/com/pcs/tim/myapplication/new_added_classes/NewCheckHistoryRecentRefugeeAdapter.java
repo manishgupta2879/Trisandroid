@@ -98,6 +98,36 @@ public class NewCheckHistoryRecentRefugeeAdapter extends RecyclerView.Adapter<Ne
 
                 holder.txtRemark.setText(spannable);
             }
+
+
+            if(remark.getLat()!=0&&remark.getLng()!=0){
+                SpannableStringBuilder spannableLat = new SpannableStringBuilder("Latitude " + remark.getLat());
+                SpannableStringBuilder spannableLng = new SpannableStringBuilder("Longitude " + remark.getLng());
+
+                ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
+                spannableLat.setSpan(blueColorSpan, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableLng.setSpan(blueColorSpan, 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+                holder.txtLatRef.setText(spannableLat);
+                holder.txtLngRef.setText(spannableLng);
+            }
+
+            else{
+                SpannableStringBuilder spannableLat = new SpannableStringBuilder("Latitude " + "");
+                SpannableStringBuilder spannableLng = new SpannableStringBuilder("Longitude " + "");
+
+                ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
+                spannableLat.setSpan(blueColorSpan, 0, 9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableLng.setSpan(blueColorSpan, 0, 10, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+
+                holder.txtLatRef.setText(spannableLat);
+                holder.txtLngRef.setText(spannableLng);
+            }
+
             SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             SimpleDateFormat viewDateFormat = new SimpleDateFormat("dd/MM/yyyy");
             SimpleDateFormat viewtimeFormat = new SimpleDateFormat("hh:mm a");
@@ -111,7 +141,13 @@ public class NewCheckHistoryRecentRefugeeAdapter extends RecyclerView.Adapter<Ne
                 SpannableStringBuilder spannableTime = new SpannableStringBuilder("Time " + viewtimeFormat.format(checkTime));
 
                 StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+                ForegroundColorSpan blackColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.black));
+                spannable.setSpan(blackColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableTime.setSpan(blackColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+
+                spannable.setSpan(boldSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableTime.setSpan(boldSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
                 spannable.setSpan(boldSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 spannableTime.setSpan(boldSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -136,6 +172,8 @@ public class NewCheckHistoryRecentRefugeeAdapter extends RecyclerView.Adapter<Ne
         TextView txtRemark;
         TextView txtCheckDate;
         TextView txtCheckTime;
+        TextView txtLatRef;
+        TextView txtLngRef;
 
         public RecentRefugeeViewHolder(@NonNull View v) {
             super(v);
@@ -144,6 +182,8 @@ public class NewCheckHistoryRecentRefugeeAdapter extends RecyclerView.Adapter<Ne
             txtRemark = (TextView) v.findViewById(R.id.txtRemark);
             txtCheckDate = (TextView) v.findViewById(R.id.txtCheckDate);
             txtCheckTime = (TextView) v.findViewById(R.id.txtCheckTime);
+            txtLatRef = (TextView) v.findViewById(R.id.latRef);
+            txtLngRef = (TextView) v.findViewById(R.id.lngRef);
         }
     }
 }

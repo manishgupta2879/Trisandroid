@@ -2,6 +2,7 @@ package com.pcs.tim.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -55,10 +56,11 @@ public class ViewRemarksActivity extends AppCompatActivity {
     ArrayList<Remark> remarkArrayListfirst;
     ArrayList<Remark> refugeeRemarkArrayList;
     ArrayList<Remark> refugeeRemarkArrayListFirst;
-    String myRc, enforcementId, photoUrl;
+    String myRc, enforcementId, photoUrl,loginId;
     RecyclerView currentRecycler, recentRecycler;
     CardView refugeeLay, policeLay;
     ScrollView scrollView;
+    SharedPreferences sharedPreferences;
     TextView textViewNotFound, policeNametxt, enforcementIdtxt, refugeeNametxt, refugeeMyRcIdtxt;
     ImageView imgRefugee;
 
@@ -73,9 +75,12 @@ public class ViewRemarksActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.new_check_history_police);
         Intent intent = getIntent();
+        sharedPreferences = getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
         myRc = intent.getStringExtra(Utilities.MY_RC);
         enforcementId = intent.getStringExtra(Utilities.POLICE_ID);
         photoUrl = intent.getStringExtra(Utilities.PHOTO);
+        loginId= sharedPreferences.getString(Utilities.LOGIN_ID,"");
+
         Log.d("Remark query", myRc + enforcementId);
 
 
@@ -155,9 +160,9 @@ public class ViewRemarksActivity extends AppCompatActivity {
                     } else {
                         return "ERROR";
                     }
-                } else if (enforcementId != null && !enforcementId.isEmpty()) {
-                    Log.d("accesss___1", "doInBackground: enforcementId "+enforcementId);
-                    result = DataService.GetEnforcementTrackLog(enforcementId);
+                } else if (loginId != null && !loginId.isEmpty()) {
+                    Log.d("accesss___1", "doInBackground: enforcementId "+loginId);
+                    result = DataService.GetEnforcementTrackLog("48");
 
                     Log.d("accesss___1", "doInBackground: result "+result);
                     if (result != null && result != "ERROR") {
@@ -179,7 +184,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
                 return null;
 
             } catch (Exception e) {
-
+                scrollView.setVisibility(View.GONE);
                 return null;
             }
 
@@ -199,15 +204,21 @@ public class ViewRemarksActivity extends AppCompatActivity {
 
                         PartialViewTrackLogs[] trackLogModel = new Gson().fromJson(jsonObject.getString("trackLogs"), PartialViewTrackLogs[].class);
                         List<PartialViewTrackLogs> tlmList = new ArrayList<>(Arrays.asList(trackLogModel));
+
+                        Log.d("ArraySize__", "onPostExecute: "+tlmList.size());
+
                         for (int i = 0; i < tlmList.size(); i++) {
                             if (tlmList.get(i).getTrackType().equals("M")) {
+                                Log.d("ArraySize__", "onPostExecute: "+refugeeRemarkArrayList.size());
                                 Remark remark = new Remark(String.valueOf(tlmList.get(i).getEnforcementId()), "MyRegistered Check-in",
                                         jsonObject.getString("myrc"), tlmList.get(i).getLocation(), tlmList.get(i).getCreatedTime(),
                                         jsonObject.getString("fullName"), jsonObject.getString("photoURL"), jsonObject.getString("countryOfOrigin"),
-                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),Float.parseFloat(String.valueOf(jsonObject.getDouble("lat"))),Float.parseFloat(String.valueOf(jsonObject.getDouble("lat"))));
+                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng());
                                 refugeeRemarkArrayList.add(remark);
-                            }
 
+
+                            }
+                            Log.d("ArraySize__", "onPostExecute: "+refugeeRemarkArrayList.size());
                         }
 
 
@@ -217,7 +228,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
                                 Remark remark = new Remark(String.valueOf(tlmList.get(i).getEnforcementId()), "MyRegistered Check-in",
                                         jsonObject.getString("myrc"), tlmList.get(i).getLocation(), tlmList.get(i).getCreatedTime(),
                                         jsonObject.getString("fullName"), jsonObject.getString("photoURL"), jsonObject.getString("countryOfOrigin"),
-                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),Float.parseFloat(String.valueOf(jsonObject.getDouble("lat"))),Float.parseFloat(String.valueOf(jsonObject.getDouble("lat"))));
+                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng());
                                 refugeeRemarkArrayListFirst.add(remark);
                                 refugeeLay.setVisibility(View.VISIBLE);
 
@@ -290,19 +301,23 @@ public class ViewRemarksActivity extends AppCompatActivity {
                         currentRemarkPoliceAdapter = new NewCheckHistoryCurrentLoactionPoliceAdapter(getBaseContext(), remarkArrayListfirst);
                         currentRecycler.setAdapter(currentRemarkPoliceAdapter);
                         recentRecycler.setAdapter(recentRemarkPoliceAdapter);
-
+                        currentRemarkPoliceAdapter.notifyDataSetChanged();
+                        recentRemarkPoliceAdapter.notifyDataSetChanged();
 
                     }
 
-                    currentRemarkPoliceAdapter.notifyDataSetChanged();
-                    recentRemarkPoliceAdapter.notifyDataSetChanged();
+
 
                 } else {
                     asyncDialog.dismiss();
                     textViewNotFound.setVisibility(View.VISIBLE);
+                    scrollView.setVisibility(View.GONE);
                 }
             } catch (Exception ex) {
+                Log.d("error__", "onPostExecute: "+ex);
                 ex.printStackTrace();
+                textViewNotFound.setVisibility(View.VISIBLE);
+                scrollView.setVisibility(View.GONE);
             }
         }
     }

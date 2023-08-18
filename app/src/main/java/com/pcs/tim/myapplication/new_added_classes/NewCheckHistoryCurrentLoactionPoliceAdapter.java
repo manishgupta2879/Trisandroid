@@ -1,6 +1,8 @@
 package com.pcs.tim.myapplication.new_added_classes;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,13 +57,12 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
         final Remark remark = remarks.get(i);
 
 
-        if(remark!=null) {
+        if (remark != null) {
 
           /*  if (holder.txtPoliceId != null)
                 holder.txtPoliceId.setText(remark.getPoliceId());*/
 
-            if (remark.getLocation() != null && !remark.getLocation().equals("null"))
-            {
+            if (remark.getLocation() != null && !remark.getLocation().equals("null")) {
                 String locString = remark.getLocation();
 
 
@@ -70,9 +72,8 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 spannable.setSpan(blueColorSpan, 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-
                 holder.txtCheckedLocation.setText(spannable);
-            }else {
+            } else {
 
                 SpannableStringBuilder spannable = new SpannableStringBuilder("Address " + " ");
 
@@ -80,22 +81,19 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 spannable.setSpan(blueColorSpan, 0, 8, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-
                 holder.txtCheckedLocation.setText(spannable);
             }
 
             holder.txtRemark.setMovementMethod(new ScrollingMovementMethod());
-            if(remark.getRemark()!=null) {
+            if (remark.getRemark() != null) {
                 SpannableStringBuilder spannable = new SpannableStringBuilder("Remark " + remark.getRemark());
 
                 ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
                 spannable.setSpan(blueColorSpan, 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-
                 holder.txtRemark.setText(spannable);
-            }
-            else {
+            } else {
 
                 SpannableStringBuilder spannable = new SpannableStringBuilder("Remark " + "");
 
@@ -103,30 +101,40 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 spannable.setSpan(blueColorSpan, 0, 7, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-
                 holder.txtRemark.setText(spannable);
             }
 
-     //       if(remark.getLat()!=0&& remark.getLng()!=0){
-             //   Log.d("latlong__", "onBindViewHolder:  found latlong "+remark.getLat()+" long "+remark.getLng());
-          /*      holder.mapView.onCreate(null);
-
+            if (remark.getLat() != 0 && remark.getLng() != 0) {
+                //   Log.d("latlong__", "onBindViewHolder:  found latlong "+remark.getLat()+" long "+remark.getLng());
+                holder.mapView.onCreate(null);
+holder.mapView.onResume();
                 holder.mapView.getMapAsync(new OnMapReadyCallback() {
 
                     @Override
                     public void onMapReady(GoogleMap googleMap) {
-                      *//*  Log.d("latlong_1_", "onBindViewHolder:  found latlong ");
-
-                        LatLng TARGET_LOCATION =new LatLng(28.7041,77.1025);
+                        Log.d("latlong_1_", "onBindViewHolder:  found latlong ");
+                        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            // TODO: Consider calling
+                            //    ActivityCompat#requestPermissions
+                            // here to request the missing permissions, and then overriding
+                            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                            //                                          int[] grantResults)
+                            // to handle the case where the user grants the permission. See the documentation
+                            // for ActivityCompat#requestPermissions for more details.
+                            return;
+                        }
+                        googleMap.setMyLocationEnabled(true);
+                        LatLng TARGET_LOCATION =new LatLng(remark.getLat(),remark.getLng());
                         googleMap.addMarker(new MarkerOptions().position(TARGET_LOCATION));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(TARGET_LOCATION));
-                        Log.d("latlong_1_", "onBindViewHolder2:  found latlong ");*//*
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TARGET_LOCATION,15));
+                        Log.d("latlong_1_", "onBindViewHolder2:  found latlong ");
                     }
-                });*/
+                });
 
-          /*  }else{
+            }else{
                 Log.d("latlong__", "onBindViewHolder: not found latlong");
-            }*/
+            }
 
             SimpleDateFormat sourceDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
             SimpleDateFormat viewDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -141,6 +149,9 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 SpannableStringBuilder spannableTime = new SpannableStringBuilder("Time " + viewtimeFormat.format(checkTime));
 
                 StyleSpan boldSpan = new StyleSpan(Typeface.BOLD);
+                ForegroundColorSpan blackColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.black));
+                spannable.setSpan(blackColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableTime.setSpan(blackColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
                 spannable.setSpan(boldSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -165,7 +176,7 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
         TextView txtRemark;
         TextView txtCheckDate;
         TextView txtCheckTime;
-        View mapView;
+        MapView mapView;
 
 
 
@@ -176,7 +187,7 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
             txtRemark = (TextView) v.findViewById(R.id.textViewRemark);
             txtCheckDate = (TextView) v.findViewById(R.id.textViewCheckDate);
             txtCheckTime = (TextView) v.findViewById(R.id.txtCheckTime);
-            mapView=v.findViewById(R.id.mapFragment);
+            mapView=v.findViewById(R.id.mapview);
         }
     }
 

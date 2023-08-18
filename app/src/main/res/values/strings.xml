@@ -2,6 +2,8 @@
     <string name="app_name">VeriMyRC</string>
     <string name="app_name1">Veri</string>
     <string name="app_name2">MyRC</string>
+    <string name="notification_channel_id">my_channel</string>
+    <string name="api_map_key">AIzaSyDL35cTuuscf551IT36gqZtEQpPQJVTmkQ</string>
     <string name="version"><font size="8">v1.08</font></string>
     <string name="app_name_desc">MyRC Verification App</string>
     <string name="disclaimer">DISCLAIMER</string>
@@ -21,6 +23,7 @@
     <string name="view_vaccine">COVID-19 Vaccination</string>
     <string name="scan_qr_code">QR Scan</string>
     <string name="scan_nfc">NFC</string>
+    <string name="search_refugee">Search Refugee</string>
     <string name="scan_face">Face Recognition</string>
     <string name="search">Search</string>
     <string name="name">Name</string>
