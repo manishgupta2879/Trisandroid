@@ -8,6 +8,7 @@ import static android.content.Context.MODE_PRIVATE;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -74,6 +75,7 @@ import com.pcs.tim.myapplication.DataService;
 import com.pcs.tim.myapplication.FaceRecognitionActivity;
 import com.pcs.tim.myapplication.MainActivity;
 import com.pcs.tim.myapplication.MyRCVerification;
+import com.pcs.tim.myapplication.new_activities.HomeActivity;
 import com.pcs.tim.myapplication.new_fragments.MyRCFragment;
 import com.pcs.tim.myapplication.NFCActivity;
 import com.pcs.tim.myapplication.ProfileActivity;
@@ -245,7 +247,7 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
         EditText editQuery = (EditText) view.findViewById(R.id.edit_query);
         Button btnLogout = (Button) view.findViewById(R.id.buttonLogout);
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        firebaseRemoteConfig.setDefaults(R.xml.remote_config);
+        firebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config);
         final FragmentManager fm = getFragmentManager();
         Fragment profileFragment = new ProfileFragment();
         Fragment searchMenuFragment=new SearchMenuFragment();
@@ -263,7 +265,7 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
 
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
-                            firebaseRemoteConfig.activateFetched();
+                            firebaseRemoteConfig.fetchAndActivate();
                             rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
                             Log.d("RemoteConfig", firebaseRemoteConfig.getString("common_config"));
 
@@ -276,31 +278,34 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
 
                             try {
 
-                                PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
-                                String version = pInfo.versionName;
+                                if(isAdded()) {
+                                    PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+                                    String version = pInfo.versionName;
 
-                                if (!version.equals(rcResponse.getAndroidVersion())) {
-                                    Log.d("check_version", version);
-                                    Log.d("check_version", rcResponse.getAndroidVersion());
-                                    getActivity().setTitle("v" + rcResponse.getAndroidVersion());
-                                    AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
-                                    adb.setTitle("Latest version available");
-                                    adb.setMessage("Please update to latest version");
-                                    adb.setIcon(R.mipmap.ic_tris_logo);
-                                    adb.setPositiveButton("Update", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            try {
+                                    if (!version.equals(rcResponse.getAndroidVersion())) {
+                                        Log.d("check_version", version);
+                                        Log.d("check_version", rcResponse.getAndroidVersion());
+                                        getActivity().setTitle("v" + rcResponse.getAndroidVersion());
+                                        AlertDialog.Builder adb = new AlertDialog.Builder(getActivity());
+                                        adb.setTitle("Latest version available");
+                                        adb.setMessage("Please update to latest version");
+                                        adb.setIcon(R.mipmap.ic_tris_logo);
+                                        adb.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                try {
 //                                        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + Utilities.PACKAGE_NAME)));
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
-                                            } catch (
-                                                    android.content.ActivityNotFoundException anfe) {
-                                                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
+                                                } catch (
+                                                        android.content.ActivityNotFoundException anfe) {
+                                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(rcResponse.getAndroidPackageName())));
+                                                }
                                             }
-                                        }
-                                    });
-                                    adb.setCancelable(false);
-                                    AlertDialog alert = adb.create();
-                                    alert.show();
+                                        });
+                                        adb.setCancelable(false);
+                                        AlertDialog alert = adb.create();
+                                        alert.show();
+                                    }
+
                                 }
 
                             } catch (PackageManager.NameNotFoundException e) {
@@ -1151,7 +1156,7 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
 
                 mAddressOutput = resultData.getString(Utilities.RESULT_DATA_KEY);
 
-                if (!mAddressOutput.equals(getString(R.string.service_not_available)) && !mAddressOutput.equals(""))
+                if (mAddressOutput !=null && !mAddressOutput.equals("Service not available") && !mAddressOutput.equals(""))
                     locationAddress = mAddressOutput;
                 else {
                     try {

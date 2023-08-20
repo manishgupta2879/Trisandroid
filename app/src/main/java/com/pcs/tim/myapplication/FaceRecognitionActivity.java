@@ -3,8 +3,6 @@ package com.pcs.tim.myapplication;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,19 +14,9 @@ import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -44,12 +32,20 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.FileProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
-import com.google.gson.Gson;
 
-import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -339,7 +335,9 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                             inputMyRc.setError("MyRC No. cannot be empty.");
                             inputMyRc.requestFocus();
                         } else
-                            new FaceRecognition().execute();
+                            Log.d("cameraCheck__", "onClick: 1");
+
+                        new FaceRecognition().execute();
                     }
                     if (rbUnid.isChecked()) {
                         inputType = "UNHCR";
@@ -348,12 +346,15 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                             inputUnId.setError("MyRC No. cannot be empty.");
                             inputUnId.requestFocus();
                         } else
-                            new FaceRecognition().execute();
+                            Log.d("cameraCheck__", "onClick: 2");
+
+                        new FaceRecognition().execute();
                     }
                     if (rbVsMany.isChecked()) {
 //                        country = countrySpinner.getSelectedItem().toString();
                         gender = genderSpinner.getSelectedItem().toString();
                         getYearOfBirth();
+                        Log.d("cameraCheck__", "onClick: 3");
                         new FaceRecognitionVsMany().execute();
 //                        if (!inputYear.getText().toString().equals("")) {
 //                            yearOfBirth = inputYear.getText().toString();

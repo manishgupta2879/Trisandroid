@@ -12,41 +12,34 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Process;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
 import android.os.Bundle;
+import android.os.Process;
 import android.provider.Settings;
-import android.service.autofill.Dataset;
 import android.text.SpannableString;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
-import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
-import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.zxing.Result;
+import com.pcs.tim.myapplication.new_activities.FaceRegisterActivity;
 import com.pcs.tim.myapplication.new_activities.HomeActivity;
-import com.pcs.tim.myapplication.new_added_classes.AsteriskPasswordTransformationMethod;
 
 import org.json.JSONObject;
 
@@ -112,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         icPass = findViewById(R.id.ic_pass);
 
-        firebaseRemoteConfig.setDefaults(R.xml.remote_config);
+        firebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config);
 
 
         firebaseRemoteConfig.fetch(0)
@@ -124,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
-                            firebaseRemoteConfig.activateFetched();
+                            firebaseRemoteConfig.fetchAndActivate();
                             rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
                             Log.d("RemoteConfig", firebaseRemoteConfig.getString("common_config"));
 
@@ -752,7 +745,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                                         new String[]{Manifest.permission.INTERNET},
                                         1);
                             }
-                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), FaceRegisterActivity.class);
                             startActivity(intent);
                             finish();
                         } else if (status.equalsIgnoreCase(("W"))) {

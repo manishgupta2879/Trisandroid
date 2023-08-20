@@ -188,7 +188,7 @@ public class NFCActivity extends AppCompatActivity {
 
                 }
                 mPendingIntent = PendingIntent.getActivity(this, 0,
-                        new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+                        new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE);
 
                 IntentFilter ndef = new IntentFilter(NfcAdapter.ACTION_TECH_DISCOVERED);
 
@@ -253,6 +253,7 @@ public class NFCActivity extends AppCompatActivity {
          *
          * In our case this method gets called, when the user attaches a Tag to the device.
          */
+        super.onNewIntent(intent);
         setIntent(intent);
         handleIntent(intent);
         //new RetrieveRefugeeData().execute(Utilities.RETRIEVE_REFUGEE_DATA_BY_NFC_URL);

@@ -14,15 +14,10 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
 import android.os.ResultReceiver;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -33,6 +28,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -48,8 +47,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
-import me.dm7.barcodescanner.zxing.ZXingScannerView;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -71,6 +68,8 @@ import java.net.URL;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
 
 public class MyRCVerification extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
@@ -171,7 +170,7 @@ public class MyRCVerification extends AppCompatActivity implements GoogleApiClie
         EditText editQuery = (EditText)findViewById(R.id.edit_query);
         Button btnLogout = (Button) findViewById(R.id.buttonLogout);
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-        firebaseRemoteConfig.setDefaults(R.xml.remote_config);
+        firebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config);
 
 
         firebaseRemoteConfig.fetch(0)
@@ -183,7 +182,7 @@ public class MyRCVerification extends AppCompatActivity implements GoogleApiClie
 
                             // After config data is successfully fetched, it must be activated before newly fetched
                             // values are returned.
-                            firebaseRemoteConfig.activateFetched();
+                            firebaseRemoteConfig.fetchAndActivate();
                             rcResponse = new Gson().fromJson(firebaseRemoteConfig.getString("common_config"), RemoteConfigResponse.class);
                             Log.d("RemoteConfig",firebaseRemoteConfig.getString("common_config"));
 

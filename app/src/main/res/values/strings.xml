@@ -23,6 +23,7 @@
     <string name="view_vaccine">COVID-19 Vaccination</string>
     <string name="scan_qr_code">QR Scan</string>
     <string name="scan_nfc">NFC</string>
+    <string name="get_started">Get Started</string>
     <string name="search_refugee">Search Refugee</string>
     <string name="scan_face">Face Recognition</string>
     <string name="search">Search</string>

@@ -1,24 +1,31 @@
 package com.pcs.tim.myapplication.new_activities;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.pcs.tim.myapplication.DataService;
-import com.pcs.tim.myapplication.MainActivity;
 import com.pcs.tim.myapplication.R;
 import com.pcs.tim.myapplication.Utilities;
 import com.pcs.tim.myapplication.new_fragments.MoreFragment;
@@ -35,6 +42,11 @@ public class HomeActivity extends AppCompatActivity {
     final Fragment moreFragment = new MoreFragment();
     String token;
 
+    String[] permission = new String[]{
+            Manifest.permission.POST_NOTIFICATIONS
+    };
+
+    boolean permission_post_notification = false;
     final Fragment searchMenuFragment = new SearchMenuFragment();
     final FragmentManager fm = getSupportFragmentManager();
     Fragment active = rcFragment;
@@ -51,13 +63,23 @@ public class HomeActivity extends AppCompatActivity {
         myToolbar.setVisibility(View.GONE);
 
 
-
         setSupportActionBar(myToolbar);
         sharePref = getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
         Log.d("dddddddd", "onCreate: homeActivity");
 
         token = FirebaseInstanceId.getInstance().getToken();
 
+        if(token!=null){
+            Log.d("fcmtoken__1", "onCreate: "+token);
+        }else {
+            Log.d("fcmtoken__1", "onCreate: cant get token");
+        }
+
+        if (!permission_post_notification) {
+            requestPermissionsNotification();
+        } else {
+
+        }
 
         new sendFcmToken().execute(Utilities.LOGIN);
 
@@ -69,7 +91,6 @@ public class HomeActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_container, rcFragment)
                 .commit();
-
 
 
         bottomNavigationView.setOnNavigationItemSelectedListener(
@@ -125,6 +146,42 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    public void requestPermissionsNotification() {
+        if (ContextCompat.checkSelfPermission(HomeActivity.this, permission[0]) == PackageManager.PERMISSION_GRANTED) {
+
+            permission_post_notification = true;
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+
+                } else {
+
+                }
+                requestPermissionLauncherNotification.launch(permission[0]);
+            }
+        }
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncherNotification =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if(isGranted){
+            permission_post_notification=true;
+        }else{
+            permission_post_notification=false;
+            showPermissionDialog("Notification Permission");
+        }
+    });
+
+    private void showPermissionDialog(String notification_permission) {
+
+        Intent rIntent=new Intent();
+        rIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri=Uri.fromParts("package",getPackageName(),null);
+        rIntent.setData(uri);
+        startActivity(rIntent);
+
+    }
+
     private class sendFcmToken extends AsyncTask<String, Void, String> {
         ProgressDialog asyncDialog = new ProgressDialog(HomeActivity.this);
         boolean successFlag = false;
@@ -168,6 +225,7 @@ public class HomeActivity extends AppCompatActivity {
             }
 
         }
+
 
         @Override
         protected void onPostExecute(String s) {
