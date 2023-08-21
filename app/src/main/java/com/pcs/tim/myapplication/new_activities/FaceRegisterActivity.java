@@ -1,5 +1,6 @@
 package com.pcs.tim.myapplication.new_activities;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.vision.Frame;
@@ -82,10 +84,14 @@ public class FaceRegisterActivity extends AppCompatActivity {
             permission = true;
 
 
+
+
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(permission) {
+                if(ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.CAMERA)
+                        == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        == PackageManager.PERMISSION_GRANTED) {
 
                     Log.d("cameraCheck__", "onClick: permission granted");
                     selectImage();
@@ -115,12 +121,14 @@ public class FaceRegisterActivity extends AppCompatActivity {
 
                 if (items[item].equals("Take Photo")) {
                     userChoosenTask = "Take Photo";
-                    if (permission)
+                    if (ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.CAMERA)
+                            == PackageManager.PERMISSION_GRANTED)
                         cameraIntent();
 
                 } else if (items[item].equals("Choose from Library")) {
                     userChoosenTask = "Choose from Library";
-                    if (permission)
+                    if (ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                            == PackageManager.PERMISSION_GRANTED)
                         galleryIntent();
 
                 } else if (items[item].equals("Cancel")) {
@@ -200,8 +208,10 @@ public class FaceRegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
+                Log.d("imageData__", "onActivityResult: " + data);
                 onSelectFromGalleryResult(data);
+            }
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
@@ -331,7 +341,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
                     bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                     Uri selectedImageURI = data.getData();
                     mImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
-
+                    Log.d("imageData__", "onSelectFromGalleryResult: "+mImagePath);
                     ContentResolver cr = getContentResolver();
                     cr.notifyChange(selectedImageURI, null);
 
@@ -452,7 +462,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
                 if(mImagePath.isEmpty()){
                     return "no mImagePath";
                 }
-                String result = DataService.UploadFileWithBase64String("2",mImagePath);
+                String result = DataService.UploadFileWithBase64String("9",mImagePath);
                 Log.d("yyy",result);
                 if (result != null && result != "ERROR") {
                     JSONObject jsonObject = new JSONObject(result);
@@ -506,7 +516,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
             try {
 
                 asyncDialog.dismiss();
-                Log.d("xxx",result);
+                Log.d("xxx___",result);
                 if (result != null && result != "ERROR") {
 
                     JSONArray jsonArray = new JSONArray(result);
@@ -559,7 +569,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
 
 
                 //Log.i("Image Path", mImagePath);
-                String result = DataService.UploadFileWithBase64String("2",mImagePath);
+                String result = DataService.UploadFileWithBase64String("9",mImagePath);
                 if (result != null && result != "ERROR") {
                     JSONObject jsonObject = new JSONObject(result);
                     if(jsonObject.getString("success").equalsIgnoreCase("true")){

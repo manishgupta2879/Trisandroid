@@ -85,7 +85,7 @@ public class EditProfileActivity extends AppCompatActivity {
     String password, confirmPassword, status;
     String changedPhoto = "";
     String photoPath = "";
-    String imagePath;
+    String imagePath,newImagePath;
     String userChoosenTask;
     boolean cameraPermission = false;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
@@ -374,8 +374,10 @@ public class EditProfileActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == SELECT_FILE)
+            if (requestCode == SELECT_FILE) {
+                Log.d("imageData__", "onActivityResult: " + data);
                 onSelectFromGalleryResult(data);
+            }
             else if (requestCode == REQUEST_CAMERA)
                 onCaptureImageResult(data);
         }
@@ -427,7 +429,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
 
-    @SuppressWarnings("deprecation")
+
     private void onSelectFromGalleryResult(Intent data) {
 
         Bitmap bm = null;
@@ -451,6 +453,10 @@ public class EditProfileActivity extends AppCompatActivity {
                         System.currentTimeMillis() + ".jpg");
 
                 imagePath = destination.getAbsolutePath();
+
+                newImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
+
+                Log.d("NewImagePath__", "onSelectFromGalleryResult: "+mImagePath);
                 Log.i("imagePath on device", imagePath);
                 FileOutputStream fo;
                 try {
@@ -616,8 +622,8 @@ public class EditProfileActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                Log.d("imagePathEdit", imagePath);
-                String result = DataService.UploadFileWithBase64String("9", imagePath);
+                Log.d("imagePathEdit__", newImagePath);
+                String result = DataService.UploadFileWithBase64String("9", newImagePath);
                 if (result != null && result != "ERROR") {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {

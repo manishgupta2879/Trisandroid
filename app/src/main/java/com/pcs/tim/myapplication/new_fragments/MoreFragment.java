@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -18,6 +19,8 @@ import android.widget.RelativeLayout;
 import com.pcs.tim.myapplication.MainActivity;
 import com.pcs.tim.myapplication.R;
 import com.pcs.tim.myapplication.Utilities;
+import com.pcs.tim.myapplication.new_activities.ContactUsActivity;
+import com.pcs.tim.myapplication.new_activities.HomeActivity;
 
 
 public class MoreFragment extends Fragment {
@@ -29,6 +32,7 @@ public class MoreFragment extends Fragment {
 
 RelativeLayout btnLogout;
 
+CardView crdContactUs;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +41,7 @@ RelativeLayout btnLogout;
         View view= inflater.inflate(R.layout.fragment_more, container, false);
 
         btnLogout=view.findViewById(R.id.btnLogoutLay);
+        crdContactUs=view.findViewById(R.id.crdContactUs);
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +58,16 @@ RelativeLayout btnLogout;
                         dialog.dismiss();
                     } });
                 adb.show();
+            }
+        });
+
+        crdContactUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ContactUsActivity.class);
+
+                startActivity(intent);
+
             }
         });
 

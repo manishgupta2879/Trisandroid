@@ -10,6 +10,8 @@
 
     tools:context="com.pcs.tim.myapplication.VerificationResultActivity">
 
+
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/verification_toolbar"
         android:layout_width="match_parent"
@@ -20,7 +22,10 @@
         android:textAlignment="center"
         android:focusableInTouchMode="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark"
-
+        app:layout_constraintBottom_toTopOf="@+id/main_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" >
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,14 +37,11 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:layout_weight="1"
                 android:layout_marginRight="50dp"
                 android:layout_gravity="center"
                 android:fontFamily="@font/sofia_pro"
                 android:textAlignment="center"
                 android:text="Search Refugee"/>
-
-
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

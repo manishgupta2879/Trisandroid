@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Debug;
 import android.os.Process;
@@ -14,6 +15,8 @@ import android.os.Process;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,6 +40,7 @@ import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -73,6 +77,9 @@ public class VerificationResultActivity extends AppCompatActivity {
     private Button buttonViewVaccine;
     private TextView textViewState;
     private TextView textViewMobile;
+    private LinearLayout approvalLay;
+    private TextView approvalText;
+    private ImageView icApproval;
     private TextView textViewComapnyName;
     private TextView textViewEmployerName;
     private TextView textViewEmployerContact;
@@ -84,7 +91,7 @@ public class VerificationResultActivity extends AppCompatActivity {
     private TextView textViewCurrentPay;
     private TextView textViewApprovalStatus;
     private TextView textViewCardValid;
-    private TextView textViewCardPending;
+   // private TextView textViewCardPending;
     private TextInputEditText textViewUNCaseNo, textViewRefugeeGroup, textViewMarital, textViewBirthPlace, textViewFamilySize, textViewPassport,
             textViewEmergencyPerson, textViewEmergencyContact, textViewComRegNo, textViewApproveDate;
 
@@ -106,6 +113,10 @@ public class VerificationResultActivity extends AppCompatActivity {
     private float lng = 0;
     String locationAddress = "No GPS";
     SharedPreferences sharedPreferences;
+    ImageView icPersonal,icCardStatus,icEmployer;
+    LinearLayout personalLay,cardStatusLay,employerLay;
+
+    boolean personalFlag=true,cardFlag=true,employerFlag=true;
     boolean offlineMode;
     boolean addRemark;
     boolean showButtonPLKS = false;
@@ -117,6 +128,23 @@ public class VerificationResultActivity extends AppCompatActivity {
 
         setTitle(getText(R.string.title));
         final Intent intent = getIntent();
+
+
+
+        Toolbar toolbar =findViewById(R.id.verification_toolbar);
+        //   toolbar.setVisibility(View.VISIBLE);// Assuming you have a Toolbar in your layout
+        if (toolbar != null) {
+            Log.d("toolbar__", "onCreate: Print");
+
+            toolbar.setNavigationIcon(R.drawable.ic_back); // Set your back button icon
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Handle back button click here (e.g., pop the Fragment from the back stack)
+                    onBackPressed();
+                }
+            });
+        }
 
         offlineMode = intent.getBooleanExtra("offline", false);
         addRemark = intent.getBooleanExtra("addRemark", true);
@@ -133,20 +161,8 @@ public class VerificationResultActivity extends AppCompatActivity {
             for (int j = 0, k = 16; j < 8;) {
                 keyBytes[k++] = keyBytes[j++];
             }
+            Log.d("toolbar__", "onCreate: abc");
 
-            Toolbar toolbar =findViewById(R.id.verification_toolbar);
-            //   toolbar.setVisibility(View.VISIBLE);// Assuming you have a Toolbar in your layout
-            if (toolbar != null) {
-
-                toolbar.setNavigationIcon(R.drawable.ic_back); // Set your back button icon
-                toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Handle back button click here (e.g., pop the Fragment from the back stack)
-                        onBackPressed();
-                    }
-                });
-            }
 
             try {
 
@@ -187,8 +203,19 @@ public class VerificationResultActivity extends AppCompatActivity {
         }
         sharedPreferences = getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
 
+        icApproval=findViewById(R.id.ic_approval);
+        approvalText=findViewById(R.id.ic_approval_text);
+        approvalLay=findViewById(R.id.approval_lay);
+
+        icPersonal=findViewById(R.id.ic_personal);
+        icCardStatus=findViewById(R.id.ic_card_status);
+        icEmployer=findViewById(R.id.ic_employer);
+
+        cardStatusLay=findViewById(R.id.cardStatusLay);
+        employerLay=findViewById(R.id.employerLay);
+        personalLay=findViewById(R.id.personalLay);
         textViewExpired = (TextView)findViewById(R.id.textViewCardExpired);
-        textViewCardPending = (TextView)findViewById(R.id.textViewCardPending);
+       // textViewCardPending = (TextView)findViewById(R.id.textViewCardPending);
         textViewCardValid = (TextView)findViewById(R.id.textViewCardValid);
         textViewNotFound = (TextView)findViewById(R.id.textViewNotFound);
         textViewMyRC = (TextView)findViewById(R.id.textViewMyrc);
@@ -230,6 +257,60 @@ public class VerificationResultActivity extends AppCompatActivity {
         textViewEmergencyContact = findViewById(R.id.textViewEmergencyContact);
         textViewComRegNo =findViewById(R.id.textViewCompanyRegNo);
         textViewApproveDate = findViewById(R.id.textViewDateApprove);
+
+
+        icPersonal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (personalFlag) {
+
+                    icPersonal.setImageResource(R.drawable.ic_expand);
+                    personalLay.setVisibility(View.GONE);
+                    personalFlag =false;
+
+                } else {
+                    icPersonal.setImageResource(R.drawable.ic_collapse);
+                    personalLay.setVisibility(View.VISIBLE);
+                    personalFlag =true;
+                }
+            }
+        });
+
+
+        icEmployer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (employerFlag) {
+
+                    icEmployer.setImageResource(R.drawable.ic_expand);
+                    employerLay.setVisibility(View.GONE);
+                    employerFlag =false;
+
+                } else {
+                    icEmployer.setImageResource(R.drawable.ic_collapse);
+                    employerLay.setVisibility(View.VISIBLE);
+                    employerFlag =true;
+                }
+            }
+        });
+
+
+        icCardStatus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cardFlag) {
+
+                    icCardStatus.setImageResource(R.drawable.ic_expand);
+                    cardStatusLay.setVisibility(View.GONE);
+                    cardFlag =false;
+
+                } else {
+                    icCardStatus.setImageResource(R.drawable.ic_collapse);
+                    cardStatusLay.setVisibility(View.VISIBLE);
+                    cardFlag =true;
+                }
+            }
+        });
 
         if(!addRemark)
             buttonAddRemark.setEnabled(false);
@@ -510,9 +591,13 @@ public class VerificationResultActivity extends AppCompatActivity {
                         textViewNotFound.setVisibility(View.GONE);
                         buttonAddRemark.setVisibility(View.VISIBLE);
 
+                    try {
                         JSONObject jsonObject = new JSONObject(result);
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
 
-                        ViewDetailsResponse respViewDetail = new Gson().fromJson(result, ViewDetailsResponse.class);
+                    ViewDetailsResponse respViewDetail = new Gson().fromJson(result, ViewDetailsResponse.class);
                         PartialViewProfile respProfile = respViewDetail.getProfile();
                         PartialViewEmployer respEmployer = respViewDetail.getEmployer();
                         PartialViewCardStatus respCard = respViewDetail.getCardStatus();
@@ -534,8 +619,13 @@ public class VerificationResultActivity extends AppCompatActivity {
                         category = respProfile.getCategory();
                         unhcr = respProfile.getUnhcrId();
                         dob = respProfile.getDob();
-                        Date dobDate = new SimpleDateFormat("dd/MM/yyyy").parse(dob);
-                        dob = new SimpleDateFormat("dd-MM-yyyy").format(dobDate);
+                    Date dobDate = null;
+                    try {
+                        dobDate = new SimpleDateFormat("dd/MM/yyyy").parse(dob);
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                    dob = new SimpleDateFormat("dd-MM-yyyy").format(dobDate);
                         gender = respProfile.getGender();
                         address = respProfile.getAddress();
                         country = respProfile.getCountryOfOrigin();
@@ -543,12 +633,22 @@ public class VerificationResultActivity extends AppCompatActivity {
                         ethnicGroup = respProfile.getEthnicGroup();
                         issueDate = respCard.getRegisterDate();
                         if(issueDate!=null && !issueDate.equals("null")) {
-                            Date date1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(issueDate);
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(issueDate);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
                             issueDate = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss a").format(date1);
                         }
                         expiredDate = respCard.getCardExpiredDate();
                         if(expiredDate!=null && !expiredDate.equals("null")) {
-                            Date date1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(expiredDate);
+                            Date date1 = null;
+                            try {
+                                date1 = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss").parse(expiredDate);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
                             expiredDate = new SimpleDateFormat("dd-MM-yyyy").format(date1);
                         }
                         employerName = respEmployer.getEmpContactName();
@@ -592,8 +692,13 @@ public class VerificationResultActivity extends AppCompatActivity {
                         if(!expiredDate.isEmpty() && !expiredDate.equals("null"))
                             textViewDateExpiry.setText(expiredDate);
                         textViewAddress.setText(address);
-                        textViewGender.setText(gender);
-                        textViewDob.setText(dob);
+
+
+                        String dobGender =gender+"   "+dob;
+                        Log.d("approvalStatus__", "onPostExecute: "+approvalStatus);
+
+                        textViewGender.setText(dobGender);
+                     //   textViewDob.setText(dob);
                         textViewCountry.setText(country);
                         textViewUnhcr.setText(unhcr);
                         textViewReligion.setText(religion);
@@ -612,9 +717,13 @@ public class VerificationResultActivity extends AppCompatActivity {
                         if (currentPay != 0)
                             textViewCurrentPay.setText("RM " + (String.format("%.2f", currentPay)));
 
+
+
+
                         if (approvalStatus != null && !approvalStatus.isEmpty()) {
                             switch (approvalStatus) {
                                 case "REJECTED":
+                                    approvalText.setText(respCard.getCardStatus());
                                     approvalStatus = "REJECTED";
                                     textViewExpired.setText(approvalStatus);
                                     textViewExpired.setVisibility(View.VISIBLE);
@@ -623,11 +732,18 @@ public class VerificationResultActivity extends AppCompatActivity {
                                     approvalStatus = "EXPIRED";
                                     textViewExpired.setText(approvalStatus);
                                     textViewExpired.setVisibility(View.VISIBLE);
+                                    approvalText.setText(respCard.getCardStatus());
                                     break;
                                 case "APPROVED":
                                     approvalStatus = "APPROVED";
+                                    approvalText.setText(respCard.getCardStatus());
                                     if (expiredDate != null && !expiredDate.isEmpty() && !expiredDate.equals("null")) {
-                                        Date dateExpired = new SimpleDateFormat("dd-MM-yyyy").parse(expiredDate);
+                                        Date dateExpired = null;
+                                        try {
+                                            dateExpired = new SimpleDateFormat("dd-MM-yyyy").parse(expiredDate);
+                                        } catch (ParseException e) {
+                                            throw new RuntimeException(e);
+                                        }
                                         Calendar expiredDateCal = Calendar.getInstance();
                                         expiredDateCal.setTime(dateExpired);
                                         Calendar cal = Calendar.getInstance();
@@ -639,18 +755,27 @@ public class VerificationResultActivity extends AppCompatActivity {
                                         } else
                                             textViewCardValid.setVisibility(View.VISIBLE);
                                     } else {
+                                        approvalText.setText(respCard.getCardStatus());
                                         textViewCardValid.setText("APPROVED");
                                         textViewCardValid.setVisibility(View.VISIBLE);
                                     }
                                     break;
                                 default:
                                     approvalStatus = "PENDING";
-                                    textViewCardPending.setVisibility(View.VISIBLE);
+
+                                    approvalLay.setBackgroundColor(Color.parseColor("#F8C76F"));
+
+
+                                    approvalText.setText(respCard.getCardStatus());
+                                    Drawable drawable = ContextCompat.getDrawable(VerificationResultActivity.this, R.drawable.new_ic_pending);
+
+                                    icApproval.setImageDrawable(drawable);
+                                    //textViewCardPending.setVisibility(View.VISIBLE);
                                     break;
                             }
                         } else {
                             approvalStatus = "PENDING";
-                            textViewCardPending.setVisibility(View.VISIBLE);
+                           // textViewCardPending.setVisibility(View.VISIBLE);
                         }
                         textViewApprovalStatus.setText(approvalStatus);
                         textViewUNCaseNo.setText(unhcrCaseNo);
@@ -663,6 +788,9 @@ public class VerificationResultActivity extends AppCompatActivity {
                         textViewEmergencyContact.setText(emergencyContact);
                         textViewComRegNo.setText(companyRegNo);
                     } catch (Exception e) {
+
+
+                        Log.d("error__vr", "onPostExecute: "+e.getMessage());
                         e.printStackTrace();
                     }
                 } else {
@@ -953,12 +1081,12 @@ public class VerificationResultActivity extends AppCompatActivity {
                                 break;
                             default:
                                 approvalStatus = "Pending";
-                                textViewCardPending.setVisibility(View.VISIBLE);
+                                //textViewCardPending.setVisibility(View.VISIBLE);
                                 break;
                         }
                     } else {
                         approvalStatus = "Pending";
-                        textViewCardPending.setVisibility(View.VISIBLE);
+                        //textViewCardPending.setVisibility(View.VISIBLE);
                     }
                     textViewApprovalStatus.setText(approvalStatus);
                     textViewUNCaseNo.setText(unhcrCaseNo);

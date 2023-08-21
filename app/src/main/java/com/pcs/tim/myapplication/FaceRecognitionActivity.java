@@ -86,7 +86,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
     File photoFile;
     Bitmap croppedImage;
     ArrayList<Bitmap> croppedImgList;
-    RecyclerView croppedImgListView;
+   // RecyclerView croppedImgListView;
     ArrayList<String> imagePathList;
     ImageListAdapter imageListAdapter;
 
@@ -127,7 +127,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
         rbUnid = (RadioButton)findViewById(R.id.rbUnId);
         rbVsMany = (RadioButton)findViewById(R.id.rbVsMany);
         buttonVerify = (Button)findViewById(R.id.buttonVerify);
-        croppedImgListView = (RecyclerView) findViewById(R.id.croppedImageListView);
+        //croppedImgListView = (RecyclerView) findViewById(R.id.croppedImageListView);
 
 
 
@@ -148,7 +148,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
             });
         }
 
-        croppedImgListView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), croppedImgListView ,new RecyclerItemClickListener.OnItemClickListener() {
+       /* croppedImgListView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), croppedImgListView ,new RecyclerItemClickListener.OnItemClickListener() {
             @Override public void onItemClick(View view, int position) {
                 //Toast.makeText(getApplicationContext(), "position:" + Integer.toString(position) + "child count:" + Integer.toString(croppedImgListView.getAdapter().getItemCount()),Toast.LENGTH_LONG).show();
 
@@ -173,7 +173,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
         );
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false);
         croppedImgListView.setLayoutManager(mLayoutManager);
-        croppedImgListView.setItemAnimator(new DefaultItemAnimator());
+        croppedImgListView.setItemAnimator(new DefaultItemAnimator());*/
 
         rbVsMany.setChecked(true);
 //        yearLayout.setVisibility(View.VISIBLE);
@@ -505,7 +505,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                 Log.d("xxx",String.valueOf(croppedImgList.size()));
 
                 imageListAdapter = new ImageListAdapter(croppedImgList, null);
-                croppedImgListView.setAdapter(imageListAdapter);
+                //croppedImgListView.setAdapter(imageListAdapter);
 //                imageListAdapter.notifyDataSetChanged();
 
                 imageViewPhoto.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
@@ -539,9 +539,9 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                     }
                 }
                 mImagePath = imagePathList.get(0);
-                if(croppedImgListView.findViewHolderForAdapterPosition(0)!=null){
+              /*  if(croppedImgListView.findViewHolderForAdapterPosition(0)!=null){
                     croppedImgListView.findViewHolderForAdapterPosition(0).itemView.setBackgroundColor(Color.rgb(50,205,50));
-                }
+                }*/
             }else {
                 Toast.makeText(getApplicationContext(), "No face detected, please use another photo.", Toast.LENGTH_LONG).show();
                 return;
@@ -666,7 +666,7 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                         }
                         //imageListAdapter.notifyDataSetChanged();
                         imageListAdapter = new ImageListAdapter(croppedImgList, null);
-                        croppedImgListView.setAdapter(imageListAdapter);
+                        //croppedImgListView.setAdapter(imageListAdapter);
                         imageViewPhoto.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
 
                     }
@@ -696,9 +696,9 @@ public class FaceRecognitionActivity extends AppCompatActivity {
                             }
                         }
                         mImagePath = imagePathList.get(0);
-                        if (croppedImgListView.findViewHolderForAdapterPosition(0) != null) {
+                      /*  if (croppedImgListView.findViewHolderForAdapterPosition(0) != null) {
                             croppedImgListView.findViewHolderForAdapterPosition(0).itemView.setBackgroundColor(Color.rgb(50, 205, 50));
-                        }
+                        }*/
                     } else {
                         Toast.makeText(getApplicationContext(), "No face detected, please use another photo.", Toast.LENGTH_LONG).show();
                         return;

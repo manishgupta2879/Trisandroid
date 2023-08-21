@@ -23,9 +23,10 @@
             android:elevation="0dp"
             >
             <ImageView
+                android:id="@+id/imageViewRefugee"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="fitCenter"
+                android:scaleType="centerCrop"
                 android:src="@mipmap/ic_tris_logo"/>
 
         </androidx.cardview.widget.CardView>

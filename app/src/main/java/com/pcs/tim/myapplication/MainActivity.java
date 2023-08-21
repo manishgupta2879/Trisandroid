@@ -27,9 +27,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -69,9 +72,10 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     private FirebaseRemoteConfig firebaseRemoteConfig;
     public RemoteConfigResponse rcResponse;
     String token;
-   /* String[] permissions=new String[]{
+    String[] permission=new String[]{
             Manifest.permission.POST_NOTIFICATIONS
-    };*/
+    };
+
 
     boolean permission_post_notification=false;
     ImageView icPass;
@@ -101,6 +105,13 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
 
         // You can now use the 'token' as needed, such as sending it to your server.
         //   Log.d("FCM Token", token);
+
+
+        if (!permission_post_notification) {
+            requestPermissionsNotification();
+        } else {
+
+        }
 
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         icPass = findViewById(R.id.ic_pass);
@@ -269,6 +280,42 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     }
 
 
+    public void requestPermissionsNotification() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, permission[0]) == PackageManager.PERMISSION_GRANTED) {
+
+            permission_post_notification = true;
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)) {
+
+                } else {
+
+                }
+                requestPermissionLauncherNotification.launch(permission[0]);
+            }
+        }
+    }
+
+    private ActivityResultLauncher<String> requestPermissionLauncherNotification =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if(isGranted){
+                    permission_post_notification=true;
+                }else{
+                    permission_post_notification=false;
+                    showPermissionDialog("Notification Permission");
+                }
+            });
+
+    private void showPermissionDialog(String notification_permission) {
+
+        Intent rIntent=new Intent();
+        rIntent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri=Uri.fromParts("package",getPackageName(),null);
+        rIntent.setData(uri);
+        startActivity(rIntent);
+
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -385,32 +432,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
             });*/
 
 
-    public  void showPermissionDialog(String permission_desc){
-        new androidx.appcompat.app.AlertDialog.Builder(
-                MainActivity.this
-        ).setTitle("allert For Permission")
-                .setPositiveButton("Setting", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                        Intent intent=new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri=Uri.fromParts("package",getPackageName(),null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        dialogInterface.dismiss();
-
-                    }
-                })
-                .setNegativeButton("Exit", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
-
-                .show();
-    }
 
     //@TargetApi(23)
     private void login() {
@@ -745,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                                         new String[]{Manifest.permission.INTERNET},
                                         1);
                             }
-                            Intent intent = new Intent(getApplicationContext(), FaceRegisterActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                             startActivity(intent);
                             finish();
                         } else if (status.equalsIgnoreCase(("W"))) {
