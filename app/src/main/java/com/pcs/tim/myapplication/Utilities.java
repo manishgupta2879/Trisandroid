@@ -362,7 +362,9 @@ public class Utilities {
 
             conn.connect();
 
-            int responseCode = conn.getResponseCode(); //unable to get response -- timeout
+            int responseCode = conn.getResponseCode();//unable to get response -- timeout
+
+            Log.d("photo__1", "sendPostRequest: "+conn.getResponseMessage());
             String line;
 
             if (responseCode == HttpsURLConnection.HTTP_OK) {

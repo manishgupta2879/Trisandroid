@@ -137,6 +137,7 @@ public class MyProfileFragment extends Fragment {
             try {
                 if (result.equals("OK")) {
                     if(enforcementPhoto != null)
+
                         enforcementPhotoView.setImageBitmap(enforcementPhoto);
                 }
 

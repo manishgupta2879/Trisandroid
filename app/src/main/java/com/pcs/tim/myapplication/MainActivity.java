@@ -767,7 +767,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                                         new String[]{Manifest.permission.INTERNET},
                                         1);
                             }
-                            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), FaceRegisterActivity.class);
                             startActivity(intent);
                             finish();
                         } else if (status.equalsIgnoreCase(("W"))) {

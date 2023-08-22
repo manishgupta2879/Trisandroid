@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -34,6 +35,7 @@ import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.pcs.tim.myapplication.BuildConfig;
 import com.pcs.tim.myapplication.DataService;
+import com.pcs.tim.myapplication.Face1vManyResultActivity;
 import com.pcs.tim.myapplication.R;
 import com.pcs.tim.myapplication.Refugee;
 import com.pcs.tim.myapplication.Utilities;
@@ -54,6 +56,8 @@ public class FaceRegisterActivity extends AppCompatActivity {
     Button buttonStart;
 
     String mImagePath;
+    SharedPreferences sharedPreferences;
+
     boolean permission = false;
     File photoFile;
     Uri photoURI;
@@ -85,6 +89,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
 
 
 
+        sharedPreferences = getSharedPreferences(Utilities.MY_RC_SHARE_PREF, MODE_PRIVATE);
 
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -468,10 +473,9 @@ public class FaceRegisterActivity extends AppCompatActivity {
                     JSONObject jsonObject = new JSONObject(result);
                     if(jsonObject.getString("success").equalsIgnoreCase("true")){
                         String dataImage = jsonObject.getString("data");
-
-
+                        Log.d("photo__", "doInBackground: "+ sharedPreferences.getString(Utilities.LOGIN_POLICE_PHOTO,""));  ;
                         HashMap<String, String> verifyData = new HashMap<>();
-                        verifyData.put("SourceImageURL", dataImage);
+                        verifyData.put("SourceImageURL",dataImage);
 //                verifyData.put("Country", country);
 //                        if(gender.equals("ANY")){
 //                            gender = "";
@@ -482,16 +486,20 @@ public class FaceRegisterActivity extends AppCompatActivity {
 //
 //                        verifyData.put("DobTo",yearOfBirthTo);
 
-                        verifyData.put("MaxResult","5");
+                       // verifyData.put("TargetImageURL","http://211.24.73.117//Upload/9/20230821141830135.JPG");
+                        verifyData.put("TargetImageURL",sharedPreferences.getString(Utilities.LOGIN_POLICE_PHOTO,""));
                         //verifyData.put("YearOfBirth",yearOfBirth);
                         Utilities utilities = new Utilities();
 
-//                        String resultVerifyFace1VMany = Utilities.sendPostRequest("http://" + Utilities.IP_NoPort + "/HIKWS.asmx/CompareFace1vManyTV", verifyData, null, null);
-                        String resultVerifyFace1VMany = Utilities.sendPostRequest("http://" + Utilities.IP_NoPort + "/HIKWS.asmx/CompareFaceAllv2", verifyData, null, null);
+                      String resultVerifyFace1VMany = Utilities.sendPostRequest("http://211.24.73.117/HIKWS.asmx/CompareFace1v1Test", verifyData, null, null);
+                      //  String resultVerifyFace1VMany = Utilities.sendPostRequest("http://" + Utilities.IP_NoPort + "/HIKWS.asmx/CompareFaceAllv2", verifyData, null, null);
+
+                        Log.d("photo__", "doInBackground: "+resultVerifyFace1VMany);
 
                         resultVerifyFace1VMany = resultVerifyFace1VMany.replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
                         resultVerifyFace1VMany = resultVerifyFace1VMany.replace("<string xmlns=\"http://tris.my/webservice\">", "");
                         resultVerifyFace1VMany = resultVerifyFace1VMany.replace("</string>", "");
+                        resultVerifyFace1VMany = resultVerifyFace1VMany.replace("%", "");
 
 
                         return resultVerifyFace1VMany;
@@ -518,27 +526,25 @@ public class FaceRegisterActivity extends AppCompatActivity {
                 asyncDialog.dismiss();
                 Log.d("xxx___",result);
                 if (result != null && result != "ERROR") {
+                    float res= Float.parseFloat(result);
+                    if(res>=99){
 
-                    JSONArray jsonArray = new JSONArray(result);
-                    ArrayList<Refugee> refugeeArrayList = new ArrayList<>();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        refugeeArrayList.add(new Refugee(jsonObject.getString("myrc"), jsonObject.getDouble("similarity")));
 
-                    }
 
-                    // ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    // refugeePhoto.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    //byte[] byteArray = stream.toByteArray();
+
 
                     Toast.makeText(FaceRegisterActivity.this, "Verified Successfully..", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), PoliceVerifiedActivty.class);
                     intent.putExtra("photoPath", mImagePath);
-                    intent.putExtra("refugee_list", refugeeArrayList);
+                    intent.putExtra("policeName",sharedPreferences.getString(Utilities.LOGIN_POLICE_NAME,""));
+                    //intent.putExtra("refugee_list", refugeeArrayList);
 
                     startActivity(intent);
-                    finish();
+                    finish();}
+                    else{
+                        Toast.makeText(getApplicationContext(),"Face reorganization failed.", Toast.LENGTH_LONG).show();
+                    }
                 }
 
 

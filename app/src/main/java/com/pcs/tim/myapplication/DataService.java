@@ -96,8 +96,8 @@ public class DataService {
     public static Boolean RequestToken() throws IOException {
         Log.d("check_api_url1",VERIMYRC_API_URL);
         
-        DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "www.dhillonfarm.com");
-      // DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "211.24.73.117:9000");
+       // DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "www.dhillonfarm.com");
+       DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "211.24.73.117:9000");
         Log.d("check_api_url2",DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL));
         Log.d("check_api_url3",GET_TOKEN);
 
@@ -109,10 +109,10 @@ public class DataService {
         String jsonString = gson.toJson(rtm);
         RequestBody body = RequestBody.create(mediaType,jsonString );
 
-        Log.d("resultss__1", "RequestToken: +https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL) +GET_TOKEN);
+        Log.d("resultss__1", "RequestToken: +http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL) +GET_TOKEN);
 
         Request request = new Request.Builder()
-                .url( ("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_TOKEN)
+                .url( ("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_TOKEN)
                 .method("POST", body)
                 .addHeader("Content-Type", "application/json")
                 .build();
@@ -167,7 +167,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL))+POST_TRACK_LOG)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL))+POST_TRACK_LOG)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -201,7 +201,7 @@ public class DataService {
                 String url = DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL) + "/api/Enforcement/SaveToken?Id=" + policeId + "&type=" + "employee" + "&fcmToken=" + fcmToken;
 
                 Request request = new Request.Builder()
-                        .url("https://"+url)
+                        .url("http://"+url)
                         .method("POST", RequestBody.create(mediaType, ""))
                         .addHeader("Authorization", "Bearer " + accessToken)
                         .build();
@@ -245,9 +245,9 @@ public class DataService {
                 RequestBody body = RequestBody.create(mediaType,jsonString );
 
                 Log.d("body__", "ViewRefugeeDetails: body "+jsonString);
-                Log.d("body__url", "ViewRefugeeDetails: body "+("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_DETAILS);
+                Log.d("body__url", "ViewRefugeeDetails: body "+("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_DETAILS);
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_DETAILS)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_DETAILS)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -285,7 +285,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_VACCINE)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_VACCINE)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -322,7 +322,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_SEARCH_REFUGEE)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +VIEW_SEARCH_REFUGEE)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -352,7 +352,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_API_KEY)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_API_KEY)
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -392,7 +392,7 @@ public class DataService {
                     RequestBody body = RequestBody.create(mediaType,jsonString );
 
                     Request request = new Request.Builder()
-                            .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_APP_VERSION)
+                            .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_APP_VERSION)
                             .method("POST", body)
                             .addHeader("Content-Type", "application/json")
                             .addHeader("Authorization", "Bearer "+accessToken)
@@ -428,7 +428,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_AGENCY)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_AGENCY)
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -459,7 +459,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_DEPARTMENT+value+"/department")
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_DEPARTMENT+value+"/department")
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -490,7 +490,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_STATE_BY_AGENCY+agency+"/state")
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_STATE_BY_AGENCY+agency+"/state")
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -522,7 +522,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_AGENCY_BY_AGENCY_STATE+agency+"/"+state+"/station")
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_AGENCY_BY_AGENCY_STATE+agency+"/"+state+"/station")
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -553,7 +553,7 @@ public class DataService {
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_PLKS+regID)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_PLKS+regID)
                         .method("GET", null)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -582,7 +582,7 @@ public class DataService {
 
 
             Log.d("accesss___", "GetMyRCTrackLog: accessToken "+accessToken+" myRc "+  myrc);
-            Log.d("accesss___", "https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_MYRC_TRACK_LOG+myrc);
+            Log.d("accesss___", "http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_MYRC_TRACK_LOG+myrc);
 
             if(resultToken){
                 OkHttpClient client = new OkHttpClient().newBuilder()
@@ -590,7 +590,7 @@ public class DataService {
                 MediaType mediaType = MediaType.parse("application/json");
                 RequestBody body = RequestBody.create(mediaType, "");
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_MYRC_TRACK_LOG+myrc)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_MYRC_TRACK_LOG+myrc)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -619,16 +619,16 @@ public class DataService {
             Log.d("GetEnforcementTrackLog","1");
             if(resultToken){
                 Log.d("GetEnforcementTrackLog","2");
-                Log.d("GetEnforcementTrackLog","https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_ENFORCEMENT_ID_TRACK_LOG+policeID);
+                Log.d("GetEnforcementTrackLog","http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_ENFORCEMENT_ID_TRACK_LOG+policeID);
                 OkHttpClient client = new OkHttpClient().newBuilder()
                         .build();
                 MediaType mediaType = MediaType.parse("text/plain");
                 RequestBody body = RequestBody.create(mediaType, "");
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
-                        //.url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
-                        // .url("https://n3nwvpweb005.shr.prod.ams3.secureserver.net:8443" +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
-                      //  .url("https://www.dhillonfarm.com/api/tracklog/enforcement/48")
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
+                        //.url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
+                        // .url("http://n3nwvpweb005.shr.prod.ams3.secureserver.net:8443" +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
+                      //  .url("http://www.dhillonfarm.com/api/tracklog/enforcement/48")
                         .method("POST", body)
                         .addHeader("Authorization", "Bearer "+accessToken)
                         .build();
@@ -670,13 +670,13 @@ public class DataService {
                 Gson gson = new Gson();
                 EnforcementLoginModel elm = new EnforcementLoginModel(policeid,password);
                 String jsonString = gson.toJson(elm);
-                Log.d("debugLogin____","abc     "+("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_LOGIN);
+                Log.d("debugLogin____","abc     "+("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_LOGIN);
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Log.d("debugLogin____body","abc     "+jsonString);
                 Log.d("debugLogin____access","abc     "+accessToken);
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_LOGIN)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_LOGIN)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -717,7 +717,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_CHANGE_PASSWORD)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_CHANGE_PASSWORD)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -756,7 +756,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_UPDATE)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_UPDATE)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -794,7 +794,7 @@ public class DataService {
 
                 RequestBody body = RequestBody.create(mediaType,jsonString );
                 Request request = new Request.Builder()
-                        .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_NEW_REGISTER)
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +ENFORCEMENT_NEW_REGISTER)
                         .method("POST", body)
                         .addHeader("Content-Type", "application/json")
                         .addHeader("Authorization", "Bearer "+accessToken)
@@ -845,7 +845,7 @@ public class DataService {
 
                         RequestBody body = RequestBody.create(mediaType,jsonString );
                         Request request = new Request.Builder()
-                                .url(("https://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +UPLOAD_PHOTO)
+                                .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +UPLOAD_PHOTO)
                                 .method("POST", body)
                                 .addHeader("Content-Type", "application/json")
                                 .addHeader("Authorization", "Bearer "+accessToken)
