@@ -51,6 +51,7 @@
     <string name="year_of_birth">Age Group</string>
     <string name="optional">optional</string>
     <string name="verify_photo">Verify Photo</string>
+    <string name="verifying">Verifying&#8230;</string>
     <string name="enter_unid">Enter UNHCR ID Here</string>
     <string name="enter_myrc">Enter MyRC Here</string>
     <string name="enter_query">Search MyRC/Name/UN case/UNID </string>
@@ -169,6 +170,14 @@
     <string name="FormSubmitDateValue"></string>
     <string name="CurrentProgressLabel">Current Progress:</string>
     <string name="CurrentProgressValue">Document Review</string>
+
+
+    <!-- Strings for camera capture -->
+
+    <string name="take_photo">Blink your eyes to capture photo</string>
+    <string name="permission_required">Permission Required</string>
+    <string name="permission_message">You must grant permission to access camera to run this application.</string>
+    <string name="permission_warning">All permissions are required.</string>
 
 
     <string-array name="country_arrays">

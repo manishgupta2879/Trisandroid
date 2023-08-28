@@ -36,7 +36,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.vision.face.FaceDetector;
 import com.google.gson.Gson;
+import com.pcs.tim.myapplication.new_activities.ProfilePicActivity;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
@@ -75,6 +77,7 @@ public class EditProfileActivity extends AppCompatActivity {
     String id;
     String policeId;
     String icNo;
+    String mImagePath;
     String fullName;
     String rank;
     String hpNo;
@@ -383,7 +386,86 @@ public class EditProfileActivity extends AppCompatActivity {
         }
     }
 
+
     private void onCaptureImageResult(Intent data) {
+        //Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+        try {
+
+
+            ContentResolver cr = getContentResolver();
+            cr.notifyChange(photoURI, null);
+            mImagePath = output.getAbsolutePath();
+
+            Bitmap bitmap = Utilities.getImage(cr,photoURI, mImagePath);
+            imageViewPhoto.setImageBitmap(bitmap);
+
+            FaceDetector faceDetector = new
+                    FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
+                    .build();
+            if(faceDetector.isOperational()){
+                //     new android.app.AlertDialog.Builder(getApplicationContext()).setMessage("Could not set up the face detector!").show();
+                File destination = new File(getFilesDir().getAbsolutePath(),
+                        System.currentTimeMillis() + ".jpg");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                FileOutputStream fo;
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                mImagePath = destination.getAbsolutePath();
+                Log.d("xxx",mImagePath);
+
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            /*Bitmap thumbnail;
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            File destination = new File(getFilesDir().getAbsolutePath(),
+                    System.currentTimeMillis() + ".jpg");
+//            File destination = new File(Environment.getExternalStorageDirectory(),
+//                    System.currentTimeMillis() + ".jpg");
+
+            ContentResolver cr = getContentResolver();
+            cr.notifyChange(photoURI, null);
+            mImagePath = output.getAbsolutePath();
+
+            Bitmap bitmap = Utilities.getImage(cr, photoURI, mImagePath);
+            profileImg.setImageBitmap(bitmap);
+
+            //imagePath = destination.getAbsolutePath();
+            FileOutputStream fo;
+            thumbnail = Utilities.compressImage(mImagePath);
+            thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+            imagePath = destination.getAbsolutePath();
+            Log.i("imagePath on device", mImagePath);
+            try {
+                destination.createNewFile();
+                fo = new FileOutputStream(destination);
+                fo.write(bytes.toByteArray());
+                fo.close();
+                isPhotoChanged = true;
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+*/
+            // imageFileLength = destination.length() / 1024;
+            policePhoto = bitmap;
+            new UploadPhoto().execute();
+            //imageViewPhoto.setImageBitmap(thumbnail);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+  /*  private void onCaptureImageResult(Intent data) {
         //Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         try {
             Bitmap thumbnail;
@@ -424,9 +506,10 @@ public class EditProfileActivity extends AppCompatActivity {
             //imageViewPhoto.setImageBitmap(thumbnail);
         } catch (Exception e) {
             e.printStackTrace();
+            Log.d("imagePath on device1", "onCaptureImageResult: "+e.getMessage());
             Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
 
 
@@ -435,7 +518,45 @@ public class EditProfileActivity extends AppCompatActivity {
         Bitmap bm = null;
         if (data != null) {
             try {
+
+
+
                 bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                Uri selectedImageURI = data.getData();
+                mImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
+
+                ContentResolver cr = getContentResolver();
+                cr.notifyChange(selectedImageURI, null);
+
+                Bitmap bitmap = Utilities.getImage(cr, selectedImageURI, mImagePath);
+                imageViewPhoto.setImageBitmap(bitmap);
+
+                FaceDetector faceDetector = new
+                        FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
+                        .build();
+                if (faceDetector.isOperational()) {
+                    //new android.app.AlertDialog.Builder(getApplicationContext()).setMessage("Could not set up the face detector!").show();
+                    File destination = new File(getFilesDir().getAbsolutePath(),
+                            System.currentTimeMillis() + ".jpg");
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    FileOutputStream fo;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    mImagePath = destination.getAbsolutePath();
+
+                    try {
+                        destination.createNewFile();
+                        fo = new FileOutputStream(destination);
+                        fo.write(bytes.toByteArray());
+                        fo.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+              /*  bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                 Uri selectedImageURI = data.getData();
                 String mImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
                 ContentResolver cr = getContentResolver();
@@ -469,13 +590,14 @@ public class EditProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
-                }
+                }*/
                 //Uri selectedImageUri = data.getData();
                 //imagePath = Utilities.getPath(getApplicationContext(), selectedImageUri);
                 //Toast.makeText(getBaseContext(),imagePath,Toast.LENGTH_LONG).show();
                 new UploadPhoto().execute();
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.d("imagePath on device1", "onCaptureImageResult: "+e.getMessage());
                 Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
             }
         }
@@ -622,8 +744,8 @@ public class EditProfileActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             try {
-                Log.d("imagePathEdit__", newImagePath);
-                String result = DataService.UploadFileWithBase64String("9", newImagePath);
+                Log.d("imagePathEdit__", mImagePath);
+                String result = DataService.UploadFileWithBase64String("9", mImagePath);
                 if (result != null && result != "ERROR") {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.getString("success").equalsIgnoreCase("true")) {

@@ -63,6 +63,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
     Uri photoURI;
 
     String userChoosenTask;
+    boolean loginFlag=false;
     int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
     File output = null;
@@ -73,6 +74,11 @@ public class FaceRegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_face_register);
 
         buttonStart =findViewById(R.id.buttonStart);
+
+        Intent intent =getIntent();
+        loginFlag=intent.getBooleanExtra("loginFlag",false);
+
+        Log.d("LoginFlagValue__", "onPostExecute: FaceRegisterActivity "+loginFlag);
 
 
         PackageManager pm = getPackageManager();
@@ -94,7 +100,12 @@ public class FaceRegisterActivity extends AppCompatActivity {
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.CAMERA)
+
+                Intent intent =new Intent(FaceRegisterActivity.this, CameraCaptureActivity.class);
+                intent.putExtra("loginFlag",loginFlag);
+                startActivity(intent);
+                finish();
+               /* if(ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(FaceRegisterActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         == PackageManager.PERMISSION_GRANTED) {
 
@@ -108,7 +119,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(FaceRegisterActivity.this,
                             new String[]{android.Manifest.permission.CAMERA, android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             1);
-                }
+                }*/
             }
         });
     }
@@ -173,18 +184,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         // Create an image file name
         String imageFileName = Long.toString(System.currentTimeMillis());
-//        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-//                Environment.DIRECTORY_DCIM), "Camera");
-//        File storageDir = new File(getFilesDir(), "DCIM");
-//        File storageDir = new File(context.getCacheDir());
 
-//        File storageDir = new File(getCacheDir(), Environment.DIRECTORY_DCIM);
-//        File image = File.createTempFile(
-//                imageFileName,  /* prefix */
-//                ".jpg",         /* suffix */
-//                storageDir /* directory */
-//        );
-//        output = image.getAbsoluteFile();
 
         File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "VeriMyRC");
         // Create the storage directory if it does not exist
@@ -193,7 +193,6 @@ public class FaceRegisterActivity extends AppCompatActivity {
         }
 
         // Return the file target for the photo based on filename
-//        File file = new File(mediaStorageDir.getPath() + File.separator + imageFileName);
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
@@ -201,8 +200,7 @@ public class FaceRegisterActivity extends AppCompatActivity {
         );
         output = image.getAbsoluteFile();
 
-        // Save a file: path for use with ACTION_VIEW intents
-        //mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+
         return image;
     }
 
@@ -287,41 +285,6 @@ public class FaceRegisterActivity extends AppCompatActivity {
 
 
             }
-//
-//            thumbnail = Utilities.compressImage(mImagePath);
-//            refugeePhoto = thumbnail;
-
-        /*    if(croppedImgList.size() > 0){
-
-                for(int i = 0; i < croppedImgList.size(); i++){
-                    FileOutputStream fo;
-                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-
-                    File destination = new File(getFilesDir().getAbsolutePath(),
-                            System.currentTimeMillis() + Integer.toString(i) + ".jpg");
-                    croppedImgList.get(i).compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                    mImagePath = destination.getAbsolutePath();
-                    Log.d("mImagePath",mImagePath);
-                    imagePathList.add(mImagePath);
-                    try {
-                        destination.createNewFile();
-                        fo = new FileOutputStream(destination);
-                        fo.write(bytes.toByteArray());
-                        fo.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                mImagePath = imagePathList.get(0);
-                if(croppedImgListView.findViewHolderForAdapterPosition(0)!=null){
-                    croppedImgListView.findViewHolderForAdapterPosition(0).itemView.setBackgroundColor(Color.rgb(50,205,50));
-                }
-            }else {
-                Toast.makeText(getApplicationContext(), "No face detected, please use another photo.", Toast.LENGTH_LONG).show();
-                return;
-            }*/
 
             new FaceRecognitionVsMany().execute();
 
@@ -340,8 +303,6 @@ public class FaceRegisterActivity extends AppCompatActivity {
             Bitmap bm = null;
             if (data != null) {
                 try {
-//                File destination = new File(Environment.getExternalStorageDirectory(),
-//                        System.currentTimeMillis() + ".jpg");
 
                     bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
                     Uri selectedImageURI = data.getData();
@@ -467,6 +428,8 @@ public class FaceRegisterActivity extends AppCompatActivity {
                 if(mImagePath.isEmpty()){
                     return "no mImagePath";
                 }
+
+                Log.d("image__!", "doInBackground: "+mImagePath);
                 String result = DataService.UploadFileWithBase64String("9",mImagePath);
                 Log.d("yyy",result);
                 if (result != null && result != "ERROR") {

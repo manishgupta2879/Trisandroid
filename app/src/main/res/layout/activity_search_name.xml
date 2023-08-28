@@ -5,11 +5,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@drawable/bluegradient"
+    android:background="@color/colorWhite"
     android:gravity="center_horizontal"
     tools:context="com.pcs.tim.myapplication.SearchNameActivity">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bluegradient"
+        android:gravity="center_horizontal">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/searchMyName_toolbar"
         android:layout_width="match_parent"
@@ -110,4 +115,6 @@
         android:id="@+id/listViewRefugeeNames">
 
     </ListView>
+    </LinearLayout>
+
 </LinearLayout>

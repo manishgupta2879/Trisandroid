@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -829,13 +830,17 @@ public class DataService {
                 ByteArrayOutputStream bOut = new ByteArrayOutputStream();
                 bm.compress(Bitmap.CompressFormat.JPEG, 100, bOut);
                 String base64Image = Base64.encodeToString(bOut.toByteArray(), Base64.DEFAULT);
+
                 Log.d("imagePathEdit__",base64Image);
                 if(!accessToken.isEmpty() || !accessToken.equals("")){
                     boolean resultToken = RequestToken();
 
                     if(resultToken){
                         Log.d("bxxx","1");
-                        OkHttpClient client = new OkHttpClient().newBuilder()
+                        OkHttpClient client = new OkHttpClient()
+                                .newBuilder()
+                                .connectTimeout(30, TimeUnit.SECONDS)
+                                .readTimeout(30, TimeUnit.SECONDS)
                                 .build();
                         MediaType mediaType = MediaType.parse("application/json");
 
@@ -851,6 +856,7 @@ public class DataService {
                                 .addHeader("Authorization", "Bearer "+accessToken)
                                 .build();
                         Response response = client.newCall(request).execute();
+                        Log.d("response__", "UploadFileWithBase64String: "+response.code());
                         if(response.isSuccessful()){
                             String result =response.body().string();
 

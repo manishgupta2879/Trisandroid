@@ -5,10 +5,16 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@drawable/bluegradient"
+    android:background="@color/colorWhite"
     android:layout_gravity="center"
     tools:context="com.pcs.tim.myapplication.SearchMenuActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/bluegradient"
+        android:layout_gravity="center">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/searchMenu_toolbar"
         android:layout_width="match_parent"
@@ -185,4 +191,5 @@
                 tools:layout_editor_absoluteY="75dp" />-->
         </LinearLayout>
     </ScrollView>
+    </LinearLayout>
 </LinearLayout>

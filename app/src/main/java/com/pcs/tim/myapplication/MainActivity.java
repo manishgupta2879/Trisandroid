@@ -43,6 +43,7 @@ import com.google.gson.Gson;
 import com.google.zxing.Result;
 import com.pcs.tim.myapplication.new_activities.FaceRegisterActivity;
 import com.pcs.tim.myapplication.new_activities.HomeActivity;
+import com.pcs.tim.myapplication.new_activities.ProfilePicActivity;
 
 import org.json.JSONObject;
 
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
     static final int REGISTER_REQUEST = 1;
 
     private SharedPreferences sharePref;
+    boolean loginflag=false;
     private String id;
     private String password;
     private String dbResult;
@@ -737,8 +739,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                         if (status.equalsIgnoreCase("Y")) {
                             if (checkBoxRmb.isChecked()) {
 
-                                editor.putBoolean(MY_RC_RMB_ME, true);
-
+                          // editor.putBoolean(MY_RC_RMB_ME, true);
+                                loginflag =true;
                             }
                             if (police_photo != null && !police_photo.isEmpty())
                                 editor.putString(Utilities.LOGIN_POLICE_PHOTO, police_photo);
@@ -767,9 +769,21 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                                         new String[]{Manifest.permission.INTERNET},
                                         1);
                             }
+
+
+                            if(sharePref.getString(Utilities.LOGIN_POLICE_PHOTO, "")!=null && !sharePref.getString(Utilities.LOGIN_POLICE_PHOTO, "").equals("http://211.24.73.117/")){
                             Intent intent = new Intent(getApplicationContext(), FaceRegisterActivity.class);
+                                Log.d("LoginFlagValue__", "onPostExecute: MainActivity "+loginflag);
+                            intent.putExtra("loginFlag",loginflag);
                             startActivity(intent);
                             finish();
+                            }
+                            else{
+                                Intent intent = new Intent(getApplicationContext(), ProfilePicActivity.class);
+                                intent.putExtra("loginFlag",loginflag);
+                                startActivity(intent);
+                                finish();
+                            }
                         } else if (status.equalsIgnoreCase(("W"))) {
                             Toast.makeText(getApplicationContext(), "Your account is rejected. Remark :" + remark, Toast.LENGTH_LONG).show();
                         } else {

@@ -4,10 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bluegradient"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context="com.pcs.tim.myapplication.ProfileActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bluegradient"
+        android:orientation="vertical">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/my_profile_toolbar"
         android:layout_width="match_parent"
@@ -464,5 +469,6 @@
 
         </LinearLayout>
     </ScrollView>
+    </LinearLayout>
 
 </LinearLayout>

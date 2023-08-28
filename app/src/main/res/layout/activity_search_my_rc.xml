@@ -6,9 +6,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@drawable/bluegradient"
+    android:background="@color/colorWhite"
     tools:context="com.pcs.tim.myapplication.SearchMyRCActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:background="@drawable/bluegradient">
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/searchMyRc_toolbar"
         android:layout_width="match_parent"
@@ -171,4 +177,6 @@
             tools:layout="@layout/fragment_verification_result"
             />
     </FrameLayout>
+    </LinearLayout>
+
 </LinearLayout>

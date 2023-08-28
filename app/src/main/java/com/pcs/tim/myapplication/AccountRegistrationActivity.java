@@ -31,7 +31,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.android.gms.vision.face.FaceDetector;
 import com.google.gson.Gson;
+import com.pcs.tim.myapplication.new_activities.ProfilePicActivity;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
@@ -344,7 +346,40 @@ public class AccountRegistrationActivity extends AppCompatActivity {
     private void onCaptureImageResult(Intent data) {
         //Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
         try {
-            Bitmap thumbnail;
+
+
+            ContentResolver cr = getContentResolver();
+            cr.notifyChange(photoURI, null);
+            imagePath = output.getAbsolutePath();
+
+            Bitmap bitmap = Utilities.getImage(cr,photoURI, imagePath);
+            imageViewPhoto.setImageBitmap(bitmap);
+
+            FaceDetector faceDetector = new
+                    FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
+                    .build();
+            if(faceDetector.isOperational()){
+                //     new android.app.AlertDialog.Builder(getApplicationContext()).setMessage("Could not set up the face detector!").show();
+                File destination = new File(getFilesDir().getAbsolutePath(),
+                        System.currentTimeMillis() + ".jpg");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                FileOutputStream fo;
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                imagePath = destination.getAbsolutePath();
+                Log.d("xxx",imagePath);
+
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            /*Bitmap thumbnail;
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             File destination = new File(Environment.getExternalStorageDirectory(),
                     System.currentTimeMillis() + ".jpg");
@@ -372,9 +407,9 @@ public class AccountRegistrationActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+*/
             // imageFileLength = destination.length() / 1024;
-            policePhoto = thumbnail;
+            policePhoto = bitmap;
             new UploadPhoto().execute();
             //imageViewPhoto.setImageBitmap(thumbnail);
         }
@@ -385,9 +420,100 @@ public class AccountRegistrationActivity extends AppCompatActivity {
     }
 
 
-
-    @SuppressWarnings("deprecation")
     private void onSelectFromGalleryResult(Intent data) {
+
+        Bitmap bm = null;
+        if (data != null) {
+            try {
+
+
+
+                bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                Uri selectedImageURI = data.getData();
+                imagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
+
+                ContentResolver cr = getContentResolver();
+                cr.notifyChange(selectedImageURI, null);
+
+                Bitmap bitmap = Utilities.getImage(cr, selectedImageURI, imagePath);
+                   imageViewPhoto.setImageBitmap(bitmap);
+
+                FaceDetector faceDetector = new
+                        FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
+                        .build();
+                if (faceDetector.isOperational()) {
+                    //new android.app.AlertDialog.Builder(getApplicationContext()).setMessage("Could not set up the face detector!").show();
+                    File destination = new File(getFilesDir().getAbsolutePath(),
+                            System.currentTimeMillis() + ".jpg");
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    FileOutputStream fo;
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    imagePath = destination.getAbsolutePath();
+
+                    try {
+                        destination.createNewFile();
+                        fo = new FileOutputStream(destination);
+                        fo.write(bytes.toByteArray());
+                        fo.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+              /*  bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
+                Uri selectedImageURI = data.getData();
+                String mImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
+                ContentResolver cr = getContentResolver();
+                cr.notifyChange(selectedImageURI, null);
+                //imagePath = output.getAbsolutePath();
+
+                Bitmap bitmap = Utilities.getImage(cr, selectedImageURI, mImagePath);
+                imageViewPhoto.setImageBitmap(bitmap);
+
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bm = Utilities.compressImage(mImagePath);
+
+                bm.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                File destination = new File(Environment.getExternalStorageDirectory(),
+                        System.currentTimeMillis() + ".jpg");
+
+                imagePath = destination.getAbsolutePath();
+
+                newImagePath = Utilities.getRealPathFromURI(getApplicationContext(), selectedImageURI);
+
+                Log.d("NewImagePath__", "onSelectFromGalleryResult: "+mImagePath);
+                Log.i("imagePath on device", imagePath);
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                    isPhotoChanged = true;
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }*/
+                //Uri selectedImageUri = data.getData();
+                //imagePath = Utilities.getPath(getApplicationContext(), selectedImageUri);
+                //Toast.makeText(getBaseContext(),imagePath,Toast.LENGTH_LONG).show();
+                new UploadPhoto().execute();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.d("imagePath on device1", "onCaptureImageResult: "+e.getMessage());
+                Toast.makeText(this, "Failed to load image", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        //imageFileLength = new File(imagePath).length()/1024;
+        policePhoto = bm;
+    }
+    @SuppressWarnings("deprecation")
+/*    private void onSelectFromGalleryResult(Intent data) {
 
         Bitmap bm = null;
         if (data != null) {
@@ -462,7 +588,7 @@ public class AccountRegistrationActivity extends AppCompatActivity {
 
         //imageFileLength = new File(imagePath).length()/1024;
         policePhoto = bm;
-    }
+    }*/
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

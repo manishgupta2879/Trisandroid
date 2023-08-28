@@ -4,10 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/bluegradient"
+    android:background="@color/colorWhite"
     android:orientation="vertical"
     tools:context=".new_fragments.MoreFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bluegradient"
+        android:orientation="vertical">
     <androidx.cardview.widget.CardView
         android:id="@+id/crdChangePass"
         android:layout_width="match_parent"
@@ -171,6 +176,8 @@
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
 
 
 </LinearLayout>
