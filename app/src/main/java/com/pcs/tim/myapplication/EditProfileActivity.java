@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -20,6 +21,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.exifinterface.media.ExifInterface;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -39,12 +41,14 @@ import android.widget.Toast;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.gson.Gson;
 import com.pcs.tim.myapplication.new_activities.ProfilePicActivity;
+import com.pcs.tim.myapplication.new_added_classes.NotificationUtils;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -529,12 +533,25 @@ public class EditProfileActivity extends AppCompatActivity {
                 cr.notifyChange(selectedImageURI, null);
 
                 Bitmap bitmap = Utilities.getImage(cr, selectedImageURI, mImagePath);
+
+                /*ExifInterface exifInterface = new ExifInterface(new ByteArrayInputStream(bytes));
+
+                String orientation = exifInterface.getAttribute(ExifInterface.TAG_ORIENTATION);
+
+                bitmap = rotateBitmap(bitmap, Integer.parseInt(orientation));*/
+
+
+
+
                 imageViewPhoto.setImageBitmap(bitmap);
+
+
+
 
                 FaceDetector faceDetector = new
                         FaceDetector.Builder(getApplicationContext()).setTrackingEnabled(false)
                         .build();
-                if (faceDetector.isOperational()) {
+
                     //new android.app.AlertDialog.Builder(getApplicationContext()).setMessage("Could not set up the face detector!").show();
                     File destination = new File(getFilesDir().getAbsolutePath(),
                             System.currentTimeMillis() + ".jpg");
@@ -553,7 +570,7 @@ public class EditProfileActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
+
 
 
               /*  bm = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), data.getData());
@@ -604,6 +621,48 @@ public class EditProfileActivity extends AppCompatActivity {
 
         //imageFileLength = new File(imagePath).length()/1024;
         policePhoto = bm;
+    }
+
+    private Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return rotatedBitmap;
+        } catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -869,6 +928,9 @@ public class EditProfileActivity extends AppCompatActivity {
                         editor.putString(Utilities.LOGIN_POLICE_MOBILE, hpNo);
                         editor.putBoolean(Utilities.LOGGED_IN, true);
                         editor.apply();
+
+                        NotificationUtils.showNotification(EditProfileActivity.this,"VeriMyRc","Profile Update Successful! Keep your enforcement details accurate to ensure effective operations.");
+
                         Toast.makeText(getApplicationContext(), "Thank you, " + name + ". Profile is updated.", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent();
                         setResult(RESULT_OK, intent);

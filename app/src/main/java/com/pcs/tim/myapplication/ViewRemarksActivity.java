@@ -139,6 +139,9 @@ public class ViewRemarksActivity extends AppCompatActivity {
             //show dialog
             asyncDialog.show();
             super.onPreExecute();
+
+
+
         }
 
         @Override

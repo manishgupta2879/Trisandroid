@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
         // Get the FCM token
         token = FirebaseInstanceId.getInstance().getToken();
         if(token!=null){
-            Log.d("fcmtoken__", "onCreate: "+token);
+            Log.d("fcmtoken__123", "onCreate: "+token);
         }else {
             Log.d("fcmtoken__", "onCreate: cant get token");
         }
@@ -624,7 +624,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 String id = sharePref.getString(Utilities.LOGIN_ID, "");
                 Log.d("fcmToken___doinBack", "doInBackground: " + id);
                 String result = DataService.sendFcmToken(Integer.parseInt(id), token);
-                Log.d("fcmToken___doinBack", "doInBackground: token  " + token);
+                Log.d("fcmToken___doinBack", "doInBackground: token  " + result);
 
                 return "Success";
           /*      if (result != null && result != "ERROR") {

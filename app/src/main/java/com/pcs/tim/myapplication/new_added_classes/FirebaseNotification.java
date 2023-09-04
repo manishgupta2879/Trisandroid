@@ -46,7 +46,7 @@ public class FirebaseNotification extends FirebaseMessagingService {
 
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "my_channel")
-                .setContentTitle("title")
+                .setContentTitle("VeriMyRc")
                 .setSmallIcon(R.mipmap.ic_tris_logo)
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)

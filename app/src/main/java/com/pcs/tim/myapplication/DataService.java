@@ -98,7 +98,7 @@ public class DataService {
         Log.d("check_api_url1",VERIMYRC_API_URL);
         
        // DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "www.dhillonfarm.com");
-       DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "211.24.73.117:9000");
+       DataService.instance().storeValueString(DataService.VERIMYRC_API_URL, "211.24.73.117:9999");
         Log.d("check_api_url2",DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL));
         Log.d("check_api_url3",GET_TOKEN);
 
@@ -211,7 +211,8 @@ public class DataService {
 
                 if (response.isSuccessful()) {
                     Log.d("fcmToken___1", "ViewRefugeeDetails: "+response.body().string());
-                    return response.body().string();
+                    return "Success";
+                    //return response.body().string();
                 } else {
                     Log.d("fcmToken___2", "ViewRefugeeDetails: "+response.body().string());
                     return "ERROR";
@@ -658,7 +659,7 @@ public class DataService {
     public static String EnforcementLogin(String  policeid, String password) throws IOException {
         Log.d("debugLogin___","11111");
         boolean resultToken = RequestToken();
-        Log.d("debugLogin___","11111");
+        Log.d("debugLogin___123",resultToken+"");
         if(!accessToken.isEmpty() || !accessToken.equals("")){
 
             Log.d("debugLogin","1");

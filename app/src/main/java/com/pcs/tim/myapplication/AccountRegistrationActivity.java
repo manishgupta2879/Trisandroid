@@ -34,6 +34,7 @@ import android.widget.Toast;
 import com.google.android.gms.vision.face.FaceDetector;
 import com.google.gson.Gson;
 import com.pcs.tim.myapplication.new_activities.ProfilePicActivity;
+import com.pcs.tim.myapplication.new_added_classes.NotificationUtils;
 
 import org.apache.commons.net.ftp.FTPClient;
 import org.json.JSONArray;
@@ -1118,6 +1119,7 @@ public class AccountRegistrationActivity extends AppCompatActivity {
                         String name = respNewRegister.getFullname();
                         if (name != null) {
                             asyncDialog.dismiss();
+                            NotificationUtils.showNotification(AccountRegistrationActivity.this,"VeriMyRc","Welcome to VeriMyRC Enforcement App! Your account has been successfully created. Access essential tools for ensuring safety and security.");
                             Toast.makeText(getApplicationContext(), "Thank you, " + name + ". Application is submitted, please wait for the approval.", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent();
                             setResult(RESULT_OK, intent);

@@ -32,8 +32,8 @@
                 android:layout_height="320dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="130dp"
-                android:visibility="invisible"
-                android:src="@drawable/capture_face_design" />
+                android:visibility="visible"
+                android:src="@drawable/face_gradient" />
 
             <ImageView
                 android:id="@+id/face_line"
