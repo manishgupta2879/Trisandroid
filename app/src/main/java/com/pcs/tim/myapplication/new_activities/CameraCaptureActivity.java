@@ -436,7 +436,7 @@ public class CameraCaptureActivity extends AppCompatActivity implements SurfaceH
 
 
     private class FaceRecognitionVsMany extends AsyncTask<String, Void, String> {
-        ProgressDialog asyncDialog = new ProgressDialog(CameraCaptureActivity.this);
+    //    ProgressDialog asyncDialog = new ProgressDialog(CameraCaptureActivity.this);
 
         @Override
         protected void onPreExecute() {
@@ -532,7 +532,7 @@ public class CameraCaptureActivity extends AppCompatActivity implements SurfaceH
                 faceLine.setY(startY);
 
                 tvText.setText("Blink your eyes to capture Photo");
-                asyncDialog.dismiss();
+                //asyncDialog.dismiss();
                 Log.d("xxx___dd", result);
                 if (result != null && result != "ERROR") {
                     float res = Float.parseFloat(result);

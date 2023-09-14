@@ -316,7 +316,7 @@ public class AddRemarksFragment extends DialogFragment {
         protected Boolean doInBackground(String... urls) {
 
             try {
-                String result = DataService.PostTrackLog(Long.parseLong(registerID),"V",Long.parseLong(sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null)),
+                String result = DataService.PostTrackLog(Long.parseLong(registerID),"V",sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null),
                         sharedPreferences.getString("locationAddress", "No GPS"), sharedPreferences.getFloat("lat", 0)
                         ,sharedPreferences.getFloat("lng", 0),remark);
                 if (result != null && result != "ERROR") {

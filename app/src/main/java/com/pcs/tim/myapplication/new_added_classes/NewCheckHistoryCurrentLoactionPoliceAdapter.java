@@ -85,7 +85,34 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
             }
 
             holder.txtRemark.setMovementMethod(new ScrollingMovementMethod());
+
+
+            if (remark.getMyRc() != null) {
+
+
+                SpannableStringBuilder spannable = new SpannableStringBuilder("MyRc " + remark.getMyRc());
+
+                ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
+                spannable.setSpan(blueColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+              //  holder.textViewCheckedMyRc.setText(spannable);
+            } else {
+
+                SpannableStringBuilder spannable = new SpannableStringBuilder("MyRc " + "");
+
+                ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
+                spannable.setSpan(blueColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+
+              //  holder.textViewCheckedMyRc.setText(spannable);
+            }
+
+
+
             if (remark.getRemark() != null) {
+
+
                 SpannableStringBuilder spannable = new SpannableStringBuilder("Remark " + remark.getRemark());
 
                 ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.themeColor));
@@ -187,6 +214,8 @@ holder.mapView.onResume();
             txtRemark = (TextView) v.findViewById(R.id.textViewRemark);
             txtCheckDate = (TextView) v.findViewById(R.id.textViewCheckDate);
             txtCheckTime = (TextView) v.findViewById(R.id.txtCheckTime);
+            //textViewCheckedMyRc = (TextView) v.findViewById(R.id.textViewCheckedMyRc);
+
             mapView=v.findViewById(R.id.mapview);
         }
     }

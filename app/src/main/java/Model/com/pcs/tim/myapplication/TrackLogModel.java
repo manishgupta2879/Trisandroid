@@ -3,7 +3,7 @@ package com.pcs.tim.myapplication;
 public class TrackLogModel {
     private Long RegId;
     private String TrackType;
-    private Long EnforcementId;
+    private String EnforcementId;
     private String Location;
     private Float Lat;
     private Float Lng;
@@ -25,11 +25,11 @@ public class TrackLogModel {
         TrackType = trackType;
     }
 
-    public Long getEnforcementId() {
+    public String getEnforcementId() {
         return EnforcementId;
     }
 
-    public void setEnforcementId(Long enforcementId) {
+    public void setEnforcementId(String enforcementId) {
         EnforcementId = enforcementId;
     }
 
@@ -65,7 +65,7 @@ public class TrackLogModel {
         Remark = remark;
     }
 
-    public TrackLogModel(Long RegId, String TrackType, Long EnforcementId, String Location, Float Lat, Float Lng, String Remark){
+    public TrackLogModel(Long RegId, String TrackType, String EnforcementId, String Location, Float Lat, Float Lng, String Remark){
         this.RegId = RegId;
         this.TrackType = TrackType;
         this.EnforcementId = EnforcementId;

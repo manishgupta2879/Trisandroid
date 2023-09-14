@@ -11,7 +11,7 @@ public class EnforcementTrackLogResponse {
     private Boolean isBlackList;
     private String photoURL;
     private String trackType;
-    private Long enforcementId;
+    private String enforcementId;
     private String location;
     private Double lat;
     private Double lng;
@@ -98,11 +98,11 @@ public class EnforcementTrackLogResponse {
         this.trackType = trackType;
     }
 
-    public Long getEnforcementId() {
+    public String getEnforcementId() {
         return enforcementId;
     }
 
-    public void setEnforcementId(Long enforcementId) {
+    public void setEnforcementId(String enforcementId) {
         this.enforcementId = enforcementId;
     }
 

@@ -4,7 +4,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
     android:layout_marginBottom="5dp"
-
+    android:id="@+id/recentRefugeeCard"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
     android:layout_height="wrap_content">
 
     <LinearLayout
@@ -41,6 +43,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Address No. 12 Jalan Pantai Hillpark Phase 2, Pantai Dalam, 59200 KL"
+            android:textColor="@color/textGrey"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/textViewCheckedMyRc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
             android:textColor="@color/textGrey"
             android:textSize="16sp" />
 

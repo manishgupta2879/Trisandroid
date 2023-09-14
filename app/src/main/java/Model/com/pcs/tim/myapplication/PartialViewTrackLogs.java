@@ -3,7 +3,7 @@ package com.pcs.tim.myapplication;
 public class PartialViewTrackLogs {
     private Long regId;
     private String trackType;
-    private Long enforcementId;
+    private String enforcementId;
     private String location;
     private Float lat;
     private Float lng;
@@ -26,11 +26,11 @@ public class PartialViewTrackLogs {
         this.trackType = trackType;
     }
 
-    public Long getEnforcementId() {
+    public String getEnforcementId() {
         return enforcementId;
     }
 
-    public void setEnforcementId(Long enforcementId) {
+    public void setEnforcementId(String enforcementId) {
         this.enforcementId = enforcementId;
     }
 

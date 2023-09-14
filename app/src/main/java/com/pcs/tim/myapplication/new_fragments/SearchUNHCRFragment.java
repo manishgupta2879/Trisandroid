@@ -400,7 +400,7 @@ public class SearchUNHCRFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                String result = DataService.PostTrackLog(Long.parseLong(regID), "V", Long.parseLong(sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null)),
+                String result = DataService.PostTrackLog(Long.parseLong(regID), "V", sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null),
                         sharedPreferences.getString("locationAddress", "No GPS"), sharedPreferences.getFloat("lat", 0)
                         , sharedPreferences.getFloat("lng", 0), "");
                 if (result != null && result != "ERROR") {

@@ -56,6 +56,7 @@ public class DataService {
     public static final String GET_APP_VERSION =  "/api/appversion";
     public static final String GET_MYRC_TRACK_LOG =  "/api/tracklog/myrc/";
     public static final String GET_ENFORCEMENT_ID_TRACK_LOG =  "/api/tracklog/enforcement/";
+    public static final String GET_ENFORCEMENT_ID_TRACK_LOG_NEW =  "/api/tracklog/enforcementnew/";
     public static final String GET_PLKS =  "/api/PLKS/details/";
     public static  String accessToken ="";
     public static  String refreshToken ="";
@@ -153,7 +154,7 @@ public class DataService {
         }
     }
 
-    public static String PostTrackLog(Long RegId, String TrackType, Long EnforcementId, String Location, Float Lat, Float Lng, String Remark ) throws IOException {
+    public static String PostTrackLog(Long RegId, String TrackType, String EnforcementId, String Location, Float Lat, Float Lng, String Remark ) throws IOException {
         boolean resultToken = RequestToken();
         if(!accessToken.isEmpty() || !accessToken.equals("")){
 
@@ -631,6 +632,46 @@ public class DataService {
                         //.url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
                         // .url("http://n3nwvpweb005.shr.prod.ams3.secureserver.net:8443" +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
                       //  .url("http://www.dhillonfarm.com/api/tracklog/enforcement/48")
+                        .method("POST", body)
+                        .addHeader("Authorization", "Bearer "+accessToken)
+                        .build();
+
+                Response response = client.newCall(request).execute();
+                if(response.isSuccessful()){
+                    String result =response.body().string();
+                    Log.d("GetEnforcementTrackLog",result);
+                    return result;
+                }
+                else{
+                    //Log.d("GetEnforcementTrackLog_result ",response.code()+"");
+                    Log.d("GetEnforcementTrackLog","access  "+accessToken);
+                    return "ERROR";
+                }
+            }else{
+                Log.d("GetEnforcementTrackLog","4");
+                return  "ERROR";
+            }
+        }else{
+            Log.d("GetEnforcementTrackLog","5");
+            return "ERROR";
+        }
+    }
+    public static String GetEnforcementTrackLogNew(String policeID) throws IOException {
+        boolean resultToken = RequestToken();
+        if(!accessToken.isEmpty() || !accessToken.equals("")){
+            Log.d("GetEnforcementTrackLog","1");
+            if(resultToken){
+                Log.d("GetEnforcementTrackLog","2");
+                Log.d("GetEnforcementTrackLog","http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_ENFORCEMENT_ID_TRACK_LOG_NEW+policeID);
+                OkHttpClient client = new OkHttpClient().newBuilder()
+                        .build();
+                MediaType mediaType = MediaType.parse("text/plain");
+                RequestBody body = RequestBody.create(mediaType, "");
+                Request request = new Request.Builder()
+                        .url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG_NEW+policeID)
+                        //.url(("http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)) +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
+                        // .url("http://n3nwvpweb005.shr.prod.ams3.secureserver.net:8443" +GET_ENFORCEMENT_ID_TRACK_LOG+policeID)
+                        //  .url("http://www.dhillonfarm.com/api/tracklog/enforcement/48")
                         .method("POST", body)
                         .addHeader("Authorization", "Bearer "+accessToken)
                         .build();

@@ -25,6 +25,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryCurrentLoactionPoliceAdapter;
@@ -33,6 +34,7 @@ import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryRecentPoliceAd
 import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryRecentRefugeeAdapter;
 import com.pcs.tim.myapplication.new_added_classes.NewRefugeeRemarkListAdapter;
 import com.pcs.tim.myapplication.new_added_classes.NewRemarkListAdapter;
+import com.pcs.tim.myapplication.new_fragments.MyProfileFragment;
 
 import org.apache.commons.net.util.Base64;
 import org.json.JSONArray;
@@ -63,6 +65,8 @@ public class ViewRemarksActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     TextView textViewNotFound, policeNametxt, enforcementIdtxt, refugeeNametxt, refugeeMyRcIdtxt;
     ImageView imgRefugee;
+    Bitmap enforcementPhoto;
+    ImageView imgpolice;
 
     @Override
     public void onBackPressed() {
@@ -108,6 +112,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
         enforcementIdtxt = findViewById(R.id.enforcementIdTxt);
         refugeeMyRcIdtxt = findViewById(R.id.refugeeMyRcIdtxt);
         refugeeNametxt = findViewById(R.id.refugeeNametxt);
+        imgpolice=findViewById(R.id.imgpolice);
         policeLay = findViewById(R.id.policeLay);
         refugeeLay = findViewById(R.id.refugeeLay);
         scrollView = findViewById(R.id.scroll);
@@ -118,6 +123,8 @@ public class ViewRemarksActivity extends AppCompatActivity {
         recentRecycler.setLayoutManager(new LinearLayoutManager(this));
         textViewNotFound = (TextView) findViewById(R.id.textViewNotFound);
 
+        new GetPhoto().execute();
+
 
         textViewNotFound.setVisibility(View.GONE);
         remarkArrayList.clear();
@@ -125,10 +132,155 @@ public class ViewRemarksActivity extends AppCompatActivity {
         refugeeRemarkArrayList.clear();
         refugeeRemarkArrayListFirst.clear();
         new RetrieveRemarks().execute();
+        if (myRc != null && !myRc.isEmpty()) {
+
+        }else {
+            new RetrieveRemarksNew().execute();
+        }
+
+    }
+    private class GetPhoto extends AsyncTask<String, Void, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            Log.d("photo",sharedPreferences.getString(Utilities.LOGIN_POLICE_PHOTO,""));
+            try {
+                enforcementPhoto = Utilities.getBitmapFromURL(sharedPreferences.getString(Utilities.LOGIN_POLICE_PHOTO,""));
+
+                if(enforcementPhoto!=null)
+                    return "OK";
+                return null;
+            }catch(Exception e){
+
+                return null;
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+            try {
+                if (result.equals("OK")) {
+                    if(enforcementPhoto != null)
+
+                        imgpolice.setImageBitmap(enforcementPhoto);
+                }
+
+                else {
+                    Toast.makeText(getBaseContext(), "Error occurred loading your photo.", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
+    ProgressDialog asyncDialog = new ProgressDialog(ViewRemarksActivity.this);
+
+    @Override
+    protected void onPreExecute() {
+        //set message of the dialog
+        asyncDialog.setMessage(getString(R.string.loadingtype));
+        //show dialog
+        asyncDialog.show();
+        super.onPreExecute();
+
+
+
+    }
+    @Override
+    protected String doInBackground(String... strings) {
+
+        String result="";
+        try{
+
+
+             if (enforcementId != null && !enforcementId.isEmpty()) {
+                Log.d("accesss___1", "doInBackground: enforcementId "+enforcementId);
+                result = DataService.GetEnforcementTrackLogNew(enforcementId);
+
+                Log.d("accesss___1", "doInBackground: result "+result);
+                if (result != null && result != "ERROR") {
+
+                    JSONObject jsonObject = new JSONObject(result);
+                    if (jsonObject.getString("success").equalsIgnoreCase("true")) {
+                        return jsonObject.getString("data");
+                    } else {
+                        Log.d("scrollView___", "doInBackground: 1");
+                        scrollView.setVisibility(View.GONE);
+                        return "ERROR";
+
+                    }
+                } else {
+                    scrollView.setVisibility(View.GONE);
+                    Log.d("scrollView___", "doInBackground: 2");
+
+                    return "ERROR";
+                }
+            }
+            return null;
+        }catch(Exception e) {
+            scrollView.setVisibility(View.GONE);
+            Log.d("scrollView___", "doInBackground: 3");
+
+            return null;
+        }
+
+
+
 
     }
 
+    @Override
+    protected void onPostExecute(String result) {
+        try{
+            asyncDialog.dismiss();
+            scrollView.setVisibility(View.VISIBLE);
+            if (result != null && result != "ERROR") {
+                 if (enforcementId != null && !enforcementId.isEmpty()) {
 
+                     EnforcementTrackLogResponse[] enforcementTrack = new Gson().fromJson(result, EnforcementTrackLogResponse[].class);
+                     List<EnforcementTrackLogResponse> etlrList = new ArrayList<>(Arrays.asList(enforcementTrack));
+                     for (int i = 0; i < etlrList.size(); i++) {
+                         Remark remark = new Remark(String.valueOf(etlrList.get(i).getEnforcementId()), etlrList.get(i).getRemark(),
+                                 etlrList.get(i).getMyrc(), etlrList.get(i).getLocation(), etlrList.get(i).getCreatedTime(),
+                                 etlrList.get(i).getFullName(), etlrList.get(i).getPhotoURL(), etlrList.get(i).getCountryOfOrigin(),
+                                 etlrList.get(i).getCardExpiredDate(), etlrList.get(i).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(i).getLat())),Float.parseFloat(String.valueOf(etlrList.get(i).getLng())));
+                         remarkArrayList.add(remark);
+                     }
+
+                     if (myRc != null && !myRc.isEmpty() && refugeeRemarkArrayList.size() > 0) {}
+                     else{
+                         recentRemarkPoliceAdapter = new NewCheckHistoryRecentPoliceAdapter(getBaseContext(), remarkArrayList);
+                         recentRecycler.setAdapter(recentRemarkPoliceAdapter);
+                         recentRemarkPoliceAdapter.notifyDataSetChanged();
+                     }
+                 }
+
+            }else {
+                asyncDialog.dismiss();
+                textViewNotFound.setVisibility(View.VISIBLE);
+                Log.d("scrollView___", "doInBackground: 4");
+
+                scrollView.setVisibility(View.GONE);
+            }
+        }
+        catch (Exception ex) {
+            Log.d("error__", "onPostExecute: "+ex);
+            Log.d("scrollView___", "doInBackground: 5");
+
+            ex.printStackTrace();
+            textViewNotFound.setVisibility(View.VISIBLE);
+            scrollView.setVisibility(View.GONE);
+        }
+
+    }
+}
     private class RetrieveRemarks extends AsyncTask<String, Void, String> {
         ProgressDialog asyncDialog = new ProgressDialog(ViewRemarksActivity.this);
 
@@ -163,9 +315,9 @@ public class ViewRemarksActivity extends AppCompatActivity {
                     } else {
                         return "ERROR";
                     }
-                } else if (loginId != null && !loginId.isEmpty()) {
-                    Log.d("accesss___1", "doInBackground: enforcementId "+loginId);
-                    result = DataService.GetEnforcementTrackLog("48");
+                } else if (enforcementId != null && !enforcementId.isEmpty()) {
+                    Log.d("accesss___1", "doInBackground: enforcementId "+enforcementId);
+                    result = DataService.GetEnforcementTrackLog(enforcementId);
 
                     Log.d("accesss___1", "doInBackground: result "+result);
                     if (result != null && result != "ERROR") {
@@ -174,12 +326,15 @@ public class ViewRemarksActivity extends AppCompatActivity {
                         if (jsonObject.getString("success").equalsIgnoreCase("true")) {
                             return jsonObject.getString("data");
                         } else {
+                            Log.d("scrollView___", "doInBackground: 6");
+
                             scrollView.setVisibility(View.GONE);
                             return "ERROR";
 
                         }
                     } else {
                         scrollView.setVisibility(View.GONE);
+                        Log.d("scrollView___", "doInBackground: 7");
 
                         return "ERROR";
                     }
@@ -187,6 +342,8 @@ public class ViewRemarksActivity extends AppCompatActivity {
                 return null;
 
             } catch (Exception e) {
+                Log.d("scrollView___", "doInBackground: 8");
+
                 scrollView.setVisibility(View.GONE);
                 return null;
             }
@@ -199,6 +356,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             try {
                 asyncDialog.dismiss();
+              //  textViewNotFound.setVisibility(View.GONE);
                 scrollView.setVisibility(View.VISIBLE);
                 Log.d("resultRemark", result);
                 if (result != null && result != "ERROR") {
@@ -224,15 +382,18 @@ public class ViewRemarksActivity extends AppCompatActivity {
                             Log.d("ArraySize__", "onPostExecute: "+refugeeRemarkArrayList.size());
                         }
 
-
+                        refugeeRemarkArrayListFirst.add(refugeeRemarkArrayList.get(0));
                         refugeeRemarkArrayList.remove(0);
+
                         for (int i = 0; i < tlmList.size(); i++) {
-                            if (tlmList.get(i).getTrackType().equals("M")) {
-                                Remark remark = new Remark(String.valueOf(tlmList.get(i).getEnforcementId()), "MyRegistered Check-in",
+
+
+                            if (tlmList.get(i).getTrackType().equals("M") ) {
+                               /* Remark remark = new Remark(String.valueOf(tlmList.get(i).getEnforcementId()), "MyRegistered Check-in",
                                         jsonObject.getString("myrc"), tlmList.get(i).getLocation(), tlmList.get(i).getCreatedTime(),
                                         jsonObject.getString("fullName"), jsonObject.getString("photoURL"), jsonObject.getString("countryOfOrigin"),
                                         jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng());
-                                refugeeRemarkArrayListFirst.add(remark);
+                                refugeeRemarkArrayListFirst.add(remark);*/
                                 refugeeLay.setVisibility(View.VISIBLE);
 
                                 Log.d("abc___", "onPostExecute: " + myRc);
@@ -243,7 +404,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
                                     imgRefugee.setImageBitmap(photo);
                                 }
 
-// Create a SpannableStringBuilder
+                                // Create a SpannableStringBuilder
                                 SpannableStringBuilder spannable = new SpannableStringBuilder("MyRC " + enforcementId);
 
                                 ForegroundColorSpan blueColorSpan = new ForegroundColorSpan(ContextCompat.getColor(getBaseContext(), R.color.themeColor));
@@ -251,21 +412,23 @@ public class ViewRemarksActivity extends AppCompatActivity {
 
                                 refugeeMyRcIdtxt.setText(spannable);
                                 refugeeNametxt.setText(jsonObject.getString("fullName"));
+                                break;
                             }
-                            break;
+
                         }
 
 
-                    } else if (enforcementId != null && !enforcementId.isEmpty()) {
+                    }
+                    else if (enforcementId != null && !enforcementId.isEmpty()) {
                         EnforcementTrackLogResponse[] enforcementTrack = new Gson().fromJson(result, EnforcementTrackLogResponse[].class);
                         List<EnforcementTrackLogResponse> etlrList = new ArrayList<>(Arrays.asList(enforcementTrack));
-                        for (int i = 1; i < etlrList.size(); i++) {
+                       /* for (int i = 1; i < etlrList.size(); i++) {
                             Remark remark = new Remark(String.valueOf(etlrList.get(i).getEnforcementId()), etlrList.get(i).getRemark(),
                                     etlrList.get(i).getMyrc(), etlrList.get(i).getLocation(), etlrList.get(i).getCreatedTime(),
                                     etlrList.get(i).getFullName(), etlrList.get(i).getPhotoURL(), etlrList.get(i).getCountryOfOrigin(),
                                     etlrList.get(i).getCardExpiredDate(), etlrList.get(i).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(i).getLat())),Float.parseFloat(String.valueOf(etlrList.get(i).getLng())));
                             remarkArrayList.add(remark);
-                        }
+                        }*/
 
                         Remark remark = new Remark(String.valueOf(etlrList.get(0).getEnforcementId()), etlrList.get(0).getRemark(),
                                 etlrList.get(0).getMyrc(), etlrList.get(0).getLocation(), etlrList.get(0).getCreatedTime(),
@@ -275,7 +438,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
 
                         policeLay.setVisibility(View.VISIBLE);
 
-                        policeNametxt.setText(etlrList.get(0).getFullName());
+                        policeNametxt.setText(sharedPreferences.getString(Utilities.LOGIN_POLICE_NAME,"null"));
 
 
                         SpannableStringBuilder spannable = new SpannableStringBuilder("Enforcement ID " + enforcementId);
@@ -300,12 +463,12 @@ public class ViewRemarksActivity extends AppCompatActivity {
                         //edit by deepak
                         //  remarkListAdapter = new RemarkListAdapter(getBaseContext(),R.layout.remark_list_item,remarkArrayList);
                         //  remarkListAdapter = new NewRemarkListAdapter(remarkArrayList,getBaseContext());
-                        recentRemarkPoliceAdapter = new NewCheckHistoryRecentPoliceAdapter(getBaseContext(), remarkArrayList);
+               //         recentRemarkPoliceAdapter = new NewCheckHistoryRecentPoliceAdapter(getBaseContext(), remarkArrayList);
                         currentRemarkPoliceAdapter = new NewCheckHistoryCurrentLoactionPoliceAdapter(getBaseContext(), remarkArrayListfirst);
                         currentRecycler.setAdapter(currentRemarkPoliceAdapter);
-                        recentRecycler.setAdapter(recentRemarkPoliceAdapter);
+         //               recentRecycler.setAdapter(recentRemarkPoliceAdapter);
                         currentRemarkPoliceAdapter.notifyDataSetChanged();
-                        recentRemarkPoliceAdapter.notifyDataSetChanged();
+      //                  recentRemarkPoliceAdapter.notifyDataSetChanged();
 
                     }
 
@@ -315,11 +478,15 @@ public class ViewRemarksActivity extends AppCompatActivity {
                     asyncDialog.dismiss();
                     textViewNotFound.setVisibility(View.VISIBLE);
                     scrollView.setVisibility(View.GONE);
+                    Log.d("scrollView___", "doInBackground: 9");
+
                 }
             } catch (Exception ex) {
                 Log.d("error__", "onPostExecute: "+ex);
                 ex.printStackTrace();
                 textViewNotFound.setVisibility(View.VISIBLE);
+                Log.d("scrollView___", "doInBackground: 10");
+
                 scrollView.setVisibility(View.GONE);
             }
         }

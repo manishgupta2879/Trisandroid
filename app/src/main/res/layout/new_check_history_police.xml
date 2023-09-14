@@ -95,6 +95,7 @@
                             android:id="@+id/imgpolice"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:scaleType="centerCrop"
                             android:src="@drawable/tris_logo" />
                     </androidx.cardview.widget.CardView>
 
@@ -109,7 +110,7 @@
                             android:id="@+id/fullNamePoliceTxt"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="John Smith"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -129,7 +130,7 @@
                                 android:id="@+id/enforcementIdTxt"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="159562985262"
+                                android:text=""
                                 android:textColor="@color/black" />
                         </LinearLayout>
                     </LinearLayout>
@@ -184,13 +185,14 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
+
                         android:orientation="horizontal"
                         android:padding="5dp">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
+                            android:layout_marginVertical="3dp"
                             app:cardCornerRadius="50dp">
 
                             <ImageView
@@ -217,7 +219,7 @@
                                 android:layout_marginVertical="3dp"
                                 android:text="John Smith"
                                 android:textColor="@color/black"
-                                android:textSize="24sp"
+                                android:textSize="20sp"
                                 android:textStyle="bold" />
 
                             <TextView

@@ -63,7 +63,9 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -237,13 +239,13 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
         if (sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null) == null) {
             logout();
         }
-        new MyRCVerification.GetApiKey().execute();
+        new MyRCFragment.GetApiKey().execute();
         //welcomeTxt = "Logged in ID: " + sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null);
         //userLoginTxt.setText(welcomeTxt);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
         scannerView = new ZXingScannerView(getActivity());
         mResultReceiver = new MyRCFragment.AddressResultReceiver(new Handler());
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         EditText editQuery = (EditText) view.findViewById(R.id.edit_query);
         Button btnLogout = (Button) view.findViewById(R.id.buttonLogout);
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
@@ -557,12 +559,12 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
             }
         }
 
-/*
-        if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(),Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
+        if(getActivity().checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(),Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
             mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location location) {
+                            Log.d("success__", "onSuccess: ");
                             mLastLocation = location;
                             if( mLastLocation == null ) {
 
@@ -576,22 +578,23 @@ public class MyRCFragment extends Fragment implements GoogleApiClient.Connection
                             }
 
                             if (!Geocoder.isPresent()) {
-                                Toast.makeText(getApplicationContext(),
+                                Toast.makeText(getActivity(),
                                         R.string.no_geocoder_available,
                                         Toast.LENGTH_LONG).show();
                                 return;
                             }
 
                             // Start service and update UI to reflect new location
-                            Utilities.startIntentService(getApplicationContext(),mResultReceiver,mLastLocation);
+                            Utilities.startIntentService(getActivity(),mResultReceiver,mLastLocation);
                         }
-                    });
+                    }
+                    );
         }
         else{
-            ActivityCompat.requestPermissions(this,
+            ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     1);
-        }*/
+        }
         return view;
     }
 

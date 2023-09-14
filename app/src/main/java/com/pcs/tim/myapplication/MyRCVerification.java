@@ -1079,9 +1079,11 @@ public class MyRCVerification extends AppCompatActivity implements GoogleApiClie
                 ApiKeyResponse respApiKey = new Gson().fromJson(result, ApiKeyResponse.class);
                 String get_api_key = respApiKey.getApiKey();
                 if(!get_api_key.isEmpty()){
-                    apikey = get_api_key;
+                    //apikey = get_api_key;
+                    apikey = "AIzaSyDL35cTuuscf551IT36gqZtEQpPQJVTmkQ";
                 }else {
-                    apikey = "AIzaSyDATvuiJEVbGGE7Cz8hA1MHzosIdKB3Rbw";
+                   // apikey = "AIzaSyDATvuiJEVbGGE7Cz8hA1MHzosIdKB3Rbw";
+                    apikey = "AIzaSyDL35cTuuscf551IT36gqZtEQpPQJVTmkQ";
                 }
 
 //                JSONArray jsonarray = new JSONArray(result);

@@ -512,8 +512,8 @@ public class VerificationResultActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(String... strings) {
-            try{
-                String result = DataService.PostTrackLog(Long.parseLong(regID),"V",Long.parseLong(sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null)),
+            try{//Long.parseLong(
+                String result = DataService.PostTrackLog(Long.parseLong(regID),"V",sharedPreferences.getString(Utilities.LOGIN_POLICE_ID, null),
                         sharedPreferences.getString("locationAddress", "No GPS"), sharedPreferences.getFloat("lat", 0)
                         ,sharedPreferences.getFloat("lng", 0),"");
                 if (result != null && result != "ERROR") {
@@ -529,7 +529,7 @@ public class VerificationResultActivity extends AppCompatActivity {
 
 
             }catch (Exception e){
-
+                Log.d("error__track", "doInBackground: "+e.getMessage());
                 return false;
             }
         }

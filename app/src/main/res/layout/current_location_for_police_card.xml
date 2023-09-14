@@ -2,8 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-android:layout_marginBottom="5dp"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
@@ -15,57 +15,66 @@ android:layout_marginBottom="5dp"
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapview"
             android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:apiKey="@string/api_map_key"
             android:clickable="true"
-            android:enabled="true"
-            android:layout_height="150dp" />
-
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="10dp"
-            android:orientation="vertical"
->
+            android:enabled="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewCheckDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date 24-08-2023"
+                    android:textColor="@color/textGrey"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txtCheckTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="Time 05:00 PM"
+                    android:textColor="@color/textGrey"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/textViewCheckDate"
+                android:id="@+id/textViewCheckedLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date 24-08-2023"
+                android:text=""
                 android:textColor="@color/textGrey"
-                android:textSize="12sp" />
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/txtCheckTime"
+                android:id="@+id/textViewCheckedMyRc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:text="Time 05:00 PM"
+                android:text=""
+                android:visibility="gone"
                 android:textColor="@color/textGrey"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:textSize="16sp" />
 
-        <TextView
-android:id="@+id/textViewCheckedLocation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Address No. 12 Jalan Pantai Hillpark Phase 2, Pantai Dalam, 59200 KL"
-        android:textSize="16sp"
-        android:textColor="@color/textGrey"/>
-
-        <TextView
-android:id="@+id/textViewRemark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Remark Lorem Ipsum"
-            android:textSize="16sp"
-            android:textColor="@color/textGrey"/>
+            <TextView
+                android:id="@+id/textViewRemark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remark Lorem Ipsum"
+                android:textColor="@color/textGrey"
+                android:textSize="16sp" />
         </LinearLayout>
 
 
