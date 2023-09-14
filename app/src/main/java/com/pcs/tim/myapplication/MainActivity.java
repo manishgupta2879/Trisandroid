@@ -796,6 +796,8 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                 }
 
 //                else {
+
+
 //                    editTextID.setError(getString(R.string.err_incorrect_password_or_id));
 //                    editTextPassword.setError(getString(R.string.err_incorrect_password_or_id));
 //                    editTextID.requestFocus();
