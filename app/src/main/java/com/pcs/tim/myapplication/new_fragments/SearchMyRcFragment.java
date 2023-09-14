@@ -58,6 +58,7 @@ import java.util.HashMap;
 public class SearchMyRcFragment extends Fragment {
 
     ImageView buttonSearchMyRC;
+    String photoUrl;
 
     private TextView textViewNotFound;
     private TextView textViewName;
@@ -214,6 +215,8 @@ public class SearchMyRcFragment extends Fragment {
                 myRc = textViewMyRC.getText().toString();
                 Intent intentRemark = new Intent(getActivity(), ViewRemarksActivity.class);
                 intentRemark.putExtra(Utilities.MY_RC, myRc);
+                intentRemark.putExtra(Utilities.FULL_NAME, name);
+                intentRemark.putExtra(Utilities.PHOTO, photoUrl);
                 startActivity(intentRemark);
             }
         });
@@ -528,7 +531,7 @@ public class SearchMyRcFragment extends Fragment {
         protected void onPostExecute(String result) {
             try {
                 asyncDialog.dismiss();
-                if (result != null && result != "ERROR") {
+                if (result != null && result != "ERROR"&& !result.equals("null")) {
 
                     try {
                         textViewNotFound.setVisibility(View.GONE);
@@ -543,6 +546,7 @@ public class SearchMyRcFragment extends Fragment {
                         PartialViewEmployer respEmployer = respViewDetail.getEmployer();
                         PartialViewCardStatus respCard = respViewDetail.getCardStatus();
                         PartialViewHealthStatus respHealth = respViewDetail.getHealthStatus();
+                        photoUrl =respViewDetail.getPhoto();
 
                         byte[] base64Encoded = Base64.decodeBase64(respViewDetail.getPhoto());
                         if (base64Encoded != null) {

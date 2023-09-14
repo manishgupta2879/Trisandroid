@@ -99,6 +99,7 @@ public class SearchUNHCRFragment extends Fragment {
     private TextInputEditText textViewUNCaseNo, textViewRefugeeGroup, textViewMarital, textViewBirthPlace, textViewFamilySize, textViewPassport,
             textViewEmergencyPerson, textViewEmergencyContact, textViewComRegNo, textViewApproveDate;
     SearchView searchView;
+    String photoUrl;
 
     String regID = "", name = "", category = "", unhcr = "", dob = "", gender = "", address = "", country = "",
             religion = "", ethnicGroup = "", issueDate = "", expiredDate = "", employerName = "",
@@ -243,6 +244,8 @@ public class SearchUNHCRFragment extends Fragment {
                 String myRc = textViewMyRC.getText().toString();
                 Intent intentRemark = new Intent(getActivity(), ViewRemarksActivity.class);
                 intentRemark.putExtra(Utilities.MY_RC, myRc);
+                intentRemark.putExtra(Utilities.FULL_NAME, name);
+                intentRemark.putExtra(Utilities.PHOTO, photoUrl);
                 startActivity(intentRemark);
             }
         });
@@ -495,7 +498,7 @@ public class SearchUNHCRFragment extends Fragment {
         protected void onPostExecute(String result) {
             try {
                 asyncDialog.dismiss();
-                if (result != null && result != "ERROR") {
+                if (result != null && result != "ERROR"&& !result.equals("null")) {
 
                     try {
 
@@ -511,6 +514,8 @@ public class SearchUNHCRFragment extends Fragment {
                         PartialViewEmployer respEmployer = respViewDetail.getEmployer();
                         PartialViewCardStatus respCard = respViewDetail.getCardStatus();
                         PartialViewHealthStatus respHealth = respViewDetail.getHealthStatus();
+
+                        photoUrl=respViewDetail.getPhoto();
 
                         byte[] base64Encoded = Base64.decodeBase64(respViewDetail.getPhoto());
                         if (base64Encoded != null) {
