@@ -584,7 +584,7 @@ public class DataService {
         if(!accessToken.isEmpty() || !accessToken.equals("")){
 
 
-            Log.d("accesss___", "GetMyRCTrackLog: accessToken "+accessToken+" myRc "+  myrc);
+            Log.d("accesss___22", "GetMyRCTrackLog: accessToken "+accessToken+" myRc "+  myrc);
             Log.d("accesss___", "http://"+DataService.instance().fetchValueString(DataService.VERIMYRC_API_URL)+GET_MYRC_TRACK_LOG+myrc);
 
             if(resultToken){

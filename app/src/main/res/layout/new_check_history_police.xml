@@ -42,21 +42,19 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-
-        <TextView
-            android:id="@+id/textViewNotFound"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:drawableStart="@mipmap/ic_warning"
-            android:text="@string/no_remark"
-            android:textAlignment="center"
-            android:drawablePadding="5dp"
-            android:layout_gravity="center"
-            android:paddingTop="250dp"
-            android:textColor="@color/grey"
-            android:textSize="20sp"
-            android:visibility="gone" />
-
+    <TextView
+        android:id="@+id/textViewNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawableStart="@mipmap/ic_warning"
+        android:drawablePadding="5dp"
+        android:paddingTop="250dp"
+        android:text="@string/no_remark"
+        android:textAlignment="center"
+        android:textColor="@color/grey"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
 
     <ScrollView
@@ -313,36 +311,51 @@
 
             </androidx.cardview.widget.CardView>
 
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Current Location"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/currentRecycler"
+            <LinearLayout
+                android:id="@+id/currentLay"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="Recent Check-Ins"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Current Location"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recentRecycler"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/currentRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/recentLay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="Recent Check-Ins"
+                    android:textColor="@color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp" />
+            </LinearLayout>
         </LinearLayout>
 
 

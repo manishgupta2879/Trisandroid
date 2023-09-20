@@ -66,6 +66,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
     TextView textViewNotFound, policeNametxt, enforcementIdtxt, refugeeNametxt, refugeeMyRcIdtxt;
     ImageView imgRefugee;
     Bitmap enforcementPhoto;
+    LinearLayout currentLay,recentLay;
     ImageView imgpolice;
 
     @Override
@@ -117,6 +118,8 @@ public class ViewRemarksActivity extends AppCompatActivity {
         refugeeLay = findViewById(R.id.refugeeLay);
         scrollView = findViewById(R.id.scroll);
         imgRefugee = findViewById(R.id.imgRefugee);
+        currentLay = findViewById(R.id.currentLay);
+        recentLay = findViewById(R.id.recentLay);
 
 
         currentRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -201,6 +204,8 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
 
 
              if (enforcementId != null && !enforcementId.isEmpty()) {
+
+
                 Log.d("accesss___1", "doInBackground: enforcementId "+enforcementId);
                 result = DataService.GetEnforcementTrackLogNew(enforcementId);
 
@@ -212,12 +217,14 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                         return jsonObject.getString("data");
                     } else {
                         Log.d("scrollView___", "doInBackground: 1");
-                        scrollView.setVisibility(View.GONE);
+                      //  scrollView.setVisibility(View.GONE);
+                        recentLay.setVisibility(View.GONE);
                         return "ERROR";
 
                     }
                 } else {
-                    scrollView.setVisibility(View.GONE);
+                    recentLay.setVisibility(View.GONE);
+                    //scrollView.setVisibility(View.GONE);
                     Log.d("scrollView___", "doInBackground: 2");
 
                     return "ERROR";
@@ -225,7 +232,9 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
             }
             return null;
         }catch(Exception e) {
-            scrollView.setVisibility(View.GONE);
+            recentLay.setVisibility(View.GONE);
+
+            //  scrollView.setVisibility(View.GONE);
             Log.d("scrollView___", "doInBackground: 3");
 
             return null;
@@ -241,6 +250,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
         try{
             asyncDialog.dismiss();
             scrollView.setVisibility(View.VISIBLE);
+            recentLay.setVisibility(View.VISIBLE);
             if (result != null && result != "ERROR") {
                  if (enforcementId != null && !enforcementId.isEmpty()) {
 
@@ -264,10 +274,11 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
 
             }else {
                 asyncDialog.dismiss();
-                textViewNotFound.setVisibility(View.VISIBLE);
+               // textViewNotFound.setVisibility(View.VISIBLE);
                 Log.d("scrollView___", "doInBackground: 4");
+                recentLay.setVisibility(View.GONE);
 
-                scrollView.setVisibility(View.GONE);
+              //  scrollView.setVisibility(View.GONE);
             }
         }
         catch (Exception ex) {
@@ -275,8 +286,9 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
             Log.d("scrollView___", "doInBackground: 5");
 
             ex.printStackTrace();
-            textViewNotFound.setVisibility(View.VISIBLE);
-            scrollView.setVisibility(View.GONE);
+          //  textViewNotFound.setVisibility(View.VISIBLE);
+            recentLay.setVisibility(View.GONE);
+           // scrollView.setVisibility(View.GONE);
         }
 
     }
@@ -302,6 +314,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
             try {
 
                 if (myRc != null && !myRc.isEmpty()) {
+                    recentLay.setVisibility(View.VISIBLE);
                     result = DataService.GetMyRCTrackLog(myRc);
                     Log.d("accesss___1", "doInBackground: myRc");
 
