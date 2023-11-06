@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.pcs.tim.myapplication.new_activities.RefugeeLiveLocationActivity;
 import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryCurrentLoactionPoliceAdapter;
 import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryCurrentLocationRefugee;
 import com.pcs.tim.myapplication.new_added_classes.NewCheckHistoryRecentPoliceAdapter;
@@ -63,7 +64,7 @@ public class ViewRemarksActivity extends AppCompatActivity {
     CardView refugeeLay, policeLay;
     ScrollView scrollView;
     SharedPreferences sharedPreferences;
-    TextView textViewNotFound, policeNametxt, enforcementIdtxt, refugeeNametxt, refugeeMyRcIdtxt;
+    TextView textViewNotFound, policeNametxt, enforcementIdtxt, refugeeNametxt, refugeeMyRcIdtxt,getLiveLocation;
     ImageView imgRefugee;
     Bitmap enforcementPhoto;
     LinearLayout currentLay,recentLay;
@@ -120,11 +121,29 @@ public class ViewRemarksActivity extends AppCompatActivity {
         imgRefugee = findViewById(R.id.imgRefugee);
         currentLay = findViewById(R.id.currentLay);
         recentLay = findViewById(R.id.recentLay);
+        getLiveLocation = findViewById(R.id.getLiveLocation);
 
 
         currentRecycler.setLayoutManager(new LinearLayoutManager(this));
         recentRecycler.setLayoutManager(new LinearLayoutManager(this));
         textViewNotFound = (TextView) findViewById(R.id.textViewNotFound);
+
+
+
+       // Log.d("police_id__", "onClick: "+remark.getPoliceId());
+
+
+        getLiveLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1= new Intent(ViewRemarksActivity.this, RefugeeLiveLocationActivity.class);
+                intent1.putExtra("lat",refugeeRemarkArrayListFirst.get(0).getLat());
+                intent1.putExtra("lng",refugeeRemarkArrayListFirst.get(0).getLng());
+                intent1.putExtra("regId",refugeeRemarkArrayListFirst.get(0).getRegId());
+                startActivity(intent1);
+            }
+        });
+
 
         new GetPhoto().execute();
 
@@ -236,6 +255,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
 
             //  scrollView.setVisibility(View.GONE);
             Log.d("scrollView___", "doInBackground: 3");
+            Log.d("scrollView___", e.toString());
 
             return null;
         }
@@ -260,7 +280,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                          Remark remark = new Remark(String.valueOf(etlrList.get(i).getEnforcementId()), etlrList.get(i).getRemark(),
                                  etlrList.get(i).getMyrc(), etlrList.get(i).getLocation(), etlrList.get(i).getCreatedTime(),
                                  etlrList.get(i).getFullName(), etlrList.get(i).getPhotoURL(), etlrList.get(i).getCountryOfOrigin(),
-                                 etlrList.get(i).getCardExpiredDate(), etlrList.get(i).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(i).getLat())),Float.parseFloat(String.valueOf(etlrList.get(i).getLng())));
+                                 etlrList.get(i).getCardExpiredDate(), etlrList.get(i).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(i).getLat())),Float.parseFloat(String.valueOf(etlrList.get(i).getLng())),etlrList.get(i).getRegId());
                          remarkArrayList.add(remark);
                      }
 
@@ -387,7 +407,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                                 Remark remark = new Remark(String.valueOf(tlmList.get(i).getEnforcementId()), "MyRegistered Check-in",
                                         jsonObject.getString("myrc"), tlmList.get(i).getLocation(), tlmList.get(i).getCreatedTime(),
                                         jsonObject.getString("fullName"), jsonObject.getString("photoURL"), jsonObject.getString("countryOfOrigin"),
-                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng());
+                                        jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng(),tlmList.get(i).getRegId());
                                 refugeeRemarkArrayList.add(remark);
 
 
@@ -408,6 +428,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                                         jsonObject.getString("cardExpiredDate"), jsonObject.getString("cardStatus"),tlmList.get(i).getLat(),tlmList.get(i).getLng());
                                 refugeeRemarkArrayListFirst.add(remark);*/
                                 refugeeLay.setVisibility(View.VISIBLE);
+                                getLiveLocation.setVisibility(View.VISIBLE);
 
                                 Log.d("abc___", "onPostExecute: " + myRc);
                                 String enforcementId = myRc;
@@ -446,7 +467,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                         Remark remark = new Remark(String.valueOf(etlrList.get(0).getEnforcementId()), etlrList.get(0).getRemark(),
                                 etlrList.get(0).getMyrc(), etlrList.get(0).getLocation(), etlrList.get(0).getCreatedTime(),
                                 etlrList.get(0).getFullName(), etlrList.get(0).getPhotoURL(), etlrList.get(0).getCountryOfOrigin(),
-                                etlrList.get(0).getCardExpiredDate(), etlrList.get(0).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(0).getLat())),Float.parseFloat(String.valueOf(etlrList.get(0).getLng())));
+                                etlrList.get(0).getCardExpiredDate(), etlrList.get(0).getCardStatus(),Float.parseFloat(String.valueOf(etlrList.get(0).getLat())),Float.parseFloat(String.valueOf(etlrList.get(0).getLng())),etlrList.get(0).getRegId());
                         remarkArrayListfirst.add(remark);
 
                         policeLay.setVisibility(View.VISIBLE);
@@ -467,7 +488,7 @@ private  class RetrieveRemarksNew extends  AsyncTask<String,Void,String>{
                         //  refugeeRemarkListAdapter = new RefugeeRemarkListAdapter(getBaseContext(),R.layout.new_refugee_remark_list_item,refugeeRemarkArrayList);
                         recentRefugeeAdapter = new NewCheckHistoryRecentRefugeeAdapter(refugeeRemarkArrayList, getBaseContext());
 
-                        currentRefugeeAdapter = new NewCheckHistoryCurrentLocationRefugee(refugeeRemarkArrayListFirst, getBaseContext());
+                        currentRefugeeAdapter = new NewCheckHistoryCurrentLocationRefugee(refugeeRemarkArrayListFirst, ViewRemarksActivity.this);
                         recentRecycler.setAdapter(recentRefugeeAdapter);
                         currentRecycler.setAdapter(currentRefugeeAdapter);
                         Log.d("dddddd", "onPostExecute: " + refugeeRemarkArrayList.size());

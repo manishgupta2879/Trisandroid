@@ -96,7 +96,7 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 spannable.setSpan(blueColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-              //  holder.textViewCheckedMyRc.setText(spannable);
+                //  holder.textViewCheckedMyRc.setText(spannable);
             } else {
 
                 SpannableStringBuilder spannable = new SpannableStringBuilder("MyRc " + "");
@@ -105,9 +105,8 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
                 spannable.setSpan(blueColorSpan, 0, 5, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 
-              //  holder.textViewCheckedMyRc.setText(spannable);
+                //  holder.textViewCheckedMyRc.setText(spannable);
             }
-
 
 
             if (remark.getRemark() != null) {
@@ -134,7 +133,7 @@ public class NewCheckHistoryCurrentLoactionPoliceAdapter extends RecyclerView.Ad
             if (remark.getLat() != 0 && remark.getLng() != 0) {
                 //   Log.d("latlong__", "onBindViewHolder:  found latlong "+remark.getLat()+" long "+remark.getLng());
                 holder.mapView.onCreate(null);
-holder.mapView.onResume();
+                holder.mapView.onResume();
                 holder.mapView.getMapAsync(new OnMapReadyCallback() {
 
                     @Override
@@ -152,14 +151,17 @@ holder.mapView.onResume();
                             return;
                         }
                         googleMap.setMyLocationEnabled(true);
-                        LatLng TARGET_LOCATION =new LatLng(remark.getLat(),remark.getLng());
+                        LatLng TARGET_LOCATION = new LatLng(remark.getLat(), remark.getLng());
                         googleMap.addMarker(new MarkerOptions().position(TARGET_LOCATION));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TARGET_LOCATION,15));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(TARGET_LOCATION, 15));
                         Log.d("latlong_1_", "onBindViewHolder2:  found latlong ");
                     }
+
+
                 });
 
-            }else{
+
+            } else {
                 Log.d("latlong__", "onBindViewHolder: not found latlong");
             }
 
@@ -169,7 +171,7 @@ holder.mapView.onResume();
 
             try {
                 Date checkDate = sourceDateFormat.parse(remark.getCheckTime());
-                Date checkTime =sourceDateFormat.parse(remark.getCheckTime());
+                Date checkTime = sourceDateFormat.parse(remark.getCheckTime());
 
 
                 SpannableStringBuilder spannable = new SpannableStringBuilder("Date " + viewDateFormat.format(checkDate));
@@ -186,7 +188,7 @@ holder.mapView.onResume();
 
                 holder.txtCheckDate.setText(spannable);
                 holder.txtCheckTime.setText(spannableTime);
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
         }
@@ -206,7 +208,6 @@ holder.mapView.onResume();
         MapView mapView;
 
 
-
         public CurrentLoactionPoliceViewHolder(@NonNull View v) {
             super(v);
 
@@ -216,7 +217,7 @@ holder.mapView.onResume();
             txtCheckTime = (TextView) v.findViewById(R.id.txtCheckTime);
             //textViewCheckedMyRc = (TextView) v.findViewById(R.id.textViewCheckedMyRc);
 
-            mapView=v.findViewById(R.id.mapview);
+            mapView = v.findViewById(R.id.mapview);
         }
     }
 

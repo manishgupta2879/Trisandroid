@@ -2,6 +2,7 @@ package com.pcs.tim.myapplication.new_added_classes;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.text.Spannable;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.pcs.tim.myapplication.R;
 import com.pcs.tim.myapplication.Remark;
+import com.pcs.tim.myapplication.new_activities.RefugeeLiveLocationActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -86,7 +89,12 @@ public class NewCheckHistoryCurrentLocationRefugee extends RecyclerView.Adapter<
 
                 holder.txtCheckedLocation.setText(spannable);
             }
+holder.currentRefugeeLay.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
 
+    }
+});
 
             holder.txtRemark.setMovementMethod(new ScrollingMovementMethod());
             if(remark.getRemark()!=null){
@@ -142,6 +150,8 @@ public class NewCheckHistoryCurrentLocationRefugee extends RecyclerView.Adapter<
             }else{
                 Log.d("latlong__", "onBindViewHolder: not found latlong");
             }
+
+
 
 
 
@@ -218,8 +228,10 @@ public class NewCheckHistoryCurrentLocationRefugee extends RecyclerView.Adapter<
         TextView   txtLatRef ;
         TextView   txtLngRef ;
         MapView mapView;
+        LinearLayout currentRefugeeLay;
         public CurrentRefugeeViewHolder(@NonNull View v) {
             super(v);
+            currentRefugeeLay=v.findViewById(R.id.current_refugee_lay);
 
             txtCheckedLocation = (TextView) v.findViewById(R.id.txtCheckedLocation);
             txtRemark = (TextView) v.findViewById(R.id.txtRemark);

@@ -771,6 +771,7 @@ public class MainActivity extends AppCompatActivity implements ZXingScannerView.
                             }
 
 
+
                             if(sharePref.getString(Utilities.LOGIN_POLICE_PHOTO, "")!=null && !sharePref.getString(Utilities.LOGIN_POLICE_PHOTO, "").equals("http://211.24.73.117/")){
                             Intent intent = new Intent(getApplicationContext(), FaceRegisterActivity.class);
                                 Log.d("LoginFlagValue__", "onPostExecute: MainActivity "+loginflag);

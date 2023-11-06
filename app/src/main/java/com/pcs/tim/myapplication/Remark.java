@@ -16,12 +16,21 @@ public class Remark {
     private String countryOfOrigin;
     private String cardExpiredDate;
 
+    public long getRegId() {
+        return regId;
+    }
+
+    public void setRegId(long regId) {
+        this.regId = regId;
+    }
+
     private float lat;
+    private long regId;
     private float lng;
     private String cardStatus;
 
     Remark(String policeId, String remark, String myRc, String location, String checkTime, String refugeeName,
-           String photo, String countryOfOrigin, String cardExpiredDate, String cardStatus,float lat,float lng) {
+           String photo, String countryOfOrigin, String cardExpiredDate, String cardStatus,float lat,float lng,long regId) {
         this.setPoliceId(policeId);
         this.setRemark(remark);
         this.setMyRc(myRc);
@@ -34,6 +43,7 @@ public class Remark {
         this.setCardStatus(cardStatus);
         this.setLat(lat);
         this.setLng(lng);
+        this.setRegId(regId);
 
     }
 

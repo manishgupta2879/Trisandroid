@@ -8,19 +8,19 @@
     app:cardCornerRadius="10dp">
 
     <LinearLayout
+        android:id="@+id/current_refugee_lay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <com.google.android.gms.maps.MapView
             android:id="@+id/mapview"
             android:layout_width="match_parent"
+            android:layout_height="150dp"
             android:apiKey="@string/api_map_key"
             android:clickable="true"
-            android:enabled="true"
-            android:layout_height="150dp" />
+            android:enabled="true" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,14 +33,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-android:layout_marginBottom="3dp"
+                    android:layout_marginBottom="3dp"
                     android:orientation="horizontal">
 
                     <TextView
