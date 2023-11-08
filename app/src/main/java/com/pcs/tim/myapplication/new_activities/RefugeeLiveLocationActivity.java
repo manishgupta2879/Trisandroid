@@ -3,6 +3,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -15,6 +17,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -80,6 +83,105 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
        // long regID = 180;//GlobalParams.RegID; // Assuming you have regID available
 
         if (regId != 0) {
+
+
+            refugeeLocationRef.orderByChild("regid").equalTo(regId).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    Log.d("liveLoc__", "onChildAdded: ");
+                    if (snapshot.exists()) {
+                        String latString = snapshot.child("lat").getValue(String.class);
+                        String lngString = snapshot.child("lng").getValue(String.class);
+                        Log.d("lat_Long_data", "onChildAdded: "+latString+" lng "+lngString+" regid "+regId);
+
+                        if (latString != null && lngString != null) {
+                            Double lat = Double.parseDouble(latString);
+                            Double lng = Double.parseDouble(lngString);
+                            LatLng newPosition = new LatLng(lat, lng);
+                            // Update the map to display the new location
+                            updateLocationOnMap(newPosition);
+
+
+                        }
+
+
+                     /*   for (DataSnapshot refugeeSnapshot : snapshot.getChildren()) {
+
+                            String abc=refugeeSnapshot.toString();
+                            String latString = refugeeSnapshot.child("lat").getValue(String.class);
+                            String lngString = refugeeSnapshot.child("lng").getValue(String.class);
+
+                            Log.d("lat_Long_data", "onChildAdded: "+abc+" lng "+lngString+" regid "+regId);
+
+                            if (latString != null && lngString != null) {
+                                Double lat = Double.parseDouble(latString);
+                                Double lng = Double.parseDouble(lngString);
+                                LatLng newPosition = new LatLng(lat, lng);
+                                // Update the map to display the new location
+                                updateLocationOnMap(newPosition);
+
+
+                            }
+                        }*/
+                    } else {
+                        Log.d("lat_Long_data", "onDataChange: in else "+lat+" lng "+lng+" regid "+regId);
+
+                        if (lat != 0.0 && lng != 0.0) {
+                            LatLng newPosition = new LatLng(lat, lng);
+                            // Update the map to display the new location
+                            updateLocationOnMap(newPosition);
+                        }
+                        // Handle the case when no data is found
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    Log.d("liveLoc__", "onChildChanged: ");
+
+                    if (snapshot.exists()) {
+                        String latString = snapshot.child("lat").getValue(String.class);
+                        String lngString = snapshot.child("lng").getValue(String.class);
+                        Log.d("lat_Long_data", "onChildAdded: "+latString+" lng "+lngString+" regid "+regId);
+
+                        if (latString != null && lngString != null) {
+                            Double lat = Double.parseDouble(latString);
+                            Double lng = Double.parseDouble(lngString);
+                            LatLng newPosition = new LatLng(lat, lng);
+                            // Update the map to display the new location
+                            updateLocationOnMap(newPosition);
+
+
+                        }
+                    } else {
+                        Log.d("lat_Long_data", "onDataChange: in else "+lat+" lng "+lng+" regid "+regId);
+
+                        if (lat != 0.0 && lng != 0.0) {
+                            LatLng newPosition = new LatLng(lat, lng);
+                            // Update the map to display the new location
+                            updateLocationOnMap(newPosition);
+                        }
+                        // Handle the case when no data is found
+                    }
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    Log.d("liveLoc__", "onChildRemoved: ");
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    Log.d("liveLoc__", "onChildMoved: ");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("liveLoc__", "onCancelled: ");
+                }
+            });
+
+/*
             refugeeLocationRef.orderByChild("regid").equalTo(regId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -112,11 +214,13 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                     }
                 }
 
+
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
                     // Handle errors, if any
                 }
-            });
+            });*/
         } else {
             // Handle the case when regID is 0
             showAlertDialog("RegID", "No RegID is available for this refugee");
