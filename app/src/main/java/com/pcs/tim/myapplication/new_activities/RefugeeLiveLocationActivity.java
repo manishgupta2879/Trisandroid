@@ -99,7 +99,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                             Double lng = Double.parseDouble(lngString);
                             LatLng newPosition = new LatLng(lat, lng);
                             // Update the map to display the new location
-                            updateLocationOnMap(newPosition);
+                            addLocationOnMap(newPosition);
 
 
                         }
@@ -129,7 +129,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                         if (lat != 0.0 && lng != 0.0) {
                             LatLng newPosition = new LatLng(lat, lng);
                             // Update the map to display the new location
-                            updateLocationOnMap(newPosition);
+                            addLocationOnMap(newPosition);
                         }
                         // Handle the case when no data is found
                     }
@@ -159,7 +159,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                         if (lat != 0.0 && lng != 0.0) {
                             LatLng newPosition = new LatLng(lat, lng);
                             // Update the map to display the new location
-                            updateLocationOnMap(newPosition);
+                            addLocationOnMap(newPosition);
                         }
                         // Handle the case when no data is found
                     }
@@ -177,7 +177,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d("liveLoc__", "onCancelled: ");
+                    Log.d("liveLoc__", "onCancelled: "+ error.getMessage());
                 }
             });
 
@@ -227,7 +227,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
         }
     }
 
-    private void updateLocationOnMap(LatLng newPosition) {
+    private void addLocationOnMap(LatLng newPosition) {
 
 
         // Check if a marker already exists
@@ -245,6 +245,28 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
         // Optionally, move the camera to the new location
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 15));
     }
+
+
+
+    private void updateLocationOnMap(LatLng newPosition) {
+
+
+        // Check if a marker already exists
+        if (refugeeMarker != null) {
+            // Remove the existing marker from the map
+            refugeeMarker.remove();
+        }
+
+        // Add a new marker on the map
+        refugeeMarker = googleMap.addMarker(new MarkerOptions()
+                .position(newPosition)
+                .title("Refugee is here")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+
+        // Optionally, move the camera to the new location
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(newPosition));
+    }
+
 
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);

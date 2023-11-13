@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Debug;
 import android.os.Process;
 
 import androidx.appcompat.widget.Toolbar;
@@ -24,7 +23,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
@@ -723,19 +721,27 @@ public class VerificationResultActivity extends AppCompatActivity {
                         if (approvalStatus != null && !approvalStatus.isEmpty()) {
                             switch (approvalStatus) {
                                 case "REJECTED":
+                                    Log.d("stattttt5", "onPostExecute: "+respCard.getCardStatus());
+
                                     approvalText.setText(respCard.getCardStatus());
                                     approvalStatus = "REJECTED";
                                     textViewExpired.setText(approvalStatus);
                                     textViewExpired.setVisibility(View.VISIBLE);
                                     break;
                                 case "EXPIRED":
-                                    approvalStatus = "EXPIRED";
-                                    textViewExpired.setText(approvalStatus);
-                                    textViewExpired.setVisibility(View.VISIBLE);
+                                    Log.d("stattttt4", "onPostExecute: "+respCard.getCardStatus());
+                                    approvalLay.setBackgroundColor(Color.parseColor("#ef1d0d"));
+
+                                    Log.d("stattttt", "onPostExecute: "+respCard.getCardStatus());
                                     approvalText.setText(respCard.getCardStatus());
+                                    Drawable drawable2 = ContextCompat.getDrawable(VerificationResultActivity.this, R.drawable.baseline_dangerous_24);
+
+                                    icApproval.setImageDrawable(drawable2);
                                     break;
                                 case "APPROVED":
                                     approvalStatus = "APPROVED";
+                                    Log.d("stattttt3", "onPostExecute: "+respCard.getCardStatus());
+
                                     approvalText.setText(respCard.getCardStatus());
                                     if (expiredDate != null && !expiredDate.isEmpty() && !expiredDate.equals("null")) {
                                         Date dateExpired = null;
@@ -755,21 +761,33 @@ public class VerificationResultActivity extends AppCompatActivity {
                                         } else
                                             textViewCardValid.setVisibility(View.VISIBLE);
                                     } else {
+                                        Log.d("stattttt2", "onPostExecute: "+respCard.getCardStatus());
+
                                         approvalText.setText(respCard.getCardStatus());
                                         textViewCardValid.setText("APPROVED");
                                         textViewCardValid.setVisibility(View.VISIBLE);
                                     }
+                                    break;
+                                case "ACTIVE":
+                                    approvalLay.setBackgroundColor(Color.parseColor("#5ecd2e"));
+
+                                    Log.d("stattttt", "onPostExecute: "+respCard.getCardStatus());
+                                    approvalText.setText(respCard.getCardStatus());
+                                    Drawable drawable = ContextCompat.getDrawable(VerificationResultActivity.this, R.drawable.baseline_check_circle_24);
+
+                                    icApproval.setImageDrawable(drawable);
+                                    //textViewCardPending.setVisibility(View.VISIBLE);
                                     break;
                                 default:
                                     approvalStatus = "PENDING";
 
                                     approvalLay.setBackgroundColor(Color.parseColor("#F8C76F"));
 
-
+                                    Log.d("stattttt", "onPostExecute: "+respCard.getCardStatus());
                                     approvalText.setText(respCard.getCardStatus());
-                                    Drawable drawable = ContextCompat.getDrawable(VerificationResultActivity.this, R.drawable.new_ic_pending);
+                                    Drawable drawable1 = ContextCompat.getDrawable(VerificationResultActivity.this, R.drawable.new_ic_pending);
 
-                                    icApproval.setImageDrawable(drawable);
+                                    icApproval.setImageDrawable(drawable1);
                                     //textViewCardPending.setVisibility(View.VISIBLE);
                                     break;
                             }
