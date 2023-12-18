@@ -1,7 +1,12 @@
 package com.pcs.tim.myapplication.new_activities;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +30,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.pcs.tim.myapplication.R;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class RefugeeLiveLocationActivity extends FragmentActivity implements OnMapReadyCallback {
     private boolean isFetchingData = false;
     private DatabaseReference refugeeLocationRef;
@@ -33,7 +41,8 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
 
     float lat,lng;
     long regId;
-
+    private double latitude = 28.6205907;
+    private double longitude = 77.383487;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +101,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                     if (snapshot.exists()) {
                         String latString = snapshot.child("lat").getValue(String.class);
                         String lngString = snapshot.child("lng").getValue(String.class);
-                        Log.d("lat_Long_data", "onChildAdded: "+latString+" lng "+lngString+" regid "+regId);
+                        Log.d("lat_Long_data1", "onChildAdded: "+latString+" lng "+lngString+" regid "+regId);
 
                         if (latString != null && lngString != null) {
                             Double lat = Double.parseDouble(latString);
@@ -103,6 +112,8 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
 
 
                         }
+
+
 
 
                      /*   for (DataSnapshot refugeeSnapshot : snapshot.getChildren()) {
@@ -142,7 +153,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                     if (snapshot.exists()) {
                         String latString = snapshot.child("lat").getValue(String.class);
                         String lngString = snapshot.child("lng").getValue(String.class);
-                        Log.d("lat_Long_data", "onChildAdded: "+latString+" lng "+lngString+" regid "+regId);
+                        Log.d("lat_Long_data2", "onChildChanged: "+latString+" lng "+lngString+" regid "+regId);
 
                         if (latString != null && lngString != null) {
                             Double lat = Double.parseDouble(latString);
@@ -178,6 +189,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.d("liveLoc__", "onCancelled: "+ error.getMessage());
+                    Toast.makeText(RefugeeLiveLocationActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -243,7 +255,7 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
         // Optionally, move the camera to the new location
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(newPosition, 20));
     }
 
 
@@ -254,20 +266,70 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
         // Check if a marker already exists
         if (refugeeMarker != null) {
             // Remove the existing marker from the map
-            refugeeMarker.remove();
+            moveVechile(refugeeMarker,newPosition);
+            googleMap.animateCamera(CameraUpdateFactory.newLatLng(newPosition));
+
         }
 
         // Add a new marker on the map
-        refugeeMarker = googleMap.addMarker(new MarkerOptions()
+       /* refugeeMarker = googleMap.addMarker(new MarkerOptions()
+
                 .position(newPosition)
                 .title("Refugee is here")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(newPosition));
+
         // Optionally, move the camera to the new location
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(newPosition));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLng(newPosition));*/
     }
 
+    public void moveVechile(final Marker myMarker, final LatLng finalPosition) {
 
+        final LatLng startPosition = myMarker.getPosition();
+
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        final Interpolator interpolator = new AccelerateDecelerateInterpolator();
+        final float durationInMs = 3000;
+        final boolean hideMarker = false;
+
+        handler.post(new Runnable() {
+            long elapsed;
+            float t;
+            float v;
+
+            @Override
+            public void run() {
+                // Calculate progress using interpolator
+                elapsed = SystemClock.uptimeMillis() - start;
+                t = elapsed / durationInMs;
+                v = interpolator.getInterpolation(t);
+
+                LatLng currentPosition = new LatLng(
+                        startPosition.latitude * (1 - t) + (finalPosition.latitude) * t,
+                        startPosition.longitude * (1 - t) + (finalPosition.longitude) * t);
+                myMarker.setPosition(currentPosition);
+                // myMarker.setRotation(finalPosition.getBearing());
+
+
+                // Repeat till progress is completeelse
+                if (t < 1) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                    // handler.postDelayed(this, 100);
+                } else {
+                    if (hideMarker) {
+                        myMarker.setVisible(false);
+                    } else {
+                        myMarker.setVisible(true);
+                    }
+                }
+            }
+        });
+
+
+    }
     private void showAlertDialog(String title, String message) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(title);
@@ -275,4 +337,8 @@ public class RefugeeLiveLocationActivity extends FragmentActivity implements OnM
         alertDialog.setPositiveButton("OK", (dialog, which) -> dialog.dismiss());
         alertDialog.show();
     }
+
+
+
+
 }
